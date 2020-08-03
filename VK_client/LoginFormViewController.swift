@@ -14,16 +14,7 @@ class LoginFormViewController: UIViewController {
     @IBOutlet weak var passwordInput: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
     
-    @IBAction func loginButtonPressed(_ sender: Any) {
-        let login = loginInput.text!
-        let password = passwordInput.text!
-        
-        if login == "admin" && password == "123456" {
-            print("Успешная авторизвция")
-        } else {
-            print("Неправильный логин или пароль")
-        }
-    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +71,48 @@ class LoginFormViewController: UIViewController {
         self.scrollView?.endEditing(true)
     }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        let checkResult = checkUserData()
+        
+        if !checkResult {
+            showLoginError()
+        }
+        
+        return checkResult
+    }
+    
+    func checkUserData() -> Bool {
+        guard let login = loginInput.text, let password = passwordInput.text else { return false }
+        
+        //если данные не верны, показываем ошибку
+        if login == "admin" && password == "123456" {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func showLoginError() {
+        //создаем алертКонтроллер
+        let alert = UIAlertController(title: "Ошибка", message: "Введены неверные данные", preferredStyle: .alert)
+        //создаем кнопку для алертКонтроллер
+        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        //добавляем кнопку на алертКонтроллер
+        alert.addAction(action)
+        //показываем алертКонтроллер
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func loginButtonPressed(_ sender: Any) {
+        let login = loginInput.text!
+        let password = passwordInput.text!
+        
+        if login == "admin" && password == "123456" {
+            print("Успешная авторизвция")
+        } else {
+            print("Неправильный логин или пароль")
+        }
+    }
     
     /*
     // MARK: - Navigation
