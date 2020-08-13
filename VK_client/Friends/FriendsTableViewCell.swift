@@ -14,9 +14,12 @@ class FriendsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var friendsImage: UIImageView!
     
+    @IBOutlet weak var avatarView: AvatarView!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        friendsImage.layer.cornerRadius = bounds.height / 2
         // Initialization code
     }
     

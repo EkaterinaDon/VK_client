@@ -10,12 +10,12 @@ import UIKit
 
 class FriendsTableViewController: UITableViewController {
     
+
     let myFriends = Friends.generateFriends()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         

@@ -297,30 +297,32 @@
                                             <rect key="frame" x="0.0" y="0.0" width="68" height="68.5"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ozx-3r-YVv">
-                                                    <rect key="frame" x="0.0" y="0.0" width="68" height="68"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="68" height="68.5"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             <constraints>
+                                                <constraint firstItem="Ozx-3r-YVv" firstAttribute="top" secondItem="Eni-DZ-ibQ" secondAttribute="top" id="0hn-ch-8mS"/>
                                                 <constraint firstAttribute="width" constant="68" id="426-cA-lvo"/>
-                                                <constraint firstItem="Ozx-3r-YVv" firstAttribute="leading" secondItem="Eni-DZ-ibQ" secondAttribute="leading" id="8cG-zq-Ngl"/>
-                                                <constraint firstAttribute="bottom" secondItem="Ozx-3r-YVv" secondAttribute="bottom" constant="0.5" id="9Q7-Dx-cD8"/>
-                                                <constraint firstItem="Ozx-3r-YVv" firstAttribute="top" secondItem="Eni-DZ-ibQ" secondAttribute="top" id="K7y-xp-xAp"/>
+                                                <constraint firstItem="Ozx-3r-YVv" firstAttribute="centerY" secondItem="Eni-DZ-ibQ" secondAttribute="centerY" id="I9i-ck-ABS"/>
                                                 <constraint firstAttribute="height" priority="750" constant="68" id="Mkk-AN-ie9"/>
-                                                <constraint firstAttribute="trailing" secondItem="Ozx-3r-YVv" secondAttribute="trailing" id="yfK-Fg-Li8"/>
+                                                <constraint firstItem="Ozx-3r-YVv" firstAttribute="leading" secondItem="Eni-DZ-ibQ" secondAttribute="leading" id="O9f-0S-iNy"/>
+                                                <constraint firstAttribute="trailing" secondItem="Ozx-3r-YVv" secondAttribute="trailing" id="by7-8A-Red"/>
+                                                <constraint firstAttribute="bottom" secondItem="Ozx-3r-YVv" secondAttribute="bottom" id="kG0-NS-cNc"/>
+                                                <constraint firstItem="Ozx-3r-YVv" firstAttribute="centerX" secondItem="Eni-DZ-ibQ" secondAttribute="centerX" id="zoB-ka-JZw"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <userDefinedRuntimeAttribute type="size" keyPath="imageShadowOffset">
+                                                    <size key="value" width="6" height="4"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="imageShadowRadius">
+                                                    <real key="value" value="3"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="imageShadowOpacity">
+                                                    <real key="value" value="0.29999999999999999"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="imageShadowColor">
                                                     <color key="value" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                                    <real key="value" value="1"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
-                                                    <size key="value" width="10" height="10"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                                    <real key="value" value="8"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
@@ -342,6 +344,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="avatarView" destination="Eni-DZ-ibQ" id="t3j-gg-Wyt"/>
                                     <outlet property="friendsImage" destination="Ozx-3r-YVv" id="lOn-as-zpL"/>
                                     <outlet property="friendsName" destination="Dz0-So-EKq" id="QqW-qq-9FS"/>
                                     <segue destination="QES-vW-m5D" kind="show" id="0hr-bw-CFq"/>
@@ -393,9 +396,6 @@
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="size" keyPath="buttonSize">
                                                     <size key="value" width="25" height="24"/>
-                                                </userDefinedRuntimeAttribute>
-                                                <userDefinedRuntimeAttribute type="size" keyPath="viewSize">
-                                                    <size key="value" width="34" height="22"/>
                                                 </userDefinedRuntimeAttribute>
                                                 <userDefinedRuntimeAttribute type="size" keyPath="labelSize">
                                                     <size key="value" width="25" height="24"/>
