@@ -14,6 +14,7 @@ class FriendsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var friendsImage: UIImageView!
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -27,7 +28,7 @@ class FriendsTableViewCell: UITableViewCell {
     
     func configure(for model: Friend) {
         friendsName.text = model.name
-        friendsImage.image = UIImage.init(named: model.imageName)
+        friendsImage.image = model.image
         
     }
     

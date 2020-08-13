@@ -23,6 +23,9 @@ class LoginFormViewController: UIViewController {
         let hideKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         //присвоим его скроллвью
         scrollView?.addGestureRecognizer(hideKeyboardGesture)
+        
+        loginInput.text = "admin"
+        passwordInput.text = "123456"
     }
     
     
