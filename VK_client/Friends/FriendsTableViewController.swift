@@ -8,47 +8,88 @@
 
 import UIKit
 
-class FriendsTableViewController: UITableViewController {
-    
 
-    let myFriends = Friends.generateFriends()
+class FriendsTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
+    var searchController:UISearchController!
+    
+    let myFriends = Friends.generateFriends()
+    var searchResults:[Friend] = []
+    
+   
+    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        searchController = UISearchController(searchResultsController: nil)
+        tableView.tableHeaderView = searchController.searchBar
+        
+        searchController.searchResultsUpdater = self
+        
+//        for friend in myFriends {
+//            print(friend.name, friend.key)
+//        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+       
+        
     }
     
-    
+
 
     // MARK: - Table view data source
     
+   
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        if searchController.isActive { return searchResults.count }
+     
+        return getLetters().count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return myFriends.count
-    }
-    
-    
-    
+        if searchController.isActive { return searchResults.count }
+  //      let friendsForSection = getLetters()[section]
+//            return friendsForSection.count
+        
+        return  myFriends.count //myFriends[section].name.count
+
+   }
+
+        
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //получаем ячейку из пула
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as! FriendsTableViewCell
         
+         
         //получаем друга для строки
-        let friend = myFriends[indexPath.row]
+        let friend = (searchController.isActive) ? searchResults[indexPath.row] : myFriends[indexPath.row]
         
         //устанавливаем друга в ячейку
 
         cell.configure(for: friend)
+        
+//        var dictionary: [[String: Any]] = []
+//
+//        for letter in getLetters() {
+//            for friend in myFriends {
+//                let name = friend.name
+//                let firstLetter = name.first?.uppercased()
+//                if firstLetter == letter {
+//                    dictionary.append([letter : friend])
+//                }
+//            }
+//        }
+
+        
+        
         
         return cell
     }
@@ -58,12 +99,75 @@ class FriendsTableViewController: UITableViewController {
        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
            if let friendsCollectionViewController = segue.destination as? FriendsCollectionViewController {
                if let indexPath = tableView.indexPathForSelectedRow {
-                   let friend = myFriends[indexPath.row]
-                   friendsCollectionViewController.friend = friend
+                let friend = myFriends[indexPath.row]
+                   friendsCollectionViewController.friend = (searchController.isActive) ? searchResults[indexPath.row] : friend
                }
            }
    
        }
+    
+    func filterContent(for searchText: String) {
+        searchResults = myFriends.filter({ (friend) -> Bool in
+             let name = friend.name
+                let isMatch = name.localizedCaseInsensitiveContains(searchText)
+                return isMatch
+        })
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            filterContent(for: searchText)
+            tableView.reloadData()
+        }
+    }
+    
+    
+    func getLetters() -> [String] {
+        var letters: [String] = []
+        for friend in myFriends {
+            let name = friend.name
+            let firstLetter = name.first
+            let first = firstLetter?.uppercased()
+            letters.append(first!)
+        }
+               
+        return letters
+    }
+    
+    func segregateFriends() -> [[String: String]] {
+        var orderedContacts: [[String: String]] = []
+        for friend in myFriends {
+            let firstLetter = friend.name.first?.uppercased()
+            let name = friend.name
+            orderedContacts.append([firstLetter!: name])
+        }
+        print(orderedContacts)
+        return orderedContacts
+    }
+
+    
+   
+    
+
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        if searchController.isActive { return nil }
+
+        return getLetters()
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        if searchController.isActive { return 0 }
+        tableView.scrollToRow(at: IndexPath(row: 0, section: index), at: UITableView.ScrollPosition.top , animated: false)
+        return getLetters().firstIndex(of: title)!
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if searchController.isActive { return nil }
+        return getLetters()[section]
+    }
+    
     
       // MARK: - TableView delegate
 //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -121,3 +225,7 @@ class FriendsTableViewController: UITableViewController {
      */
     
 }
+
+
+
+

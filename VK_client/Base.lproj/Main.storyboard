@@ -22,6 +22,9 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78A-FJ-g0Y">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginScreen3" translatesAutoresizingMaskIntoConstraints="NO" id="UZB-cI-Db0">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                            </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhW-j0-KNU">
                                                 <rect key="frame" x="192.5" y="114" width="29.5" height="38"/>
                                                 <constraints>
@@ -87,13 +90,17 @@
                                             <constraint firstItem="ePA-N6-ptF" firstAttribute="centerX" secondItem="78A-FJ-g0Y" secondAttribute="centerX" id="1IU-9N-zr9"/>
                                             <constraint firstItem="hD6-9t-FB5" firstAttribute="top" secondItem="nxZ-qg-bJE" secondAttribute="bottom" constant="54" id="2ka-Xo-B54"/>
                                             <constraint firstItem="ePA-N6-ptF" firstAttribute="top" secondItem="LhW-j0-KNU" secondAttribute="bottom" constant="89" id="5lJ-3s-aCP"/>
+                                            <constraint firstAttribute="bottom" secondItem="UZB-cI-Db0" secondAttribute="bottom" id="7an-vZ-ymL"/>
+                                            <constraint firstAttribute="trailing" secondItem="UZB-cI-Db0" secondAttribute="trailing" id="9rp-5b-MzQ"/>
                                             <constraint firstItem="AOe-g3-tsa" firstAttribute="top" secondItem="JPi-hf-NXe" secondAttribute="bottom" constant="31" id="BQe-c3-qsF"/>
                                             <constraint firstItem="LhW-j0-KNU" firstAttribute="centerX" secondItem="78A-FJ-g0Y" secondAttribute="centerX" id="DP4-rP-Vg2"/>
+                                            <constraint firstItem="UZB-cI-Db0" firstAttribute="leading" secondItem="78A-FJ-g0Y" secondAttribute="leading" id="Do4-d0-Q4K"/>
                                             <constraint firstItem="AOe-g3-tsa" firstAttribute="centerX" secondItem="78A-FJ-g0Y" secondAttribute="centerX" id="M4E-OQ-RDQ"/>
                                             <constraint firstAttribute="bottom" secondItem="AOe-g3-tsa" secondAttribute="bottom" constant="367" id="RAi-en-eJz"/>
                                             <constraint firstItem="nxZ-qg-bJE" firstAttribute="centerX" secondItem="78A-FJ-g0Y" secondAttribute="centerX" id="TCx-w9-NSf"/>
                                             <constraint firstItem="JPi-hf-NXe" firstAttribute="top" secondItem="hD6-9t-FB5" secondAttribute="bottom" constant="32" id="UNW-OC-6Po"/>
                                             <constraint firstItem="ePA-N6-ptF" firstAttribute="height" secondItem="hD6-9t-FB5" secondAttribute="height" id="UcQ-rx-J2c"/>
+                                            <constraint firstItem="UZB-cI-Db0" firstAttribute="top" secondItem="78A-FJ-g0Y" secondAttribute="top" id="bo2-sk-CFv"/>
                                             <constraint firstItem="nxZ-qg-bJE" firstAttribute="top" secondItem="ePA-N6-ptF" secondAttribute="bottom" constant="22" id="d4B-Jp-nFS"/>
                                             <constraint firstItem="hD6-9t-FB5" firstAttribute="centerX" secondItem="78A-FJ-g0Y" secondAttribute="centerX" id="dte-gJ-qsH"/>
                                             <constraint firstItem="JPi-hf-NXe" firstAttribute="centerX" secondItem="78A-FJ-g0Y" secondAttribute="centerX" id="gNN-cE-OHc"/>
@@ -471,6 +478,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="loginScreen3" width="1080" height="1080"/>
         <image name="person.2.square.stack.fill" catalog="system" width="113" height="128"/>
         <image name="person.3.fill" catalog="system" width="128" height="61"/>
     </resources>

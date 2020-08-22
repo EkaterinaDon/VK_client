@@ -8,10 +8,23 @@
 
 import UIKit
 
+
 struct Friend {
+    
     let name: String
     let image: UIImage?
     let photo: [UIImage?]
+    
+    init(name: String, image: UIImage?, photo: [UIImage?]) {
+        self.name = name
+        self.image = image
+        self.photo = photo
+    }
+    
+//    var key: String {
+//        return name.first!.uppercased()
+//    }
+
 }
 
 final class Friends {
@@ -41,6 +54,19 @@ final class Friends {
         
         return [ziggy, majorTom, pierrot, aladdinSane, halloweenJack, whiteDuke, soulMan,
         goblinKing, lordByron, dj,
-        blindProphet]
+        blindProphet].sorted(by: { $0.name < $1.name })
+    }
+    
+    
+}
+
+extension Friend: Equatable {
+    static func == (lhs: Friend, rhs: Friend) -> Bool {
+    return
+        lhs.name == rhs.name &&
+        lhs.image == rhs.image &&
+        lhs.photo == rhs.photo
     }
 }
+    
+

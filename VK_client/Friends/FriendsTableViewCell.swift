@@ -31,8 +31,7 @@ class FriendsTableViewCell: UITableViewCell {
     
     func configure(for model: Friend) {
         friendsName.text = model.name
-        friendsImage.image = model.image
-        
+        friendsImage.image = model.image        
     }
     
 }
