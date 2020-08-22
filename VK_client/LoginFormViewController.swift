@@ -111,7 +111,7 @@ class LoginFormViewController: UIViewController {
         let password = passwordInput.text!
         
         if login == "admin" && password == "123456" {
-            print("Успешная авторизвция")
+            print("Успешная авторизация")
         } else {
             print("Неправильный логин или пароль")
         }

@@ -8,14 +8,29 @@
 
 import UIKit
 
+struct FriendsForSections: Comparable {
+    
+    var sectionKey: String.Element?
+    var rowValue: [Friend]
+    
+    static func < (lhs: FriendsForSections, rhs: FriendsForSections) -> Bool {
+        return (lhs.sectionKey)! < rhs.sectionKey!
+    }
+    static func == (lhs: FriendsForSections, rhs: FriendsForSections) -> Bool {
+        return lhs.sectionKey == rhs.sectionKey
+    }
+    
+}
+
 
 class FriendsTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
+   
     
     var searchController:UISearchController!
     
     let myFriends = Friends.generateFriends()
     var searchResults:[Friend] = []
-    
+    var sections = [FriendsForSections]()
    
     
  
@@ -27,40 +42,32 @@ class FriendsTableViewController: UITableViewController, UISearchResultsUpdating
         
         searchController.searchResultsUpdater = self
         
-//        for friend in myFriends {
-//            print(friend.name, friend.key)
-//        }
-        
+        let group = Dictionary(grouping: self.myFriends, by: { $0.name.first })
+        self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
+    
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-       
-        
+            
     }
     
 
 
     // MARK: - Table view data source
     
-   
-    
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         if searchController.isActive { return searchResults.count }
-     
-        return getLetters().count
+        return self.sections.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive { return searchResults.count }
-  //      let friendsForSection = getLetters()[section]
-//            return friendsForSection.count
+        let section = self.sections[section]
         
-        return  myFriends.count //myFriends[section].name.count
-
+        return  section.rowValue.count
    }
 
         
@@ -68,44 +75,71 @@ class FriendsTableViewController: UITableViewController, UISearchResultsUpdating
         //получаем ячейку из пула
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as! FriendsTableViewCell
         
-         
+         let section = self.sections[indexPath.section]
+        
         //получаем друга для строки
-        let friend = (searchController.isActive) ? searchResults[indexPath.row] : myFriends[indexPath.row]
+        let friend = (searchController.isActive) ? searchResults[indexPath.row] : section.rowValue[indexPath.row]
         
         //устанавливаем друга в ячейку
 
         cell.configure(for: friend)
         
-//        var dictionary: [[String: Any]] = []
-//
-//        for letter in getLetters() {
-//            for friend in myFriends {
-//                let name = friend.name
-//                let firstLetter = name.first?.uppercased()
-//                if firstLetter == letter {
-//                    dictionary.append([letter : friend])
-//                }
-//            }
-//        }
-
-        
-        
-        
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if searchController.isActive { return nil }
+        let section = self.sections[section]
+        let letter = section.sectionKey
+        return letter?.uppercased()
+    }
+    
+     // MARK: - alfabet search
+    
+    func getLetters() -> [String] {
+         var letters: [String] = []
+         for friend in myFriends {
+             let name = friend.name
+             let firstLetter = name.first
+             let first = firstLetter?.uppercased()
+            if !letters.contains(first!) {
+            letters.append(first!)
+            }
+         }
+                
+        return letters
+     }
+     
+     
+     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+         if searchController.isActive { return nil }
+        return getLetters()
+     }
+     
+     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+         if searchController.isActive { return 0 }
+         tableView.scrollToRow(at: IndexPath(row: 0, section: index), at: UITableView.ScrollPosition.top , animated: false)
+         return getLetters().firstIndex(of: title)!
+         
+     }
+     
+
     
     // MARK: - segue
     
        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
            if let friendsCollectionViewController = segue.destination as? FriendsCollectionViewController {
                if let indexPath = tableView.indexPathForSelectedRow {
-                let friend = myFriends[indexPath.row]
+                let section = self.sections[indexPath.section]
+                let friend = section.rowValue[indexPath.row]
                    friendsCollectionViewController.friend = (searchController.isActive) ? searchResults[indexPath.row] : friend
                }
            }
    
        }
     
+    
+    // MARK: - search
     func filterContent(for searchText: String) {
         searchResults = myFriends.filter({ (friend) -> Bool in
              let name = friend.name
@@ -121,54 +155,7 @@ class FriendsTableViewController: UITableViewController, UISearchResultsUpdating
         }
     }
     
-    
-    func getLetters() -> [String] {
-        var letters: [String] = []
-        for friend in myFriends {
-            let name = friend.name
-            let firstLetter = name.first
-            let first = firstLetter?.uppercased()
-            letters.append(first!)
-        }
-               
-        return letters
-    }
-    
-    func segregateFriends() -> [[String: String]] {
-        var orderedContacts: [[String: String]] = []
-        for friend in myFriends {
-            let firstLetter = friend.name.first?.uppercased()
-            let name = friend.name
-            orderedContacts.append([firstLetter!: name])
-        }
-        print(orderedContacts)
-        return orderedContacts
-    }
-
-    
-   
-    
-
-    
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        if searchController.isActive { return nil }
-
-        return getLetters()
-    }
-    
-    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        if searchController.isActive { return 0 }
-        tableView.scrollToRow(at: IndexPath(row: 0, section: index), at: UITableView.ScrollPosition.top , animated: false)
-        return getLetters().firstIndex(of: title)!
         
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if searchController.isActive { return nil }
-        return getLetters()[section]
-    }
-    
-    
       // MARK: - TableView delegate
 //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let whichIsSelected = indexPath.row

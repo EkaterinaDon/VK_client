@@ -20,12 +20,9 @@ struct Friend {
         self.image = image
         self.photo = photo
     }
-    
-//    var key: String {
-//        return name.first!.uppercased()
-//    }
 
 }
+
 
 final class Friends {
     
