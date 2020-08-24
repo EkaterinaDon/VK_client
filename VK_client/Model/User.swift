@@ -51,7 +51,7 @@ final class Friends {
         
         return [ziggy, majorTom, pierrot, aladdinSane, halloweenJack, whiteDuke, soulMan,
         goblinKing, lordByron, dj,
-        blindProphet].sorted(by: { $0.name < $1.name })
+        blindProphet]
     }
     
     

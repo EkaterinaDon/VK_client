@@ -38,9 +38,6 @@ import UIKit
             shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
             shadowLayer.fillColor = fillColor.cgColor
             shadowLayer.shadowPath = shadowLayer.path
-            
-            
-            
             shadowLayer.shadowColor = imageShadowColor.cgColor
             shadowLayer.shadowOffset = imageShadowOffset
             shadowLayer.shadowOpacity = imageShadowOpacity
