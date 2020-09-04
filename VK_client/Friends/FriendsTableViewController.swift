@@ -26,13 +26,17 @@ struct FriendsForSections: Comparable {
 class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     
-   
+    
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    
     
     let myFriends = Friends.generateFriends()
     var sections = [FriendsForSections]()
     var searchResults = [FriendsForSections]()
     var searching: Bool = false
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +51,8 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         searchBar.delegate = self
         
         setTableViewBackgroundGradient(sender: self)
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -64,7 +70,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         if searching {
             return searchResults.count
         } else {
-        return self.sections.count
+            return self.sections.count
         }
     }
     
@@ -73,8 +79,8 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
             let section = searchResults[section]
             return section.rowValue.count
         } else {
-        let section = self.sections[section]
-        return  section.rowValue.count
+            let section = self.sections[section]
+            return  section.rowValue.count
         }
     }
     
@@ -83,28 +89,36 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         //получаем ячейку из пула
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as! FriendsTableViewCell
         cell.backgroundColor = .clear
+        
+        let tapImage = UITapGestureRecognizer(target: self, action: #selector(imgTapped(sender:)))
+        cell.friendsImage.addGestureRecognizer(tapImage)
+        cell.friendsImage.isUserInteractionEnabled = true
+        
         if searching {
             let section = searchResults[indexPath.section]
             let friend = section.rowValue[indexPath.row]
             cell.configure(for: friend)
             return cell
         } else {
-        let section = self.sections[indexPath.section]
-        let friend = section.rowValue[indexPath.row]
-        cell.configure(for: friend)
-        return cell
+            let section = self.sections[indexPath.section]
+            let friend = section.rowValue[indexPath.row]
+            cell.configure(for: friend)
+            return cell
         }
+        
     }
     
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        let section = self.sections[section]
-//        let letter = section.sectionKey
-//        return letter?.uppercased()
-//    }
+    //    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    //        let section = self.sections[section]
+    //        let letter = section.sectionKey
+    //        return letter?.uppercased()
+    //    }
+    
+    
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = self.getGradientBackgroundView()
-
+        
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         if searching {
@@ -118,16 +132,16 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
             label.heightAnchor.constraint(equalToConstant: 25).isActive = true
             return headerView
         } else {
-        let section = self.sections[section]
-        let letter = section.sectionKey
-        label.text = letter?.uppercased()
-        headerView.addSubview(label)
-        label.leftAnchor.constraint(equalTo: headerView.leftAnchor).isActive = true
-        label.rightAnchor.constraint(equalTo: headerView.rightAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-        label.heightAnchor.constraint(equalToConstant: 25).isActive = true
-
-        return headerView
+            let section = self.sections[section]
+            let letter = section.sectionKey
+            label.text = letter?.uppercased()
+            headerView.addSubview(label)
+            label.leftAnchor.constraint(equalTo: headerView.leftAnchor).isActive = true
+            label.rightAnchor.constraint(equalTo: headerView.rightAnchor).isActive = true
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+            label.heightAnchor.constraint(equalToConstant: 25).isActive = true
+            
+            return headerView
         }
     }
     
@@ -144,7 +158,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     
- 
+    
     
     
     // MARK: - segue
@@ -161,7 +175,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     
-      // MARK: - Search Bar
+    // MARK: - Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         guard !searchText.isEmpty else {
@@ -177,22 +191,22 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     private func getGradientBackgroundView() -> UIView {
-      let gradientBackgroundView = UIView()
-
-      let gradientLayer = CAGradientLayer()
-      gradientLayer.frame.size = CGSize(width: self.tableView.frame.size.width, height: 28)
+        let gradientBackgroundView = UIView()
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame.size = CGSize(width: self.tableView.frame.size.width, height: 28)
         gradientLayer.startPoint = CGPoint(x: 0.7, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: -0.45, y: 0.5)
-      gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor]
-      
-      gradientBackgroundView.layer.addSublayer(gradientLayer)
-      return gradientBackgroundView
+        gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor]
+        
+        gradientBackgroundView.layer.addSublayer(gradientLayer)
+        return gradientBackgroundView
     }
     
     func setTableViewBackgroundGradient(sender: UITableViewController) {
-
+        
         let backgroundView = UIView(frame: sender.tableView.bounds)
-
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor]
         
@@ -201,6 +215,41 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         gradientLayer.frame = sender.tableView.bounds
         backgroundView.layer.insertSublayer(gradientLayer, at: 0)
         sender.tableView.backgroundView = backgroundView
+    }
+    
+    
+    // MARK: - TableView animation
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        let transform = CATransform3DTranslate(CATransform3DIdentity, +70, 15, 0)
+        cell.layer.transform = transform
+        UIView.animate(withDuration: 0.7) {
+            cell.alpha = 1.0
+            cell.layer.transform = CATransform3DIdentity
+        }
+    }
+    
+    @objc func imgTapped(sender: UITapGestureRecognizer) {
+        
+        //print("tapped")
+        
+        guard sender.view != nil else { return }
+        
+        if sender.state == .ended {
+            
+            let animation = CASpringAnimation(keyPath: "transform.scale")
+            animation.fromValue = 1
+            animation.toValue = 1.3
+            animation.stiffness = 200
+            animation.mass = 2
+            animation.duration = 0.5
+            animation.beginTime = CACurrentMediaTime()
+            animation.fillMode = CAMediaTimingFillMode.backwards
+            animation.autoreverses = true
+            
+            sender.view!.layer.add(animation, forKey: nil)
+        }
+        
     }
     // MARK: - TableView delegate
     //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

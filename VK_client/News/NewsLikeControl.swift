@@ -57,7 +57,7 @@ class NewsLike: UIStackView {
         let bundle = Bundle(for: type(of: self))
         let filledHeart = UIImage(named: "filledHeart_clear", in: bundle, compatibleWith: self.traitCollection)
         let emptyHeart = UIImage(named: "heart", in: bundle, compatibleWith: self.traitCollection)
-
+        
         
         heartButton.setImage(emptyHeart, for: .normal)
         heartButton.setImage(filledHeart, for: .selected)
@@ -84,7 +84,7 @@ class NewsLike: UIStackView {
         let bundle = Bundle(for: type(of: self))
         let comment = UIImage(named: "commentButton", in: bundle, compatibleWith: self.traitCollection)
         //let emptyHeart = UIImage(named: "emptyHeart", in: bundle, compatibleWith: self.traitCollection)
-
+        
         
         //commentButton.setImage(emptyHeart, for: .selected)
         commentButton.setImage(comment, for: .normal)
@@ -111,7 +111,7 @@ class NewsLike: UIStackView {
         let bundle = Bundle(for: type(of: self))
         let share = UIImage(named: "shareButton", in: bundle, compatibleWith: self.traitCollection)
         //let emptyHeart = UIImage(named: "emptyHeart", in: bundle, compatibleWith: self.traitCollection)
-
+        
         
         //commentButton.setImage(emptyHeart, for: .selected)
         shareButton.setImage(share, for: .normal)
@@ -138,18 +138,18 @@ class NewsLike: UIStackView {
             counter += 1
             count.textColor = UIColor.red
         }
-//        print("pressed \(counter)")
+        //        print("pressed \(counter)")
         count.text = "\(counter)"
     }
     
-        @objc func commentButtonTupped(commentButton: UIButton) {
-         print("commentButton Clicked")
-        }
+    @objc func commentButtonTupped(commentButton: UIButton) {
+        print("commentButton Clicked")
+    }
     
     @objc func shareButtonTupped(shareButton: UIButton) {
-            print("shareButton Clicked")
-           }
-
+        print("shareButton Clicked")
+    }
+    
     var labelSize: CGSize = CGSize(width: 25.0, height: 24.0) {
         didSet {
             setupCounter()
@@ -161,7 +161,7 @@ class NewsLike: UIStackView {
             setupLikeButton()
         }
     }
-
+    
     
     
 }

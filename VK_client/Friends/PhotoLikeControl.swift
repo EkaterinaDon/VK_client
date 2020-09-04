@@ -52,7 +52,7 @@ class PhotoLike: UIStackView {
         let bundle = Bundle(for: type(of: self))
         let filledHeart = UIImage(named: "filledHeart", in: bundle, compatibleWith: self.traitCollection)
         let emptyHeart = UIImage(named: "heart", in: bundle, compatibleWith: self.traitCollection)
-
+        
         
         heartButton.setImage(emptyHeart, for: .normal)
         heartButton.setImage(filledHeart, for: .selected)
@@ -75,30 +75,49 @@ class PhotoLike: UIStackView {
             heartButton.isSelected = false
             counter -= 1
             count.textColor = UIColor.blue
+            UIView.animate(withDuration: 0.5, animations: {
+                UIView.modifyAnimations(withRepeatCount: 3, autoreverses: true, animations: {
+                    self.count.frame.origin.y -= 15
+                })
+                
+            }, completion: { finished in
+                print("dislike!")
+                self.count.alpha = 1
+            })
         } else {
             heartButton.isSelected = true
             counter += 1
             count.textColor = UIColor.red
+            UIView.animate(withDuration: 0.5, animations: {
+                UIView.modifyAnimations(withRepeatCount: 3, autoreverses: true, animations: {
+                    self.count.frame.origin.y += 15
+                })
+            }, completion: { finished in
+                print("like!")
+                self.count.alpha = 1
+            })
         }
-//        print("pressed \(counter)")
+        //        print("pressed \(counter)")
         count.text = "\(counter)"
+        
     }
     
     
     
-
-     var labelSize: CGSize = CGSize(width: 25.0, height: 24.0) {
+    
+    
+    var labelSize: CGSize = CGSize(width: 25.0, height: 24.0) {
         didSet {
             setupCounter()
         }
     }
     
-     var buttonSize: CGSize = CGSize(width: 25.0, height: 24.0) {
+    var buttonSize: CGSize = CGSize(width: 25.0, height: 24.0) {
         didSet {
             setupButton()
         }
     }
-
+    
     
     
 }
