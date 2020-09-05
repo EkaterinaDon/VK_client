@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class PhotoLike: UIStackView {
+class PhotoLike: UIStackView {
     
     var counter = 0
     let count = UILabel()
@@ -51,7 +51,7 @@ import UIKit
         
         let bundle = Bundle(for: type(of: self))
         let filledHeart = UIImage(named: "filledHeart", in: bundle, compatibleWith: self.traitCollection)
-        let emptyHeart = UIImage(named: "emptyHeart", in: bundle, compatibleWith: self.traitCollection)
+        let emptyHeart = UIImage(named: "heart", in: bundle, compatibleWith: self.traitCollection)
 
         
         heartButton.setImage(emptyHeart, for: .normal)
@@ -87,13 +87,13 @@ import UIKit
     
     
 
-    @IBInspectable var labelSize: CGSize = CGSize(width: 25.0, height: 24.0) {
+     var labelSize: CGSize = CGSize(width: 25.0, height: 24.0) {
         didSet {
             setupCounter()
         }
     }
     
-    @IBInspectable var buttonSize: CGSize = CGSize(width: 25.0, height: 24.0) {
+     var buttonSize: CGSize = CGSize(width: 25.0, height: 24.0) {
         didSet {
             setupButton()
         }

@@ -23,15 +23,16 @@ struct FriendsForSections: Comparable {
 }
 
 
-class FriendsTableViewController: UITableViewController {
+class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     
    
+    @IBOutlet weak var searchBar: UISearchBar!
     
     let myFriends = Friends.generateFriends()
     var sections = [FriendsForSections]()
-    
-    
+    var searchResults = [FriendsForSections]()
+    var searching: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,13 @@ class FriendsTableViewController: UITableViewController {
         let group = Dictionary(grouping: self.myFriends, by: { $0.name.first })
         self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
         
+        
+        self.tableView.separatorColor = .clear
+        self.tableView.sectionIndexBackgroundColor = .clear
+        
+        searchBar.delegate = self
+        
+        setTableViewBackgroundGradient(sender: self)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -53,36 +61,74 @@ class FriendsTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        
+        if searching {
+            return searchResults.count
+        } else {
         return self.sections.count
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searching {
+            let section = searchResults[section]
+            return section.rowValue.count
+        } else {
         let section = self.sections[section]
         return  section.rowValue.count
+        }
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //получаем ячейку из пула
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as! FriendsTableViewCell
-        
+        cell.backgroundColor = .clear
+        if searching {
+            let section = searchResults[indexPath.section]
+            let friend = section.rowValue[indexPath.row]
+            cell.configure(for: friend)
+            return cell
+        } else {
         let section = self.sections[indexPath.section]
-        
-        //получаем друга для строки
         let friend = section.rowValue[indexPath.row]
-        
-        //устанавливаем друга в ячейку
-        
         cell.configure(for: friend)
-        
         return cell
+        }
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        let section = self.sections[section]
+//        let letter = section.sectionKey
+//        return letter?.uppercased()
+//    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = self.getGradientBackgroundView()
+
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        if searching {
+            let section = searchResults[section]
+            let letter = section.sectionKey
+            label.text = letter?.uppercased()
+            headerView.addSubview(label)
+            label.leftAnchor.constraint(equalTo: headerView.leftAnchor).isActive = true
+            label.rightAnchor.constraint(equalTo: headerView.rightAnchor).isActive = true
+            label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+            label.heightAnchor.constraint(equalToConstant: 25).isActive = true
+            return headerView
+        } else {
         let section = self.sections[section]
         let letter = section.sectionKey
-        return letter?.uppercased()
+        label.text = letter?.uppercased()
+        headerView.addSubview(label)
+        label.leftAnchor.constraint(equalTo: headerView.leftAnchor).isActive = true
+        label.rightAnchor.constraint(equalTo: headerView.rightAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 25).isActive = true
+
+        return headerView
+        }
     }
     
     // MARK: - alfabet search
@@ -97,6 +143,8 @@ class FriendsTableViewController: UITableViewController {
         
     }
     
+    
+ 
     
     
     // MARK: - segue
@@ -113,6 +161,47 @@ class FriendsTableViewController: UITableViewController {
     }
     
     
+      // MARK: - Search Bar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        guard !searchText.isEmpty else {
+            searchResults = sections
+            tableView.reloadData()
+            return
+        }
+        searchResults = sections.filter({ (FriendsForSections) -> Bool in
+            (FriendsForSections.sectionKey?.lowercased().contains(searchText.lowercased()))!
+        })
+        searching = true
+        self.tableView.reloadData()
+    }
+    
+    private func getGradientBackgroundView() -> UIView {
+      let gradientBackgroundView = UIView()
+
+      let gradientLayer = CAGradientLayer()
+      gradientLayer.frame.size = CGSize(width: self.tableView.frame.size.width, height: 28)
+        gradientLayer.startPoint = CGPoint(x: 0.7, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: -0.45, y: 0.5)
+      gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor]
+      
+      gradientBackgroundView.layer.addSublayer(gradientLayer)
+      return gradientBackgroundView
+    }
+    
+    func setTableViewBackgroundGradient(sender: UITableViewController) {
+
+        let backgroundView = UIView(frame: sender.tableView.bounds)
+
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor]
+        
+        gradientLayer.startPoint = CGPoint(x: -0.45, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 0.8, y: 0.5)
+        gradientLayer.frame = sender.tableView.bounds
+        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+        sender.tableView.backgroundView = backgroundView
+    }
     // MARK: - TableView delegate
     //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     //        let whichIsSelected = indexPath.row

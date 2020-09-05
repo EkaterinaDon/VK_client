@@ -23,6 +23,7 @@ import UIKit
     private var shadowLayer: CAShapeLayer!
     private var cornerRadius: CGFloat = 34.0
     private var fillColor: UIColor = .blue // для слоя тени бекграунд вспомогательный
+    private var background: UIColor = .clear
     
     @IBInspectable var imageShadowColor: UIColor = .black { didSet { layoutSubviews() } }
     @IBInspectable var imageShadowOpacity: Float = 0.3 { didSet { layoutSubviews() } }
@@ -43,6 +44,7 @@ import UIKit
             shadowLayer.shadowOffset = imageShadowOffset
             shadowLayer.shadowOpacity = imageShadowOpacity
             shadowLayer.shadowRadius = imageShadowRadius
+            shadowLayer.backgroundColor = background.cgColor
             
             layer.insertSublayer(shadowLayer, at: 0)
         }

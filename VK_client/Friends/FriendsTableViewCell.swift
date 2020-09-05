@@ -16,10 +16,13 @@ class FriendsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var avatarView: AvatarView!
     
+
+    @IBOutlet weak var gradientView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         friendsImage.layer.cornerRadius = bounds.height / 2
+        backgroundColor = .clear
         // Initialization code
     }
     
@@ -33,5 +36,7 @@ class FriendsTableViewCell: UITableViewCell {
         friendsName.text = model.name
         friendsImage.image = model.image        
     }
-    
+
+  
 }
+
