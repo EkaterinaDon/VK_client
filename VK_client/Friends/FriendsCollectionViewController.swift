@@ -10,9 +10,12 @@ import UIKit
 
 
 class FriendsCollectionViewController: UICollectionViewController {
+      
+    var friend: Friend!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = friend.name
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -43,18 +46,24 @@ class FriendsCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 10
+        return friend.photo.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendsPhotoCell", for: indexPath) as! FriendsCollectionViewCell
         
         // Configure the cell
-       
+        
+        
+        let photo1 = friend.photo[indexPath.row]
+        cell.friendsPhoto.image = photo1
+        
         
         return cell
     }
     
+    
+
     // MARK: UICollectionViewDelegate
     
     /*

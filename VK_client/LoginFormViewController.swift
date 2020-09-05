@@ -23,6 +23,9 @@ class LoginFormViewController: UIViewController {
         let hideKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         //присвоим его скроллвью
         scrollView?.addGestureRecognizer(hideKeyboardGesture)
+        
+        loginInput.text = "admin"
+        passwordInput.text = "123456"
     }
     
     
@@ -108,7 +111,7 @@ class LoginFormViewController: UIViewController {
         let password = passwordInput.text!
         
         if login == "admin" && password == "123456" {
-            print("Успешная авторизвция")
+            print("Успешная авторизация")
         } else {
             print("Неправильный логин или пароль")
         }

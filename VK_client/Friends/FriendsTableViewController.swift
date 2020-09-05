@@ -8,57 +8,66 @@
 
 import UIKit
 
-class FriendsTableViewController: UITableViewController {
+struct FriendsForSections: Comparable {
     
-    var myFriends: [Friend] = []
+    var sectionKey: String.Element?
+    var rowValue: [Friend]
+    
+    static func < (lhs: FriendsForSections, rhs: FriendsForSections) -> Bool {
+        return (lhs.sectionKey)! < rhs.sectionKey!
+    }
+    static func == (lhs: FriendsForSections, rhs: FriendsForSections) -> Bool {
+        return lhs.sectionKey == rhs.sectionKey
+    }
+    
+}
+
+
+class FriendsTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
+    
+    
+    var searchController: UISearchController!
+    
+    let myFriends = Friends.generateFriends()
+    var searchResults: [Friend] = []
+    var sections = [FriendsForSections]()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        generateFriends()
+        searchController = UISearchController(searchResultsController: nil)
+        tableView.tableHeaderView = searchController.searchBar
+        
+        searchController.searchResultsUpdater = self
+        
+        let group = Dictionary(grouping: self.myFriends, by: { $0.name.first })
+        self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        
     }
     
     
-    private func generateFriends() {
-        let friend1 = Friend(name: "Ziggy Stardust", imageName: "ziggy")
-        let friend2 = Friend(name: "Major Tom", imageName: "majorTom")
-        let friend3 = Friend(name: "Halloween Jack", imageName: "halloweenJack")
-        let friend4 = Friend(name: "Aladdin Sane", imageName: "aladdinSane")
-        let friend5 = Friend(name: "The Thin White Duke", imageName: "whiteDuke")
-        let friend6 = Friend(name: "Pierrot", imageName: "pierrot")
-        let friend7 = Friend(name: "The Soul Man", imageName: "soulMan")
-        let friend8 = Friend(name: "Screaming Lord Byron", imageName: "lordByron")
-        let friend9 = Friend(name: "Jareth the Goblin King", imageName: "goblinKing")
-        let friend10 = Friend(name: "The DJ", imageName: "dj")
-        let friend11 = Friend(name: "The Blind Prophet", imageName: "blindProphet")
-        myFriends.append(friend1)
-        myFriends.append(friend2)
-        myFriends.append(friend3)
-        myFriends.append(friend4)
-        myFriends.append(friend5)
-        myFriends.append(friend6)
-        myFriends.append(friend7)
-        myFriends.append(friend8)
-        myFriends.append(friend9)
-        myFriends.append(friend10)
-        myFriends.append(friend11)
-    }
     
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        if searchController.isActive { return searchResults.count }
+        return self.sections.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return myFriends.count
+        if searchController.isActive { return searchResults.count }
+        let section = self.sections[section]
+        
+        return  section.rowValue.count
     }
     
     
@@ -66,15 +75,81 @@ class FriendsTableViewController: UITableViewController {
         //получаем ячейку из пула
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as! FriendsTableViewCell
         
+        let section = self.sections[indexPath.section]
+        
         //получаем друга для строки
-        let friend = myFriends[indexPath.row]
+        let friend = (searchController.isActive) ? searchResults[indexPath.row] : section.rowValue[indexPath.row]
         
         //устанавливаем друга в ячейку
+        
         cell.configure(for: friend)
         
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if searchController.isActive { return nil }
+        let section = self.sections[section]
+        let letter = section.sectionKey
+        return letter?.uppercased()
+    }
+    
+    // MARK: - alfabet search
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        if searchController.isActive { return nil }
+        return sections.map{String(($0.sectionKey)!)}
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        if searchController.isActive { return 0 }
+        tableView.scrollToRow(at: IndexPath(row: 0, section: index), at: UITableView.ScrollPosition.top , animated: false)
+        return index
+        
+    }
+    
+    
+    
+    // MARK: - segue
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let friendsCollectionViewController = segue.destination as? FriendsCollectionViewController {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let section = self.sections[indexPath.section]
+                let friend = section.rowValue[indexPath.row]
+                friendsCollectionViewController.friend = (searchController.isActive) ? searchResults[indexPath.row] : friend
+            }
+        }
+        
+    }
+    
+    
+    // MARK: - search
+    func filterContent(for searchText: String) {
+        searchResults = myFriends.filter({ (friend) -> Bool in
+            let name = friend.name
+            let isMatch = name.localizedCaseInsensitiveContains(searchText)
+            return isMatch
+        })
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            filterContent(for: searchText)
+            tableView.reloadData()
+        }
+    }
+    
+    
+    // MARK: - TableView delegate
+    //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        let whichIsSelected = indexPath.row
+    //        let selectedFriend = myFriends[whichIsSelected] //обернуть в guard
+    //        let friendsCollectionViewController = storyboard?.instantiateViewController(identifier: "friendsCollectionViewControllerKey") as! FriendsCollectionViewController
+    //        friendsCollectionViewController.friend = selectedFriend
+    //        self.show(friendsCollectionViewController, sender: nil)
+    //    }
+    //
     
     /*
      // Override to support conditional editing of the table view.
@@ -122,3 +197,7 @@ class FriendsTableViewController: UITableViewController {
      */
     
 }
+
+
+
+
