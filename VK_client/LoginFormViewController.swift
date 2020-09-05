@@ -26,6 +26,9 @@ class LoginFormViewController: UIViewController {
         
         loginInput.text = "admin"
         passwordInput.text = "123456"
+        
+        startAnimation()
+    
     }
     
     
@@ -115,8 +118,20 @@ class LoginFormViewController: UIViewController {
         } else {
             print("Неправильный логин или пароль")
         }
+        
+        startAnimation()
+ 
     }
     
+    
+    func startAnimation() {
+        indicatorView.shared.showOverlay(self.view, dots_color: UIColor.lightGray, bg_color: UIColor.black, dots_count: 2)
+        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+            indicatorView.shared.hideOverlayView()
+        }
+    }
+    
+
     /*
     // MARK: - Navigation
 

@@ -17,17 +17,16 @@ class NewsCollectionViewCell: UICollectionViewCell {
     static func nib() -> UINib {
         return UINib(nibName: "NewsCollectionViewCell", bundle: nil)
     }
-
-
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
-//    public func configureNewsImage(for model: News) {
-//        self.newsImage.image = model.photo
-//    
-//       // newsImage.image = model.image
-//    }
-
+    public func configureNewsImage(for model: News) {
+        
+        newsImage.image = (model.photo.first!!)
+        
+    }
 }

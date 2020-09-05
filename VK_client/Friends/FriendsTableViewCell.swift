@@ -12,25 +12,44 @@ class FriendsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var friendsName: UILabel!
     
-    @IBOutlet weak var friendsImage: UIImageView!
-    
-    @IBOutlet weak var avatarView: AvatarView!
-    
+    @IBOutlet var friendsImage: UIImageView!
 
-    @IBOutlet weak var gradientView: UIView!
+    
+    @IBOutlet weak var avatarView: UIView! { //AvatarView! 
+        didSet {
+            self.avatarView.layer.shadowOffset = .init(width: 4, height: 4)
+            self.avatarView.layer.shadowOpacity = 0.75
+            self.avatarView.layer.shadowRadius = 6
+            self.avatarView.backgroundColor = .clear
+        }
+    }
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
         friendsImage.layer.cornerRadius = bounds.height / 2
+        friendsImage.layer.masksToBounds = true
         backgroundColor = .clear
         // Initialization code
+        
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+       
         
-        // Configure the view for the selected state
     }
+    
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.avatarView.layer.shadowPath = UIBezierPath(ovalIn: self.avatarView.bounds).cgPath
+        
+    }
+
+ 
     
     func configure(for model: Friend) {
         friendsName.text = model.name
