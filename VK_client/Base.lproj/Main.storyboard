@@ -8,6 +8,49 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Friends Photo Collection-->
+        <scene sceneID="ywh-2l-f6Z">
+            <objects>
+                <viewController storyboardIdentifier="FriendsPhotoCollection" id="D4Z-Fw-zdW" customClass="FriendsPhotoCollection" customModule="VK_client" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mB0-Kz-iFI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nCb-JZ-rpQ" userLabel="containerView">
+                                <rect key="frame" x="57" y="238" width="300" height="420"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="david-bowie-by-gavin-evans" translatesAutoresizingMaskIntoConstraints="NO" id="EUZ-1M-ohU">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="420"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="EUZ-1M-ohU" secondAttribute="trailing" id="Bbf-HE-uDn"/>
+                                    <constraint firstAttribute="bottom" secondItem="EUZ-1M-ohU" secondAttribute="bottom" id="Vmj-a9-r61"/>
+                                    <constraint firstItem="EUZ-1M-ohU" firstAttribute="top" secondItem="nCb-JZ-rpQ" secondAttribute="top" id="n7m-yi-kaZ"/>
+                                    <constraint firstItem="EUZ-1M-ohU" firstAttribute="leading" secondItem="nCb-JZ-rpQ" secondAttribute="leading" id="pVv-VK-hdj"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="npD-Hw-3RR" firstAttribute="bottom" secondItem="nCb-JZ-rpQ" secondAttribute="bottom" constant="155" id="3K9-vy-cta"/>
+                            <constraint firstItem="nCb-JZ-rpQ" firstAttribute="top" secondItem="npD-Hw-3RR" secondAttribute="top" constant="150" id="Zf7-H4-Evp"/>
+                            <constraint firstItem="npD-Hw-3RR" firstAttribute="trailing" secondItem="nCb-JZ-rpQ" secondAttribute="trailing" constant="57" id="ieZ-MJ-61O"/>
+                            <constraint firstItem="nCb-JZ-rpQ" firstAttribute="leading" secondItem="npD-Hw-3RR" secondAttribute="leading" constant="57" id="rmy-Tg-Yxj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="npD-Hw-3RR"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AmK-8E-DD8"/>
+                    <connections>
+                        <outlet property="containerView" destination="nCb-JZ-rpQ" id="V7K-B2-s40"/>
+                        <outlet property="firstImage" destination="EUZ-1M-ohU" id="ZmU-zn-cGI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="473-AP-tQZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2794.202898550725" y="1587.7232142857142"/>
+        </scene>
         <!--Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -25,8 +68,8 @@
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginScreen3" translatesAutoresizingMaskIntoConstraints="NO" id="UZB-cI-Db0">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhW-j0-KNU">
-                                                <rect key="frame" x="192.5" y="80" width="29.5" height="38"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="db" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhW-j0-KNU">
+                                                <rect key="frame" x="194" y="80" width="26.5" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="VLr-u5-zr9"/>
                                                 </constraints>
@@ -348,7 +391,7 @@
                                     <outlet property="avatarView" destination="Eni-DZ-ibQ" id="t3j-gg-Wyt"/>
                                     <outlet property="friendsImage" destination="Ozx-3r-YVv" id="lOn-as-zpL"/>
                                     <outlet property="friendsName" destination="Dz0-So-EKq" id="QqW-qq-9FS"/>
-                                    <segue destination="QES-vW-m5D" kind="show" id="0hr-bw-CFq"/>
+                                    <segue destination="D4Z-Fw-zdW" kind="show" id="cht-7j-a23"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -507,6 +550,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="david-bowie-by-gavin-evans" width="3000" height="2000"/>
         <image name="doc.text.fill" catalog="system" width="115" height="128"/>
         <image name="loginScreen3" width="1080" height="1080"/>
         <image name="person.2.square.stack.fill" catalog="system" width="113" height="128"/>
