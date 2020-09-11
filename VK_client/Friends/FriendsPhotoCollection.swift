@@ -35,6 +35,9 @@ class FriendsPhotoCollection: UIViewController {
         
         addSwipe()
         
+//        let touchGesture = UITapGestureRecognizer(target: self, action: #selector(showFullscreen))
+//        self.firstImage.addGestureRecognizer(touchGesture)
+        
         firstImage.isUserInteractionEnabled = true
         
     }
@@ -47,7 +50,7 @@ class FriendsPhotoCollection: UIViewController {
         for direction in directions {
             let gesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
             gesture.direction = direction
-            self.view.addGestureRecognizer(gesture)   //??
+            self.firstImage.addGestureRecognizer(gesture)   
         }
     }
     
@@ -120,9 +123,30 @@ class FriendsPhotoCollection: UIViewController {
         
     }
     
-    
-    
-    
+//    @objc func showFullscreen(sender: UITapGestureRecognizer) {
+//
+//        let imageView = sender.view as! UIImageView
+//        imageView.alpha = 0
+//        let tmpImageView = UIImageView(image: imageView.image)
+//        tmpImageView.frame = self.view.frame
+//        tmpImageView.contentMode = UIView.ContentMode.scaleAspectFit
+//        tmpImageView.backgroundColor = UIColor.black
+//        tmpImageView.isUserInteractionEnabled = true
+//
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(hideFullscreen))
+//        tmpImageView.addGestureRecognizer(tap)
+//
+//
+//        self.view.addSubview(tmpImageView)
+//         print("fullscreen")
+//    }
+//
+//    @objc func hideFullscreen(sender: UITapGestureRecognizer) {
+//
+//
+//        sender.view?.removeFromSuperview()
+//        print("removed")
+//    }
     /*
      MARK: - Navigation
      
