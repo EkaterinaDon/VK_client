@@ -162,13 +162,25 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     // MARK: - segue
+    // MARK: - prepare for collectionView
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let friendsCollectionViewController = segue.destination as? FriendsCollectionViewController {
+//            if let indexPath = tableView.indexPathForSelectedRow {
+//                let section = self.sections[indexPath.section]
+//                let friend = section.rowValue[indexPath.row]
+//                friendsCollectionViewController.friend = friend
+//            }
+//        }
+//
+//    }
     
+    // // MARK: - prepare forFriendsPhotoCollection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let friendsCollectionViewController = segue.destination as? FriendsCollectionViewController {
+        if let friendsPhotoCollection = segue.destination as? FriendsPhotoCollection {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let section = self.sections[indexPath.section]
                 let friend = section.rowValue[indexPath.row]
-                friendsCollectionViewController.friend = friend
+                friendsPhotoCollection.friend = friend
             }
         }
         
@@ -251,6 +263,8 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         }
         
     }
+    
+        
     // MARK: - TableView delegate
     //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     //        let whichIsSelected = indexPath.row

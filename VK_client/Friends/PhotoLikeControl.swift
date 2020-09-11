@@ -82,7 +82,7 @@ class PhotoLike: UIStackView {
                 
             }, completion: { finished in
                 print("dislike!")
-                self.count.alpha = 1
+                self.count.transform = .identity
             })
         } else {
             heartButton.isSelected = true
@@ -94,7 +94,7 @@ class PhotoLike: UIStackView {
                 })
             }, completion: { finished in
                 print("like!")
-                self.count.alpha = 1
+                self.count.transform = .identity
             })
         }
         //        print("pressed \(counter)")

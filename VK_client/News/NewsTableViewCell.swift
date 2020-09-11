@@ -28,7 +28,8 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     
     let allNews = myNews.generateNews()
-    
+
+   
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,7 +38,7 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         newsCollectionView.delegate = self
         newsCollectionView.dataSource = self
         
-        
+       
         
         
     }
@@ -53,13 +54,20 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         return  new.photo.count 
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell //NewsCollectionViewCell
         
-        //let new = allNews[indexPath.row]
+        let new = allNews[indexPath.row]
+        cell.newsImage.image = new.photo[indexPath.row]
+        
+        
         //cell.configureNewsImage(for: new)
-        cell.newsImage.image = allNews[indexPath.row].photo.first!!
+        //cell.newsImage.image = allNews[indexPath.row].photo.first!!
         
+        //let new = news.photo[indexPath.row]
+        //cell.newsImage.image = new
+       
         
         return cell
     }
@@ -75,3 +83,37 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         photoImage.image = model.image
     }
 }
+
+
+//class CustomCell: UICollectionViewCell {
+//
+//    var data: News? {
+//        didSet {
+//            guard let data = data else { return }
+//            bg.image = data.image
+//        }
+//    }
+//
+//    fileprivate let bg: UIImageView = {
+//        let iv = UIImageView()
+////        iv.image =
+//        iv.translatesAutoresizingMaskIntoConstraints = false
+//        iv.contentMode = .scaleAspectFill
+//        iv.clipsToBounds = true
+//        return iv
+//    }()
+//
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//
+//        contentView.addSubview(bg)
+//        bg.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+//        bg.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+//        bg.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+//        bg.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//}
