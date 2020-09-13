@@ -52,6 +52,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         
         setTableViewBackgroundGradient(sender: self)
         
+        searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494) 
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -190,7 +191,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     // MARK: - Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+                
         guard !searchText.isEmpty else {
             searchResults = sections
             tableView.reloadData()
@@ -203,7 +204,8 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         self.tableView.reloadData()
     }
     
-    private func getGradientBackgroundView() -> UIView {
+    //градиент для Hiader
+     func getGradientBackgroundView() -> UIView {
         let gradientBackgroundView = UIView()
         
         let gradientLayer = CAGradientLayer()
@@ -216,12 +218,13 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         return gradientBackgroundView
     }
     
-    func setTableViewBackgroundGradient(sender: UITableViewController) {
+    //градиент для tableview
+     func setTableViewBackgroundGradient(sender: UITableViewController) {
         
         let backgroundView = UIView(frame: sender.tableView.bounds)
         
         let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor]
+        gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor] 
         
         gradientLayer.startPoint = CGPoint(x: -0.45, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 0.8, y: 0.5)

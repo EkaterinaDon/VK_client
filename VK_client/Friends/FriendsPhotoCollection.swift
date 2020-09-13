@@ -32,12 +32,7 @@ class FriendsPhotoCollection: UIViewController {
         
         firstImage.image = images[0]
         
-        
         addSwipe()
-        
-//        let touchGesture = UITapGestureRecognizer(target: self, action: #selector(showFullscreen))
-//        self.firstImage.addGestureRecognizer(touchGesture)
-        
         firstImage.isUserInteractionEnabled = true
         
     }

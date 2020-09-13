@@ -51,7 +51,8 @@ class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
         didSet {
             let recognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgeGesture(_:)))
             recognizer.edges = [.left]
-            viewController?.view.addGestureRecognizer(recognizer)
+            //viewController?.view.addGestureRecognizer(recognizer)
+            viewController?.navigationController?.view.addGestureRecognizer(recognizer)
         }
     }
     
@@ -73,7 +74,6 @@ class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
             self.shouldFinish = progress > 0.33
             
             self.update(progress)
-            print(progress)
         case .ended:
             self.hasStarted = false
             self.shouldFinish ? self.finish() : self.cancel()
@@ -98,52 +98,52 @@ final class CustomPushAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         guard let destination = transitionContext.viewController(forKey: .to) else { return }
         
         
-        let container = transitionContext.containerView
-        container.addSubview(destination.view)
+                let container = transitionContext.containerView
+                container.addSubview(destination.view)
         
         
-        let rotateIn = CGAffineTransform(rotationAngle: 180)
-        let rotateOut = CGAffineTransform(rotationAngle: -180)
+                let rotateIn = CGAffineTransform(rotationAngle: 180)
+                let rotateOut = CGAffineTransform(rotationAngle: -180)
+        
+               
+                destination.view.transform = rotateIn
         
         
+                source.view.layer.anchorPoint = CGPoint(x: 0, y: 0)
+                destination.view.layer.anchorPoint = CGPoint(x: 0, y: 0)
         
-        destination.view.transform = rotateIn
+        
+                source.view.layer.position = CGPoint(x: 0, y: 0)
+                destination.view.layer.position = CGPoint(x: 0, y: 0)
         
         
-        source.view.layer.anchorPoint = CGPoint(x: 0, y: 0)
-        destination.view.layer.anchorPoint = CGPoint(x: 0, y: 0)
+                container.addSubview(source.view)
+                container.addSubview(destination.view)
         
-        source.view.layer.position = CGPoint(x: 0, y: 0)
-        destination.view.layer.position = CGPoint(x: 0, y: 0)
+                UIView.animateKeyframes(withDuration: self.transitionDuration(using: transitionContext),
+                                        delay: 0,
+                                        options: .calculationModePaced,
+                                        animations: {
+                                            UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4, animations: {
+                                                source.view.transform = rotateOut
         
-        container.addSubview(source.view)
-        container.addSubview(destination.view)
+                                            })
         
-        UIView.animateKeyframes(withDuration: self.transitionDuration(using: transitionContext),
-                                delay: 0,
-                                options: .calculationModePaced,
-                                animations: {
-                                    UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4, animations: {
-                                        source.view.transform = rotateOut
-                                        
-                                    })
-                                    
-                                    UIView.addKeyframe(withRelativeStartTime: 0.6,
-                                                       relativeDuration: 0.4,
-                                                       animations: {
-                                                        destination.view.transform = rotateIn
-                                                        
-                                                        destination.view.transform = .identity
-                                                        
-                                                        
-                                    })
-        }) { finished in
-            if finished && !transitionContext.transitionWasCancelled {
-                destination.view.transform = .identity
-            }
-            transitionContext.completeTransition(finished && !transitionContext.transitionWasCancelled)
-        }
+                                            UIView.addKeyframe(withRelativeStartTime: 0.6,
+                                                               relativeDuration: 0.4,
+                                                               animations: {
+                                                                destination.view.transform = rotateIn
         
+                                                                destination.view.transform = .identity
+        
+        
+                                            })
+                }) { finished in
+                    if finished && !transitionContext.transitionWasCancelled {
+                        destination.view.transform = .identity
+                    }
+                    transitionContext.completeTransition(finished && !transitionContext.transitionWasCancelled)
+                }
         
     }
     
@@ -169,53 +169,80 @@ final class CustomPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         guard let source = transitionContext.viewController(forKey: .from) else { return }
         guard let destination = transitionContext.viewController(forKey: .to) else { return }
         
-        transitionContext.containerView.addSubview(destination.view)
-        transitionContext.containerView.sendSubviewToBack(destination.view)
+                transitionContext.containerView.addSubview(destination.view)
+                transitionContext.containerView.sendSubviewToBack(destination.view)
         
-        let container = transitionContext.containerView
-        container.addSubview(destination.view)
-        
-        
-        let rotateIn = CGAffineTransform(rotationAngle: -180)
-        let rotateOut = CGAffineTransform(rotationAngle: 180)
+                let container = transitionContext.containerView
+                container.addSubview(destination.view)
         
         
+                let rotateIn = CGAffineTransform(rotationAngle: -180)
+                let rotateOut = CGAffineTransform(rotationAngle: 180)
         
-        destination.view.transform = rotateIn
         
-        source.view.layer.anchorPoint = CGPoint(x: 0, y: 0)
-        destination.view.layer.anchorPoint = CGPoint(x: 0, y: 0)
         
-        source.view.layer.position = CGPoint(x: 0, y: 0)
-        destination.view.layer.position = CGPoint(x: 0, y: 0)
         
-        container.addSubview(source.view)
-        container.addSubview(destination.view)
+                destination.view.transform = rotateIn
         
-        UIView.animateKeyframes(withDuration: self.transitionDuration(using: transitionContext),
-                                delay: 0,
-                                options: .calculationModePaced,
-                                animations: {
-                                    UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4, animations: {
-                                        source.view.transform = rotateOut
-                                        
-                                    })
-                                    
-                                    UIView.addKeyframe(withRelativeStartTime: 0.6,
-                                                       relativeDuration: 0.4,
-                                                       animations: {
-                                                        destination.view.transform = rotateIn
-                                                    
-                                                        destination.view.transform = .identity
-                                                        
-                                                        
-                                    })
-        }) { finished in
-            if finished && !transitionContext.transitionWasCancelled {
-                destination.view.transform = .identity
-            }
-            transitionContext.completeTransition(finished && !transitionContext.transitionWasCancelled)
-        }
+                source.view.layer.anchorPoint = CGPoint(x: 0, y: 0)
+                destination.view.layer.anchorPoint = CGPoint(x: 0, y: 0)
+        
+                source.view.layer.position = CGPoint(x: 0, y: 0)
+                destination.view.layer.position = CGPoint(x: 0, y: 0)
+        
+                container.addSubview(source.view)
+                container.addSubview(destination.view)
+        
+                UIView.animateKeyframes(withDuration: self.transitionDuration(using: transitionContext),
+                                        delay: 0,
+                                        options: .calculationModePaced,
+                                        animations: {
+                                            UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.4, animations: {
+                                                source.view.transform = rotateOut
+        
+                                            })
+        
+                                            UIView.addKeyframe(withRelativeStartTime: 0.6,
+                                                               relativeDuration: 0.4,
+                                                               animations: {
+                                                                destination.view.transform = rotateIn
+        
+                                                                destination.view.transform = .identity
+        
+        
+                                            })
+                }) { finished in
+                    if finished && !transitionContext.transitionWasCancelled {
+                        destination.view.transform = .identity
+                    }
+                    transitionContext.completeTransition(finished && !transitionContext.transitionWasCancelled)
+                }
     }
 }
+
+extension UIView {
+
+    func setAnchorPoint(anchorPoint: CGPoint, view: UIView) {
+        var newPoint: CGPoint = CGPoint(x: view.bounds.size.width * anchorPoint.x, y: view.bounds.size.height * anchorPoint.y)
+        var oldPoint: CGPoint = CGPoint(x: view.bounds.size.width * view.layer.anchorPoint.x, y: view.bounds.size.height * view.layer.anchorPoint.y)
+
+        newPoint = newPoint.applying(view.transform)
+        oldPoint = oldPoint.applying(view.transform)
+
+        var position: CGPoint = view.layer.position
+
+        position.x -= oldPoint.x
+        position.x += newPoint.x
+
+        position.y -= oldPoint.y
+        position.y += newPoint.y
+
+
+        view.translatesAutoresizingMaskIntoConstraints = true
+        view.layer.anchorPoint = anchorPoint
+        view.layer.position = position
+    }
+    
+}
+
 

@@ -16,7 +16,9 @@ class MyGroupsTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        myGroupPhoto.layer.cornerRadius = bounds.height / 2
+        myGroupPhoto.layer.masksToBounds = true
+        backgroundColor = .clear
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

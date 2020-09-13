@@ -21,6 +21,7 @@ class AvailableGroupsTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         generateGroups()
+        setTableViewBackgroundGradient(sender: self)
     }
     
     private func generateGroups() {
@@ -103,4 +104,20 @@ class AvailableGroupsTableViewController: UITableViewController {
      }
      */
     
+}
+
+extension AvailableGroupsTableViewController {
+func setTableViewBackgroundGradient(sender: UITableViewController) {
+    
+    let backgroundView = UIView(frame: sender.tableView.bounds)
+    
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor]
+    
+    gradientLayer.startPoint = CGPoint(x: -0.45, y: 0.5)
+    gradientLayer.endPoint = CGPoint(x: 0.8, y: 0.5)
+    gradientLayer.frame = sender.tableView.bounds
+    backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+    sender.tableView.backgroundView = backgroundView
+    }
 }
