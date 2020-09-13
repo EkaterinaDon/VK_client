@@ -14,6 +14,13 @@ class FriendsPhotoCollection: UIViewController {
     
     @IBOutlet weak var containerView: UIView!
     
+    @IBAction func collectionButtonDidPressed(_ sender: Any) {
+        let friendsCollectionViewController = self.storyboard?.instantiateViewController(withIdentifier: "FriendsCollectionViewController") as! FriendsCollectionViewController
+        friendsCollectionViewController.friend = friend
+        self.navigationController!.pushViewController(friendsCollectionViewController, animated: true)
+    }
+    
+    @IBOutlet weak var collectionButton: UIButton!
     
     var friend: Friend!
     var images = [UIImage]()
@@ -144,6 +151,7 @@ class FriendsPhotoCollection: UIViewController {
 //    }
     /*
      MARK: - Navigation
+    
      
      In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

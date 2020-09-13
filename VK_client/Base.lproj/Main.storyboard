@@ -41,8 +41,23 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="npD-Hw-3RR"/>
                     </view>
-                    <navigationItem key="navigationItem" id="AmK-8E-DD8"/>
+                    <navigationItem key="navigationItem" id="AmK-8E-DD8">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="bxR-Ct-Jo7">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5KF-cm-vnx">
+                                <rect key="frame" x="302" y="7" width="92" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Collection"/>
+                                <connections>
+                                    <action selector="collectionButtonDidPressed:" destination="D4Z-Fw-zdW" eventType="touchUpInside" id="E4h-e9-Wxc"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <segue destination="QES-vW-m5D" kind="show" identifier="showFriendsPhotoCollection" id="Fwv-hM-pg8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="collectionButton" destination="5KF-cm-vnx" id="WjI-01-j9W"/>
                         <outlet property="containerView" destination="nCb-JZ-rpQ" id="V7K-B2-s40"/>
                         <outlet property="firstImage" destination="EUZ-1M-ohU" id="ZmU-zn-cGI"/>
                     </connections>
@@ -412,7 +427,7 @@
         <!--Friends Collection View Controller-->
         <scene sceneID="WxE-lU-tai">
             <objects>
-                <collectionViewController id="QES-vW-m5D" customClass="FriendsCollectionViewController" customModule="VK_client" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="FriendsCollectionViewController" id="QES-vW-m5D" customClass="FriendsCollectionViewController" customModule="VK_client" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="friendsCollectionViewControllerKey" dataMode="prototypes" id="ZMX-h9-Vcl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -472,7 +487,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kNp-mm-MDe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3539.130434782609" y="875.89285714285711"/>
+            <point key="canvasLocation" x="3599" y="1621"/>
         </scene>
         <!--Item1-->
         <scene sceneID="E8Q-YM-TXs">
