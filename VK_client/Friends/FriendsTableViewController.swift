@@ -181,6 +181,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
                 let section = self.sections[indexPath.section]
                 let friend = section.rowValue[indexPath.row]
                 friendsPhotoCollection.friend = friend
+                //self.hidesBottomBarWhenPushed = true
             }
         }
         

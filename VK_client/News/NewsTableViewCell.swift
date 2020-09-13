@@ -16,7 +16,7 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         return UINib(nibName: "NewsTableViewCell", bundle: nil)
     }
     
-    @IBOutlet var newsCollectionView: UICollectionView!
+    @IBOutlet private weak var newsCollectionView: UICollectionView!   //var
     
     @IBOutlet weak var nameLabel: UILabel!
     
@@ -35,13 +35,23 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         super.awakeFromNib()
         
         newsCollectionView.register(NewsCollectionViewCell.nib(), forCellWithReuseIdentifier: NewsCollectionViewCell.identifier)
+        
+        
+        
         newsCollectionView.delegate = self
         newsCollectionView.dataSource = self
+       
         
        
         
         
     }
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        newsCollectionView.reloadData()
+//        imageView?.image = nil
+//
+//    }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -51,23 +61,17 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let new = allNews[section]
-        return  new.photo.count 
+        return  new.photo.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell //NewsCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
         
         let new = allNews[indexPath.row]
-        cell.newsImage.image = new.photo[indexPath.row]
+        //cell.newsImage.image = new.photo[indexPath.row]
         
-        
-        //cell.configureNewsImage(for: new)
-        //cell.newsImage.image = allNews[indexPath.row].photo.first!!
-        
-        //let new = news.photo[indexPath.row]
-        //cell.newsImage.image = new
-       
+        cell.newsImage.image = new.photo[indexPath.item]
         
         return cell
     }
@@ -85,35 +89,3 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
 }
 
 
-//class CustomCell: UICollectionViewCell {
-//
-//    var data: News? {
-//        didSet {
-//            guard let data = data else { return }
-//            bg.image = data.image
-//        }
-//    }
-//
-//    fileprivate let bg: UIImageView = {
-//        let iv = UIImageView()
-////        iv.image =
-//        iv.translatesAutoresizingMaskIntoConstraints = false
-//        iv.contentMode = .scaleAspectFill
-//        iv.clipsToBounds = true
-//        return iv
-//    }()
-//
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//
-//        contentView.addSubview(bg)
-//        bg.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-//        bg.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-//        bg.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-//        bg.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//}
