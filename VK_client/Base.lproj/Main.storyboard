@@ -52,12 +52,13 @@
                                 </connections>
                             </button>
                             <connections>
+                                <action selector="collectionButton:" destination="D4Z-Fw-zdW" id="zNJ-IZ-TK9"/>
                                 <segue destination="QES-vW-m5D" kind="show" identifier="showFriendsPhotoCollection" id="Fwv-hM-pg8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionButton" destination="5KF-cm-vnx" id="WjI-01-j9W"/>
+                        <outlet property="collectionButton" destination="5KF-cm-vnx" id="gaO-LM-wRr"/>
                         <outlet property="containerView" destination="nCb-JZ-rpQ" id="V7K-B2-s40"/>
                         <outlet property="firstImage" destination="EUZ-1M-ohU" id="ZmU-zn-cGI"/>
                     </connections>
@@ -65,6 +66,49 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="473-AP-tQZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2797" y="1621"/>
+        </scene>
+        <!--Full Screen Photo View Controller-->
+        <scene sceneID="2gN-U0-yIw">
+            <objects>
+                <viewController storyboardIdentifier="FullScreenPhotoViewController" id="FbJ-xq-dAr" customClass="FullScreenPhotoViewController" customModule="VK_client" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I0Z-MD-iJs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XDf-av-jtU">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSw-Jg-I8Q">
+                                <rect key="frame" x="23" y="52" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="5Zk-ns-9CZ"/>
+                                    <constraint firstAttribute="width" constant="25" id="mZG-Wc-TKF"/>
+                                </constraints>
+                                <state key="normal" title="X"/>
+                                <connections>
+                                    <action selector="dismissButtonDidPressed:" destination="FbJ-xq-dAr" eventType="touchUpInside" id="CJI-K4-gsO"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="XDf-av-jtU" secondAttribute="trailing" id="GyA-64-Ve8"/>
+                            <constraint firstItem="XDf-av-jtU" firstAttribute="top" secondItem="I0Z-MD-iJs" secondAttribute="top" id="ZVu-3F-OLQ"/>
+                            <constraint firstAttribute="bottom" secondItem="XDf-av-jtU" secondAttribute="bottom" id="b6J-PW-R0f"/>
+                            <constraint firstItem="fSw-Jg-I8Q" firstAttribute="top" secondItem="I0Z-MD-iJs" secondAttribute="topMargin" constant="8" id="m5w-EQ-y91"/>
+                            <constraint firstItem="fSw-Jg-I8Q" firstAttribute="leading" secondItem="I0Z-MD-iJs" secondAttribute="leadingMargin" constant="3" id="sWg-wl-iGy"/>
+                            <constraint firstItem="XDf-av-jtU" firstAttribute="leading" secondItem="I0Z-MD-iJs" secondAttribute="leading" id="tvk-FB-njn"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yxX-Ry-JjB"/>
+                    </view>
+                    <connections>
+                        <outlet property="dismissButton" destination="fSw-Jg-I8Q" id="sfs-Xw-Rt8"/>
+                        <outlet property="imageView" destination="XDf-av-jtU" id="4Y9-Qe-dt5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MpO-eE-FMc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2797" y="2308"/>
         </scene>
         <!--Item-->
         <scene sceneID="tne-QT-ifu">
