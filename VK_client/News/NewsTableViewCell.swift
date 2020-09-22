@@ -46,17 +46,11 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         
         
     }
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        newsCollectionView.reloadData()
-//        imageView?.image = nil
-//
-//    }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        // Configure the view for the selected state
+     
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -69,9 +63,11 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
         
         let new = allNews[indexPath.row]
-        //cell.newsImage.image = new.photo[indexPath.row]
+        cell.newsImage.image = new.photo[indexPath.row]
         
-        cell.newsImage.image = new.photo[indexPath.item]
+        
+        //cell.newsImage.image = new.photo.first! // обернуть в guard
+       
         
         return cell
     }
