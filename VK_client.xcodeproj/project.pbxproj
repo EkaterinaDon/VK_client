@@ -28,6 +28,8 @@
 		44675CFD2508D84000C95251 /* NavigationAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44675CFC2508D84000C95251 /* NavigationAnimation.swift */; };
 		44681DFF250380E600511432 /* FriendsPhotoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44681DFE250380E600511432 /* FriendsPhotoCollection.swift */; };
 		4468749F2501195900068434 /* DotsIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4468749E2501195900068434 /* DotsIndicator.swift */; };
+		446968AA250E4B2B007062FD /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446968A9250E4B2B007062FD /* FullScreenPhotoViewController.swift */; };
+		447CAEF0250F4F31000AA8F4 /* FullScreenAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447CAEEF250F4F31000AA8F4 /* FullScreenAnimator.swift */; };
 		44CAC50D24E2A006000D9693 /* PhotoLikeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CAC50C24E2A006000D9693 /* PhotoLikeControl.swift */; };
 		44DB993224D1B7E2000BAF9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DB993124D1B7E2000BAF9A /* AppDelegate.swift */; };
 		44DB993424D1B7E2000BAF9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DB993324D1B7E2000BAF9A /* SceneDelegate.swift */; };
@@ -60,6 +62,8 @@
 		44675CFC2508D84000C95251 /* NavigationAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationAnimation.swift; sourceTree = "<group>"; };
 		44681DFE250380E600511432 /* FriendsPhotoCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsPhotoCollection.swift; sourceTree = "<group>"; };
 		4468749E2501195900068434 /* DotsIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotsIndicator.swift; sourceTree = "<group>"; };
+		446968A9250E4B2B007062FD /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
+		447CAEEF250F4F31000AA8F4 /* FullScreenAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenAnimator.swift; sourceTree = "<group>"; };
 		44CAC50C24E2A006000D9693 /* PhotoLikeControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLikeControl.swift; sourceTree = "<group>"; };
 		44DB992E24D1B7E2000BAF9A /* VK_client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VK_client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44DB993124D1B7E2000BAF9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 			children = (
 				4468749E2501195900068434 /* DotsIndicator.swift */,
 				44675CFC2508D84000C95251 /* NavigationAnimation.swift */,
+				446968A9250E4B2B007062FD /* FullScreenPhotoViewController.swift */,
+				447CAEEF250F4F31000AA8F4 /* FullScreenAnimator.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -252,6 +258,7 @@
 				4463223B24DAB27C005C97B3 /* FriendsCollectionViewController.swift in Sources */,
 				44DB994624D1BCFB000BAF9A /* LoginFormViewController.swift in Sources */,
 				4460477624FCDC8D00031D76 /* NewsCollectionViewCell.swift in Sources */,
+				447CAEF0250F4F31000AA8F4 /* FullScreenAnimator.swift in Sources */,
 				4463224724DAB3BB005C97B3 /* AvailableGroupsTableViewCell.swift in Sources */,
 				44675CFD2508D84000C95251 /* NavigationAnimation.swift in Sources */,
 				4463224124DAB314005C97B3 /* MyGroupsTableViewCell.swift in Sources */,
@@ -263,6 +270,7 @@
 				4463224D24DAC9A2005C97B3 /* Group.swift in Sources */,
 				4463223F24DAB2F1005C97B3 /* MyGroupsTableViewController.swift in Sources */,
 				4463224924DAB6BE005C97B3 /* User.swift in Sources */,
+				446968AA250E4B2B007062FD /* FullScreenPhotoViewController.swift in Sources */,
 				44CAC50D24E2A006000D9693 /* PhotoLikeControl.swift in Sources */,
 				44DF3B4524E4397500E65E4C /* FriendSearchControl.swift in Sources */,
 				4460477D24FD90AE00031D76 /* NewsLikeControl.swift in Sources */,

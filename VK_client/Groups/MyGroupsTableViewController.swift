@@ -30,6 +30,9 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
         tableView.tableHeaderView = searchController.searchBar
         
         searchController.searchResultsUpdater = self
+        
+        setTableViewBackgroundGradient(sender: self)
+        searchController.searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494)
     }
     
     private func generateGroups() {
@@ -150,4 +153,20 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
      }
      */
     
+}
+
+extension MyGroupsTableViewController {
+func setTableViewBackgroundGradient(sender: UITableViewController) {
+    
+    let backgroundView = UIView(frame: sender.tableView.bounds)
+    
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.colors = [UIColor.systemPurple.cgColor, UIColor.white.cgColor]
+    
+    gradientLayer.startPoint = CGPoint(x: -0.45, y: 0.5)
+    gradientLayer.endPoint = CGPoint(x: 0.8, y: 0.5)
+    gradientLayer.frame = sender.tableView.bounds
+    backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+    sender.tableView.backgroundView = backgroundView
+    }
 }

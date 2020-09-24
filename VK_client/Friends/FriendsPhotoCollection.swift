@@ -14,11 +14,20 @@ class FriendsPhotoCollection: UIViewController {
     
     @IBOutlet weak var containerView: UIView!
     
+    @IBAction func collectionButtonDidPressed(_ sender: Any) {
+        let friendsCollectionViewController = self.storyboard?.instantiateViewController(withIdentifier: "FriendsCollectionViewController") as! FriendsCollectionViewController
+        friendsCollectionViewController.friend = friend
+        self.navigationController!.pushViewController(friendsCollectionViewController, animated: true)
+    }
+    
+    @IBOutlet weak var collectionButton: UIButton!
+    
+    
     
     var friend: Friend!
     var images = [UIImage]()
     
-    
+    let transition = FullScreenAnimator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,13 +41,12 @@ class FriendsPhotoCollection: UIViewController {
         
         firstImage.image = images[0]
         
-        
         addSwipe()
-        
-//        let touchGesture = UITapGestureRecognizer(target: self, action: #selector(showFullscreen))
-//        self.firstImage.addGestureRecognizer(touchGesture)
-        
         firstImage.isUserInteractionEnabled = true
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(showFullScreen))
+        tapRecognizer.numberOfTapsRequired = 2
+        self.firstImage.addGestureRecognizer(tapRecognizer)
         
     }
     
@@ -59,7 +67,6 @@ class FriendsPhotoCollection: UIViewController {
     @objc func handleSwipe(gesture: UISwipeGestureRecognizer) {
         
         let direction = gesture.direction
-        //let location = gesture.location(in: containerView)
         
         switch direction {
         case .left:
@@ -114,49 +121,38 @@ class FriendsPhotoCollection: UIViewController {
                 self.containerView.addSubview(self.firstImage)
                 self.firstImage.image = self.images[self.currentImage]
             })
-
+            
         default:
             break
         }
         
-        
+    }
+    
+    @objc func showFullScreen(sender: UITapGestureRecognizer) {
+        let fullScreenPhotoViewController = storyboard?.instantiateViewController(withIdentifier: "FullScreenPhotoViewController") as! FullScreenPhotoViewController
+        fullScreenPhotoViewController.imageToShow = firstImage.image
+        self.present(fullScreenPhotoViewController, animated: true, completion: nil)
         
     }
     
-//    @objc func showFullscreen(sender: UITapGestureRecognizer) {
-//
-//        let imageView = sender.view as! UIImageView
-//        imageView.alpha = 0
-//        let tmpImageView = UIImageView(image: imageView.image)
-//        tmpImageView.frame = self.view.frame
-//        tmpImageView.contentMode = UIView.ContentMode.scaleAspectFit
-//        tmpImageView.backgroundColor = UIColor.black
-//        tmpImageView.isUserInteractionEnabled = true
-//
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(hideFullscreen))
-//        tmpImageView.addGestureRecognizer(tap)
-//
-//
-//        self.view.addSubview(tmpImageView)
-//         print("fullscreen")
-//    }
-//
-//    @objc func hideFullscreen(sender: UITapGestureRecognizer) {
-//
-//
-//        sender.view?.removeFromSuperview()
-//        print("removed")
-//    }
-    /*
-     MARK: - Navigation
-     
-     In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     Get the new view controller using segue.destination.
-     Pass the selected object to the new view controller.
-     }
-     */
-    
 }
 
-
+extension FriendsPhotoCollection: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        transition.originFrame = firstImage.frame
+        transition.originFrame = CGRect(x: transition.originFrame.origin.x + 20, y: transition.originFrame.origin.y + 20, width: transition.originFrame.size.width - 40, height: transition.originFrame.size.height - 40)
+        
+        transition.presenting = true
+        firstImage.isHidden = true
+        
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.presenting = false
+        return transition
+    }
+    
+}
