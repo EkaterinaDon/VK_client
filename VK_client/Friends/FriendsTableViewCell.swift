@@ -51,11 +51,29 @@ class FriendsTableViewCell: UITableViewCell {
 
  
     
-    func configure(for model: Friend) {
-        friendsName.text = model.name
-        friendsImage.image = model.image        
-    }
+//    func configure(for model: Friend) {
+//        friendsName.text = model.name
+//        friendsImage.image = model.image
+//    }
 
-  
+    func configure(for model: Friend) {
+            
+        self.friendsName.text = String(model.firstName + model.lastName)
+        //self.friendsImage.image = UIImage(named: model.photo)
+        
+        }
 }
 
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+}

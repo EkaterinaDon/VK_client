@@ -7,34 +7,61 @@
 //
 
 import Foundation
+import Alamofire
 
 class GroupService {
     
     var session = Session.instance
     
-    func getGroups() {
-        
-        let configuration = URLSessionConfiguration.default
-        let mySession = URLSession(configuration: configuration)
-        
-        var urlComponents = URLComponents()
-                urlComponents.scheme = "https"
-                urlComponents.host = "api.vk.com"
-                urlComponents.path = "/method/groups.get"
-                urlComponents.queryItems = [
-                    URLQueryItem(name: "user_id", value: "535747820"),
-                    URLQueryItem(name: "count", value: "3"),
-                    URLQueryItem(name: "method", value: "groups.get"),
-                    URLQueryItem(name: "access_token", value: session.token),
-                    URLQueryItem(name: "v", value: "5.124")
+    let baseUrl = "https://api.vk.com"
+
+        func getGroup(user_id: String, completion: @escaping ([Group]) -> Void ) {
+            let access_token = session.token
+                let path = "/method/groups.get"
+                let parameters: Parameters = [
+                    "6492": user_id,
+                    "extended": "1",
+                    "fields": "name",
+                    "method": "groups.get",
+                    "access_token": access_token,
+                    "v": "5.124"
                 ]
-        let task = mySession.dataTask(with: urlComponents.url!) {
-            (data, response, error) in
-            let json = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
-            debugPrint(json!)
-        }
-        task.resume()
-    }
+                
+                let url = baseUrl+path
+            // запрос
+                    AF.request(url, method: .get, parameters: parameters).responseData { response in
+                        guard let data = response.value else { return }
+                  let group = try! JSONDecoder().decode(GroupResponse.self, from: data).items
+            
+                        completion(group)
+                    }
+                        
+                }
+    
+    
+//    func getGroups() {
+//
+//        let configuration = URLSessionConfiguration.default
+//        let mySession = URLSession(configuration: configuration)
+//
+//        var urlComponents = URLComponents()
+//                urlComponents.scheme = "https"
+//                urlComponents.host = "api.vk.com"
+//                urlComponents.path = "/method/groups.get"
+//                urlComponents.queryItems = [
+//                    URLQueryItem(name: "user_id", value: "535747820"),
+//                    URLQueryItem(name: "count", value: "3"),
+//                    URLQueryItem(name: "method", value: "groups.get"),
+//                    URLQueryItem(name: "access_token", value: session.token),
+//                    URLQueryItem(name: "v", value: "5.124")
+//                ]
+//        let task = mySession.dataTask(with: urlComponents.url!) {
+//            (data, response, error) in
+//            let json = try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
+//            debugPrint(json!)
+//        }
+//        task.resume()
+//    }
     
     func searchGroups() {
         

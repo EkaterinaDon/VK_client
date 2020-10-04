@@ -30,8 +30,9 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     
     
-    
-    let myFriends = Friends.generateFriends()
+    var myFriends = [Friend]()
+    var friendsService = FriendsService()
+    //let myFriends = Friends.generateFriends()
     var sections = [FriendsForSections]()
     var searchResults = [FriendsForSections]()
     var searching: Bool = false
@@ -41,7 +42,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let group = Dictionary(grouping: self.myFriends, by: { $0.name.first })
+        let group = Dictionary(grouping: self.myFriends, by: { $0.lastName.first })
         self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
         
         
@@ -54,12 +55,11 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         
         searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494) 
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
+        friendsService.getFriend(user_id: "6492") { [weak self] myFriends in
+                self?.myFriends = myFriends
+            
+            self?.tableView.reloadData()
+            }
         
     }
     
@@ -182,7 +182,6 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
                 let section = self.sections[indexPath.section]
                 let friend = section.rowValue[indexPath.row]
                 friendsPhotoCollection.friend = friend
-                //self.hidesBottomBarWhenPushed = true
             }
         }
         

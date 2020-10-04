@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Alamofire
 
 class FriendsService {
     
@@ -25,6 +25,7 @@ class FriendsService {
                 urlComponents.queryItems = [
                     URLQueryItem(name: "user_id", value: "7609950"),
                     URLQueryItem(name: "order", value: "hints"),
+                    URLQueryItem(name: "fields", value: "photo"),
                     URLQueryItem(name: "method", value: "friends.get"),
                     URLQueryItem(name: "access_token", value: session.token),
                     URLQueryItem(name: "v", value: "5.124")
@@ -35,7 +36,40 @@ class FriendsService {
             debugPrint(json!)
         }
         task.resume()
+        
     }
+    
+    
+    
+    
+   
+        let baseUrl = "https://api.vk.com"
+
+            func getFriend(user_id: String, completion: @escaping ([Friend]) -> Void ) {
+                let access_token = session.token
+                    let path = "/method/friends.get"
+                    let parameters: Parameters = [
+                        "6492": user_id,
+                        "order": "hints",
+                        "fields": "photo",
+                        "method": "friends.get",
+                        "access_token": access_token,
+                        "v": "5.124"
+                    ]
+                    
+                    let url = baseUrl+path
+                // запрос
+                        AF.request(url, method: .get, parameters: parameters).responseData { response in
+                            guard let data = response.value else { return }
+                      let friend = try! JSONDecoder().decode(FriendResponse.self, from: data).items
+                
+                            completion(friend)
+                        }
+                            
+                    }
+
+           
+    
     
     func getPhotos() {
         
@@ -47,7 +81,7 @@ class FriendsService {
                 urlComponents.host = "api.vk.com"
                 urlComponents.path = "/method/photos.get"
                 urlComponents.queryItems = [
-                    URLQueryItem(name: "owner_id", value: "7609951"),
+                    URLQueryItem(name: "owner_id", value: "3441530"),
                     URLQueryItem(name: "album_id", value: "profile"),
                     URLQueryItem(name: "count", value: "3"),
                     URLQueryItem(name: "method", value: "photos.get"),
@@ -62,5 +96,28 @@ class FriendsService {
         task.resume()
     }
     
+    func getPhoto(owner_id: String, completion: @escaping ([Friend]) -> Void ) {
+        let access_token = session.token
+            let path = "/method/photos.get"
+            let parameters: Parameters = [
+                "7609950": owner_id,
+                "album_id": "profile",
+                "count": "3",
+                "method": "photos.get",
+                "access_token": access_token,
+                "v": "5.124"
+            ]
+            
+            let url = baseUrl+path
+        // запрос
+                AF.request(url, method: .get, parameters: parameters).responseData { response in
+                    guard let data = response.value else { return }
+              let friend = try! JSONDecoder().decode(FriendResponse.self, from: data).items
+        
+                    completion(friend)
+                }
+                    
+            }
     
 }
+
