@@ -24,12 +24,16 @@ class MyGroupsTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        // Configure the view for the selected state
     }
+//    func configure(for model: Group) {
+//        myGroupName.text = model.name
+//        myGroupPhoto.image = UIImage.init(named: model.imageName)
+//
+//    }
     func configure(for model: Group) {
-        myGroupName.text = model.name
-        myGroupPhoto.image = UIImage.init(named: model.imageName)
+        self.myGroupName.text = model.name
+        //self.friendsImage.image = UIImage(named: model.photo)
         
-    }
+        }
     
 }

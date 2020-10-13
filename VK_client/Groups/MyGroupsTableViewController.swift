@@ -17,14 +17,8 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        generateGroups()
+
+        //generateGroups()
         
         searchController = UISearchController(searchResultsController: nil)
         tableView.tableHeaderView = searchController.searchBar
@@ -35,14 +29,14 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
         searchController.searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494)
     }
     
-    private func generateGroups() {
-        let group1 = Group(name: "Spiders from Mars", imageName: "spiders")
-        let group2 = Group(name: "The Hipe", imageName: "Hipe")
-        let group3 = Group(name: "Tin Machine", imageName: "tin")
-        myGroups.append(group1)
-        myGroups.append(group2)
-        myGroups.append(group3)
-    }
+//    private func generateGroups() {
+//        let group1 = Group(name: "Spiders from Mars", imageName: "spiders")
+//        let group2 = Group(name: "The Hipe", imageName: "Hipe")
+//        let group3 = Group(name: "Tin Machine", imageName: "tin")
+//        myGroups.append(group1)
+//        myGroups.append(group2)
+//        myGroups.append(group3)
+//    }
     
     // MARK: - Table view data source
     
