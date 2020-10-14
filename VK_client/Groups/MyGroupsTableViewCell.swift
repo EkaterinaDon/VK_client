@@ -25,15 +25,33 @@ class MyGroupsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
     }
-//    func configure(for model: Group) {
-//        myGroupName.text = model.name
-//        myGroupPhoto.image = UIImage.init(named: model.imageName)
-//
-//    }
+    
     func configure(for model: Group) {
         self.myGroupName.text = model.name
-        //self.friendsImage.image = UIImage(named: model.photo)
+        guard let url = URL(string: model.photo) else { return }
         
+        UIImage.loadGroupImage(url: url) { image in
+            self.myGroupPhoto.image = image
         }
+        
+    }
+    
+}
+
+extension UIImage {
+    
+    public static func loadGroupImage(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url) {
+                DispatchQueue.main.async {
+                    completion(UIImage(data: data))
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
+    }
     
 }

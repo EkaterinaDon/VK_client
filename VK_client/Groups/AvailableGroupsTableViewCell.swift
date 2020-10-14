@@ -28,6 +28,6 @@ class AvailableGroupsTableViewCell: UITableViewCell {
     
     func configure(for model: Group) {
         availableGroupName.text = model.name
-        availableGroupPhoto.image = UIImage.init(named: model.imageName)
+        //availableGroupPhoto.image = UIImage.init(named: model.imageName)
     }
 }
