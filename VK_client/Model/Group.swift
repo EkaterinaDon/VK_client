@@ -8,55 +8,44 @@
 
 import Foundation
 
-//struct Group {
-//    let name: String
-//    let imageName: String
-//}
-
-class Group: Decodable {
-
-    static let instance = Group()
-
-    
-    dynamic var name: String = ""
-    dynamic var photo: URL?
-    
-    enum CodingKeys: String, CodingKey {
-        
-        case name = "name"
-        case photo = "photo_50"
-    }
-
-    enum FirstKey: String, CodingKey {
-        case response = "response"
-            }
-    
-    enum SecondKey: String, CodingKey {
-        case count, items
-    }
-
-    
-    convenience required init(from decoder: Decoder) throws {
-            self.init()
-        let value = try decoder.container(keyedBy: FirstKey.self)
-        let firstValue = try value.nestedContainer(keyedBy: SecondKey.self, forKey: .response)
-        let secondValue = try firstValue.nestedContainer(keyedBy: CodingKeys.self, forKey: .items)
-        self.name = try secondValue.decode(String.self, forKey: .name)
-        self.photo = try secondValue.decode(URL.self, forKey: .photo)
-       
-    }
+// MARK: - GroupResponse
+class GroupResponse: Decodable {
+    let response: ResponseGroup
 }
 
-class GroupResponse: Decodable {
+// MARK: - ResponseGroup
+class ResponseGroup: Decodable {
+    let count: Int
     let items: [Group]
 }
 
+// MARK: - Group
+class Group: Decodable {
+    
+    static let instance = Group()
+    
+    var id: Int = 0
+    var name: String = ""
+    var photo: String = ""
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name
+        case photo = "photo_50"
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let value = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try value.decode(String.self, forKey: .name)
+        self.photo = try value.decode(String.self, forKey: .photo)
+    }
+}
 
 extension Group: Equatable {
     static func == (lhs: Group, rhs: Group) -> Bool {
         return
             lhs.name == rhs.name &&
+            lhs.id == rhs.id &&
             lhs.photo == rhs.photo
-           
     }
 }

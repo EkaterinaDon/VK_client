@@ -45,6 +45,7 @@
 		44DB993E24D1B809000BAF9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44DB993C24D1B809000BAF9A /* LaunchScreen.storyboard */; };
 		44DB994624D1BCFB000BAF9A /* LoginFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DB994524D1BCFB000BAF9A /* LoginFormViewController.swift */; };
 		44DF3B4524E4397500E65E4C /* FriendSearchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DF3B4424E4397500E65E4C /* FriendSearchControl.swift */; };
+		C4D3FA2425373066003A9D07 /* UserPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D3FA2325373066003A9D07 /* UserPhotos.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		44DF3B4424E4397500E65E4C /* FriendSearchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSearchControl.swift; sourceTree = "<group>"; };
 		4CF28FBD585A37E9F9CCB45E /* Pods_VK_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VK_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62672BAF92EDA5252588B34F /* Pods-VK_client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VK_client.release.xcconfig"; path = "Target Support Files/Pods-VK_client/Pods-VK_client.release.xcconfig"; sourceTree = "<group>"; };
+		C4D3FA2325373066003A9D07 /* UserPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotos.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 			isa = PBXGroup;
 			children = (
 				4463224824DAB6BE005C97B3 /* User.swift */,
+				C4D3FA2325373066003A9D07 /* UserPhotos.swift */,
 				4441C9B3251A23760086FBAE /* Session.swift */,
 				4463224C24DAC9A2005C97B3 /* Group.swift */,
 				4417949824FBDD93001BA977 /* News.swift */,
@@ -361,6 +364,7 @@
 				4463224924DAB6BE005C97B3 /* User.swift in Sources */,
 				444722A1251F8CB3002FC1C7 /* VKLoginViewController.swift in Sources */,
 				446968AA250E4B2B007062FD /* FullScreenPhotoViewController.swift in Sources */,
+				C4D3FA2425373066003A9D07 /* UserPhotos.swift in Sources */,
 				44CAC50D24E2A006000D9693 /* PhotoLikeControl.swift in Sources */,
 				4441C9B4251A23760086FBAE /* Session.swift in Sources */,
 				44DF3B4524E4397500E65E4C /* FriendSearchControl.swift in Sources */,

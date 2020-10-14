@@ -49,31 +49,33 @@ class FriendsTableViewCell: UITableViewCell {
         
     }
 
- 
-    
-//    func configure(for model: Friend) {
-//        friendsName.text = model.name
-//        friendsImage.image = model.image
-//    }
-
     func configure(for model: Friend) {
             
         self.friendsName.text = String(model.firstName + model.lastName)
-        //self.friendsImage.image = UIImage(named: model.photo)
+        guard let url = URL(string: model.photo) else { return }
+
+        UIImage.loadFriendsImage(url: url) { image in
+            self.friendsImage.image = image
+        }
         
         }
 }
 
-extension UIImageView {
-    func load(url: URL) {
-        DispatchQueue.global().async { [weak self] in
+
+extension UIImage {
+
+    public static func loadFriendsImage(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
+        DispatchQueue.global().async {
             if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
-                    }
+                DispatchQueue.main.async {
+                    completion(UIImage(data: data))
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(nil)
                 }
             }
         }
     }
+
 }

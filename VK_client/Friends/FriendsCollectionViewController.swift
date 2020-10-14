@@ -10,20 +10,22 @@ import UIKit
 
 
 class FriendsCollectionViewController: UICollectionViewController {
-      
+    
+    var friendsService = FriendsService()
+    var friendsPhotos = [Photos]()
     var friend: Friend!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = friend.name
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Register cell classes
         
         
-        // Do any additional setup after loading the view.
+        friendsService.getPhoto(owner_id: "3441530") { [weak self] friendsPhotos in
+            self?.friendsPhotos = friendsPhotos
+            
+            self?.collectionView.reloadData()
+        }
+        
+        title = friend.firstName + friend.lastName
     }
     
     /*
@@ -46,17 +48,15 @@ class FriendsCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return friend.photo.count
+        return 3 //friend.photo.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendsPhotoCell", for: indexPath) as! FriendsCollectionViewCell
         
-        // Configure the cell
         
-        
-        let photo1 = friend.photo[indexPath.row]
-        cell.friendsPhoto.image = photo1
+        //let photo1 = friend.photo[indexPath.row]
+        //cell.friendsPhoto.image = photo1
         
         
         return cell

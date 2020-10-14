@@ -32,7 +32,6 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     var myFriends = [Friend]()
     var friendsService = FriendsService()
-    //let myFriends = Friends.generateFriends()
     var sections = [FriendsForSections]()
     var searchResults = [FriendsForSections]()
     var searching: Bool = false
@@ -41,11 +40,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let group = Dictionary(grouping: self.myFriends, by: { $0.lastName.first })
-        self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
-        
-        
+ 
         self.tableView.separatorColor = .clear
         self.tableView.sectionIndexBackgroundColor = .clear
         
@@ -58,8 +53,12 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         friendsService.getFriend(user_id: "6492") { [weak self] myFriends in
                 self?.myFriends = myFriends
             
+            let group = Dictionary(grouping: self!.myFriends, by: { $0.firstName.first })
+            self!.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
+            
             self?.tableView.reloadData()
             }
+
         
     }
     
@@ -108,13 +107,6 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         }
         
     }
-    
-    //    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //        let section = self.sections[section]
-    //        let letter = section.sectionKey
-    //        return letter?.uppercased()
-    //    }
-    
     
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -245,9 +237,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     @objc func imgTapped(sender: UITapGestureRecognizer) {
-        
-        //print("tapped")
-        
+
         guard sender.view != nil else { return }
         
         if sender.state == .ended {

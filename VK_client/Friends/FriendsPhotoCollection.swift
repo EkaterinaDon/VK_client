@@ -22,7 +22,8 @@ class FriendsPhotoCollection: UIViewController {
     
     @IBOutlet weak var collectionButton: UIButton!
     
-    
+    var friendsService = FriendsService()
+    var friendsPhotos = [Photos]()
     
     var friend: Friend!
     var images = [UIImage]()
@@ -31,15 +32,22 @@ class FriendsPhotoCollection: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        title = friend.name
-        
-        
-        for image in friend.photo {
-            images.append(image!)
+        //owner_id: "3441530"
+        friendsService.getPhoto(owner_id: "\(friend.id)") { [weak self] friendsPhotos in
+            self?.friendsPhotos = friendsPhotos
+            
+            debugPrint(friendsPhotos)
         }
         
-        firstImage.image = images[0]
+        title = friend.firstName + friend.lastName
+        
+        
+//        for image in friend.photo {
+//            images.append(image!)
+//        }
+        
+       // firstImage.image = images[0]
+        
         
         addSwipe()
         firstImage.isUserInteractionEnabled = true
@@ -155,4 +163,22 @@ extension FriendsPhotoCollection: UIViewControllerTransitioningDelegate {
         return transition
     }
     
+}
+
+extension UIImage {
+
+    public static func loadFriendsPhotos(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url) {
+                DispatchQueue.main.async {
+                    completion(UIImage(data: data))
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }
+    }
+
 }

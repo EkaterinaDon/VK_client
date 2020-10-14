@@ -15,25 +15,21 @@ class AvailableGroupsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
         
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        generateGroups()
+        //generateGroups()
         setTableViewBackgroundGradient(sender: self)
     }
     
-    private func generateGroups() {
-        let group1 = Group(name: "The Arnold Corns", imageName: "arnoldCorns")
-        let group2 = Group(name: "The Manish Boys", imageName: "manishBoys")
-        let group3 = Group(name: "The Lower Third", imageName: "lowerThird")
-        let group4 = Group(name: "The King Bees", imageName: "kingBees")
-        availableGroups.append(group1)
-        availableGroups.append(group2)
-        availableGroups.append(group3)
-        availableGroups.append(group4)
-    }
+//    private func generateGroups() {
+//        let group1 = Group(name: "The Arnold Corns", imageName: "arnoldCorns")
+//        let group2 = Group(name: "The Manish Boys", imageName: "manishBoys")
+//        let group3 = Group(name: "The Lower Third", imageName: "lowerThird")
+//        let group4 = Group(name: "The King Bees", imageName: "kingBees")
+//        availableGroups.append(group1)
+//        availableGroups.append(group2)
+//        availableGroups.append(group3)
+//        availableGroups.append(group4)
+//    }
     
     // MARK: - Table view data source
     

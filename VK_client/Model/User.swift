@@ -8,44 +8,40 @@
 
 import UIKit
 
-
-class Friend: Decodable {
-
-    static let instance = Friend()
-
-    
-    dynamic var firstName: String = ""
-    dynamic var lastName: String = ""
-    dynamic var photo: URL?
-    
-    enum CodingKeys: String, CodingKey {
-        
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case photo = "photo"
-    }
-
-    enum FirstKey: String, CodingKey {
-        case response = "response"
-            }
-    
-    enum SecondKey: String, CodingKey {
-        case count, items
-    }
-    
-    convenience required init(from decoder: Decoder) throws {
-            self.init()
-        let value = try decoder.container(keyedBy: FirstKey.self)
-        let firstValue = try value.nestedContainer(keyedBy: SecondKey.self, forKey: .response)
-        let secondValue = try firstValue.nestedContainer(keyedBy: CodingKeys.self, forKey: .items)
-        self.firstName = try secondValue.decode(String.self, forKey: .firstName)
-        self.lastName = try secondValue.decode(String.self, forKey: .lastName)
-        self.photo = try secondValue.decode(URL.self, forKey: .photo)
-       
-    }
+// MARK: - FriendResponse
+class FriendResponse: Decodable {
+    let response: Response
 }
 
-class FriendResponse: Decodable {
+// MARK: - Response
+class Response: Decodable {
+    let count: Int
     let items: [Friend]
 }
 
+// MARK: - Friend
+class Friend: Decodable {
+    
+    static let instance = Friend()
+    
+    var id: Int = 0
+    var firstName: String = ""
+     var lastName: String = ""
+     var photo: String = ""
+
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case photo
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let value = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try value.decode(Int.self, forKey: .id)
+        self.firstName = try value.decode(String.self, forKey: .firstName)
+        self.lastName = try value.decode(String.self, forKey: .lastName)
+        self.photo = try value.decode(String.self, forKey: .photo)
+    }
+}

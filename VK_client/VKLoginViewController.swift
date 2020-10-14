@@ -73,23 +73,17 @@ class VKLoginViewController: UIViewController, WKNavigationDelegate {
         
         decisionHandler(.cancel)
         
-        friendsService.getFriends()
-        friendsService.getPhotos()
-        groupServise.getGroups()
-        groupServise.searchGroups()
+        //friendsService.getFriends()
+        //friendsService.getPhotos()
+        //groupServise.getGroups()
+        //groupServise.searchGroups()
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        if let tabBarController: UITabBarController = (storyBoard.instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController) {
+            tabBarController.modalPresentationStyle = .fullScreen
+            present(tabBarController, animated: true, completion: nil)
+        
+        }
     }
-
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
