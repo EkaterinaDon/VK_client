@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import RealmSwift
 
 class FriendsService {
     
@@ -27,16 +28,35 @@ class FriendsService {
         ]
         
         let url = baseUrl+path
-        // запрос
-        AF.request(url, method: .get, parameters: parameters).responseData { response in
+        
+        AF.request(url, method: .get, parameters: parameters).responseData { [weak self] response in
             guard let data = response.value else { return }
             let friend = try! JSONDecoder().decode(FriendResponse.self, from: data).response.items
-            
+
+            self?.saveFriends(friend)
+
             completion(friend)
         }
-        
+      
     }
     
+   
+        func saveFriends(_ friends: [Friend]) {
+   
+            do {
+    
+                let realm = try Realm()
+
+                realm.beginWrite()
+
+                realm.add(friends)
+
+                try realm.commitWrite()
+            } catch {
+                print(error)
+            }
+        }
+
     
     func getPhoto(owner_id: String, completion: @escaping ([Photos]) -> Void ) {
         let access_token = session.token

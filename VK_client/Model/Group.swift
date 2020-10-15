@@ -7,26 +7,28 @@
 //
 
 import Foundation
+import RealmSwift
+import SwiftyJSON
 
 // MARK: - GroupResponse
-class GroupResponse: Decodable {
+class GroupResponse: Object, Decodable {
     let response: ResponseGroup
 }
 
 // MARK: - ResponseGroup
-class ResponseGroup: Decodable {
+class ResponseGroup: Object, Decodable {
     let count: Int
     let items: [Group]
 }
 
 // MARK: - Group
-class Group: Decodable {
+class Group: Object, Decodable {
     
     static let instance = Group()
     
-    var id: Int = 0
-    var name: String = ""
-    var photo: String = ""
+    @objc dynamic var id: Int = 0
+    @objc dynamic var name: String = ""
+    @objc dynamic var photo: String = ""
     
     enum CodingKeys: String, CodingKey {
         case id, name
@@ -41,11 +43,11 @@ class Group: Decodable {
     }
 }
 
-extension Group: Equatable {
-    static func == (lhs: Group, rhs: Group) -> Bool {
-        return
-            lhs.name == rhs.name &&
-            lhs.id == rhs.id &&
-            lhs.photo == rhs.photo
-    }
-}
+//extension Group: Equatable {
+//    static func == (lhs: Group, rhs: Group) -> Bool {
+//        return
+//            lhs.name == rhs.name &&
+//            lhs.id == rhs.id &&
+//            lhs.photo == rhs.photo
+//    }
+//}
