@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 // MARK: - PhotosResponse
 class PhotosResponse: Decodable {
@@ -21,7 +22,7 @@ class ResponsePhoto: Decodable {
 
 // MARK: - Item
 class Photos: Decodable {
-    var sizes: [Size] = []
+     var sizes: [Size] = []
    
 
 //    enum CodingKeys: String, CodingKey {

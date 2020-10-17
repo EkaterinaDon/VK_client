@@ -39,7 +39,7 @@ class FriendsPhotoCollection: UIViewController {
             debugPrint(friendsPhotos)
         }
         
-        title = friend.firstName + friend.lastName
+        title = friend.first_name + friend.last_name
         
         
 //        for image in friend.photo {
