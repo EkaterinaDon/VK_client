@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import RealmSwift
 
 class GroupService {
     
@@ -29,16 +30,30 @@ class GroupService {
                 
                 let url = baseUrl+path
            
-                    AF.request(url, method: .get, parameters: parameters).responseData { response in
+                    AF.request(url, method: .get, parameters: parameters).responseData { [weak self] response in
                         guard let data = response.value else { return }
                         let group = try! JSONDecoder().decode(GroupResponse.self, from: data).response.items
-            
+                        self?.saveGroups(group)
                         completion(group)
                     }
                         
                 }
     
+   
+        func saveGroups(_ groups: [Group]) {
     
+            do {
+                let realm = try Realm()
+
+                realm.beginWrite()
+
+                realm.add(groups)
+                try realm.commitWrite()
+            } catch {
+                print(error)
+            }
+        }
+
     
     func searchGroups() {
         

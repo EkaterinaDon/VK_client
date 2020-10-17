@@ -7,41 +7,45 @@
 //
 
 import UIKit
+import RealmSwift
+import SwiftyJSON
 
 // MARK: - FriendResponse
-class FriendResponse: Decodable {
+class FriendResponse: Object, Decodable {
     let response: Response
 }
 
 // MARK: - Response
-class Response: Decodable {
+class Response: Object, Decodable {
     let count: Int
     let items: [Friend]
 }
 
 // MARK: - Friend
-class Friend: Decodable {
-    
+class Friend: Object, Decodable {
+
     static let instance = Friend()
-    
-    var id: Int = 0
-    var firstName: String = ""
-     var lastName: String = ""
-     var photo: String = ""
+
+    @objc dynamic var id: Double = 0
+    @objc dynamic var first_name: String = ""
+    @objc dynamic var last_name: String = ""
+    @objc dynamic var photo: String = ""
 
     enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case firstName = "first_name"
-        case lastName = "last_name"
+        case id
+        case first_name
+        case last_name
         case photo
     }
-    
+
     convenience required init(from decoder: Decoder) throws {
         self.init()
         let value = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try value.decode(Int.self, forKey: .id)
-        self.firstName = try value.decode(String.self, forKey: .firstName)
-        self.lastName = try value.decode(String.self, forKey: .lastName)
+        self.id = try value.decode(Double.self, forKey: .id)
+        self.first_name = try value.decode(String.self, forKey: .first_name)
+        self.last_name = try value.decode(String.self, forKey: .last_name)
         self.photo = try value.decode(String.self, forKey: .photo)
     }
+    
+
 }

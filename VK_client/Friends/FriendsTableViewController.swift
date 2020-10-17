@@ -53,7 +53,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         friendsService.getFriend(user_id: "6492") { [weak self] myFriends in
                 self?.myFriends = myFriends
             
-            let group = Dictionary(grouping: self!.myFriends, by: { $0.firstName.first })
+            let group = Dictionary(grouping: self!.myFriends, by: { $0.first_name.first })
             self!.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
             
             self?.tableView.reloadData()
