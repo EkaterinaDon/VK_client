@@ -9,67 +9,76 @@
 import Foundation
 import RealmSwift
 
-// MARK: - PhotosResponse
-class PhotosResponse: Decodable {
-    let response: ResponsePhoto
-}
+class PhotosResponse : Decodable {
 
-// MARK: - ResponsePhoto
-class ResponsePhoto: Decodable {
-    let count: Int
-    let items: [Photos]
-}
+    var photosResponse : ResponsePhoto?
 
-// MARK: - Item
-class Photos: Decodable {
-     var sizes: [Size] = []
-   
-
-//    enum CodingKeys: String, CodingKey {
-//        case sizes
-//    }
-    
-//    convenience required init(from decoder: Decoder) throws {
-//        self.init()
-//        let value = try decoder.container(keyedBy: CodingKeys.self)
-//        self.sizes = try value.decode([Size].self, forKey: .sizes)
-//    }
-    
-    class Size: Decodable {
-        var url: String = ""
-        
-    }
-    
     enum CodingKeys: String, CodingKey {
-        case sizes
-        
-        enum NextCodingKeys: String, CodingKey {
-            case url
-        }
+        case photosResponse = "response"
     }
-    
-    
-    
+
     convenience required init(from decoder: Decoder) throws {
         self.init()
-        let value = try decoder.container(keyedBy: CodingKeys.self)
-        self.sizes = try value.decode([Size].self, forKey: .sizes)
-        let nextValue = try value.nestedContainer(keyedBy: CodingKeys.NextCodingKeys.self, forKey: .sizes)
-        _ = try nextValue.decode(String.self, forKey: .url)
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        //photosResponse = try ResponsePhoto(from: decoder)
+        self.photosResponse = try values.decodeIfPresent(ResponsePhoto.self, forKey: .photosResponse)
     }
+
 }
 
-// MARK: - Size
-//class Size: Decodable {
-//    var url: String = ""
-//
-//    enum CodingKeys: String, CodingKey {
-//        case url
-//    }
-//
-//    convenience required init(from decoder: Decoder) throws {
-//        self.init()
-//        let value = try decoder.container(keyedBy: CodingKeys.self)
-//        self.url = try value.decode(String.self, forKey: .url)
-//    }
-//}
+class ResponsePhoto : Decodable {
+
+    var count : Int = 0
+    var items : [Item]?
+
+    enum CodingKeys: String, CodingKey {
+        case count = "count"
+        case items = "items"
+    }
+
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.count = try values.decode(Int.self, forKey: .count)
+        self.items = try values.decode([Item].self, forKey: .items)
+    }
+
+}
+
+class Item : Decodable {
+
+    var ownerId : Double = 0
+    var sizes : [Photos]?
+
+    enum CodingKeys: String, CodingKey {
+        case ownerId = "owner_id"
+        case sizes = "sizes"
+
+    }
+
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.ownerId = try values.decode(Double.self, forKey: .ownerId)
+        self.sizes = try values.decode([Photos].self, forKey: .sizes)
+
+    }
+
+}
+
+class Photos : Decodable {
+
+    var url : String = ""
+
+    enum CodingKeys: String, CodingKey {
+        case url = "url"
+    }
+
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.url = try values.decode(String.self, forKey: .url)
+
+    }
+
+}
