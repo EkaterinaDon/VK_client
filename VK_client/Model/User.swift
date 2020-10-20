@@ -8,7 +8,7 @@
 
 import UIKit
 import RealmSwift
-//import SwiftyJSON
+
 
 // MARK: - FriendResponse
 class FriendResponse: Decodable {
@@ -47,5 +47,8 @@ class Friend: Object, Decodable {
         self.photo = try value.decode(String.self, forKey: .photo)
     }
     
+    func friendPrimaryKey() -> String {
+        return "id"
+    }
 
 }

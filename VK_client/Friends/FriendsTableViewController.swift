@@ -58,8 +58,9 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         //  friendsService.getFriend(user_id: Session.instance.userId) { [weak self] myFriends in
         //          self?.loadFriendData()
         
-        let group = Dictionary(grouping: self.myFriends!, by: { $0.first_name.first })
-        self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
+//        let group = Dictionary(grouping: self.myFriends!, by: { $0.first_name.first })
+//        self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
+    
         
         //    self?.tableView.reloadData()
         //    }
@@ -264,7 +265,12 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: - Search Bar
     func friendsFromRealm() {
         guard let realm = try? Realm() else { return }
-        myFriends = realm.objects(Friend.self)
+        myFriends = realm.objects(Friend.self).sorted(by: ["first_name"])
+//        var sectionNames: [String] {
+//            let letters = Set(myFriends?.value(forKeyPath: "first_name") as! [String]).sorted()
+//            return [letters].map({ $0.prefix(1) })
+//        }
+
         self.token = myFriends!.observe { [weak self] (changes: RealmCollectionChange) in
             guard let tableView = self?.tableView else { return }
             switch changes {
@@ -274,7 +280,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
                 tableView.beginUpdates()
                 tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
                                      with: .automatic)
-                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0) }),
                                      with: .automatic)
                 tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
                                      with: .automatic)
