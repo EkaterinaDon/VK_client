@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 struct FriendsForSections: Comparable {
     
@@ -29,18 +30,19 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    
-    var myFriends = [Friend]()
+    //var myFriends = [Friend]()
+    var myFriends: Results<Friend>?
     var friendsService = FriendsService()
     var sections = [FriendsForSections]()
     var searchResults = [FriendsForSections]()
     var searching: Bool = false
+    var token: NotificationToken?
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
- 
+        
         self.tableView.separatorColor = .clear
         self.tableView.sectionIndexBackgroundColor = .clear
         
@@ -50,19 +52,32 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         
         searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494) 
         
-        friendsService.getFriend(user_id: "6492") { [weak self] myFriends in
-                self?.myFriends = myFriends
-            
-            let group = Dictionary(grouping: self!.myFriends, by: { $0.first_name.first })
-            self!.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
-            
-            self?.tableView.reloadData()
-            }
-
         
+        friendsFromRealm()
+        friendsService.getFriend(user_id: Session.instance.userId)
+        //  friendsService.getFriend(user_id: Session.instance.userId) { [weak self] myFriends in
+        //          self?.loadFriendData()
+        
+        let group = Dictionary(grouping: self.myFriends!, by: { $0.first_name.first })
+        self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
+        
+        //    self?.tableView.reloadData()
+        //    }
     }
     
     
+    //    func loadFriendData() {
+    //            do {
+    //                let realm = try Realm()
+    //
+    //                let myFriends = realm.objects(Friend.self)
+    //
+    //                self.myFriends = Array(myFriends)
+    //                debugPrint(myFriends)
+    //            } catch {
+    //                print(error)
+    //            }
+    //    }
     
     // MARK: - Table view data source
     
@@ -155,19 +170,8 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     // MARK: - segue
-    // MARK: - prepare for collectionView
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let friendsCollectionViewController = segue.destination as? FriendsCollectionViewController {
-//            if let indexPath = tableView.indexPathForSelectedRow {
-//                let section = self.sections[indexPath.section]
-//                let friend = section.rowValue[indexPath.row]
-//                friendsCollectionViewController.friend = friend
-//            }
-//        }
-//
-//    }
     
-    // // MARK: - prepare forFriendsPhotoCollection
+    // MARK: - prepare forFriendsPhotoCollection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let friendsPhotoCollection = segue.destination as? FriendsPhotoCollection {
             if let indexPath = tableView.indexPathForSelectedRow {
@@ -182,7 +186,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     // MARK: - Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-                
+        
         guard !searchText.isEmpty else {
             searchResults = sections
             tableView.reloadData()
@@ -196,7 +200,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     //градиент для Hiader
-     func getGradientBackgroundView() -> UIView {
+    func getGradientBackgroundView() -> UIView {
         let gradientBackgroundView = UIView()
         
         let gradientLayer = CAGradientLayer()
@@ -210,7 +214,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     //градиент для tableview
-     func setTableViewBackgroundGradient(sender: UITableViewController) {
+    func setTableViewBackgroundGradient(sender: UITableViewController) {
         
         let backgroundView = UIView(frame: sender.tableView.bounds)
         
@@ -237,7 +241,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     @objc func imgTapped(sender: UITapGestureRecognizer) {
-
+        
         guard sender.view != nil else { return }
         
         if sender.state == .ended {
@@ -257,7 +261,31 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
-        
+    // MARK: - Search Bar
+    func friendsFromRealm() {
+        guard let realm = try? Realm() else { return }
+        myFriends = realm.objects(Friend.self)
+        self.token = myFriends!.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let tableView = self?.tableView else { return }
+            switch changes {
+            case .initial:
+                tableView.reloadData()
+            case .update(_, let deletions, let insertions, let modifications):
+                tableView.beginUpdates()
+                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+                                     with: .automatic)
+                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}),
+                                     with: .automatic)
+                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+                                     with: .automatic)
+                tableView.endUpdates()
+            case .error(let error):
+                fatalError("\(error)")
+            }
+        }
+    }
+    
+    
     // MARK: - TableView delegate
     //    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     //        let whichIsSelected = indexPath.row

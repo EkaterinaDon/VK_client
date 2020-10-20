@@ -8,10 +8,10 @@
 
 import UIKit
 import RealmSwift
-import SwiftyJSON
+//import SwiftyJSON
 
 // MARK: - FriendResponse
-class FriendResponse: Object, Decodable {
+class FriendResponse: Decodable {
     let response: Response
 }
 

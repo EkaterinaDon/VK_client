@@ -25,7 +25,7 @@ class FriendsCollectionViewController: UICollectionViewController {
             self?.collectionView.reloadData()
         }
         
-        title = friend.firstName + friend.lastName
+        title = friend.first_name + friend.last_name
     }
     
     /*

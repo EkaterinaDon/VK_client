@@ -12,14 +12,15 @@ import RealmSwift
 
 class FriendsService {
     
-    var session = Session.instance
     let baseUrl = "https://api.vk.com"
     
-    func getFriend(user_id: String, completion: @escaping ([Friend]) -> Void ) {
-        let access_token = session.token
+    
+    //func getFriend(user_id: String, completion: @escaping ([Friend]) -> Void )
+    func getFriend(user_id: String) {
+        let access_token = Session.instance.token
         let path = "/method/friends.get"
         let parameters: Parameters = [
-            "6492": user_id,
+            Session.instance.userId: user_id,
             "order": "hints",
             "fields": "photo",
             "method": "friends.get",
@@ -32,34 +33,35 @@ class FriendsService {
         AF.request(url, method: .get, parameters: parameters).responseData { [weak self] response in
             guard let data = response.value else { return }
             let friend = try! JSONDecoder().decode(FriendResponse.self, from: data).response.items
-
+            
             self?.saveFriends(friend)
-
-            completion(friend)
+            debugPrint(friend)
+            //  completion(friend)
         }
-      
+        
     }
     
-   
-        func saveFriends(_ friends: [Friend]) {
-   
-            do {
     
-                let realm = try Realm()
-
-                realm.beginWrite()
-
-                realm.add(friends)
-
-                try realm.commitWrite()
-            } catch {
-                print(error)
-            }
+    func saveFriends(_ friends: [Friend]) {
+        
+        do {
+            
+            let realm = try Realm()
+            
+            let oldFriends = realm.objects(Friend.self)
+            realm.beginWrite()
+            realm.delete(oldFriends)
+            realm.add(friends)
+            debugPrint(realm.configuration.fileURL!)
+            try realm.commitWrite()
+        } catch {
+            print(error)
         }
-
+    }
+    
     
     func getPhoto(owner_id: String, completion: @escaping ([Photos]) -> Void ) {
-        let access_token = session.token
+        let access_token = Session.instance.token
         let path = "/method/photos.get"
         let parameters: Parameters = [
             "3441530": owner_id,
@@ -71,16 +73,14 @@ class FriendsService {
         ]
         
         let url = baseUrl+path
-
         AF.request(url, method: .get, parameters: parameters).responseData { response in
             guard let data = response.value else { return }
-            let photos = try! JSONDecoder().decode(PhotosResponse.self, from: data).response.items
-            
-                  completion(photos)
+            let photos = try! JSONDecoder().decode(PhotosResponse.self, from: data)
 
+            debugPrint(photos as Any)
+            completion(photos as Any as! [Photos])
+            
         }
-        
     }
-    
 }
 
