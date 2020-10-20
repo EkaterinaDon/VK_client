@@ -15,15 +15,13 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     
     
     var groupService = GroupService()
-    //var myGroups: [Group] = []
     var myGroups: Results<Group>?
     var searchResults: [Group] = []
     var token: NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //groupService.getGroup(user_id: session.userId) { [weak self] myGroups in
+
         groupService.getGroup(user_id: Session.instance.userId)
         groupsFromRealm()
         
@@ -37,20 +35,7 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
         setTableViewBackgroundGradient(sender: self)
         searchController.searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494)
     }
-    
-    //    func loadGroupData() {
-    //            do {
-    //                let realm = try Realm()
-    //
-    //                let myGroups = realm.objects(Group.self)
-    //
-    //                self.myGroups = Array(myGroups)
-    //                debugPrint(myGroups)
-    //            } catch {
-    //                print(error)
-    //            }
-    //    }
-    
+
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {

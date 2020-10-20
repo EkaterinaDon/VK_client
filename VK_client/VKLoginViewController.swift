@@ -16,9 +16,7 @@ class VKLoginViewController: UIViewController, WKNavigationDelegate {
             webview.navigationDelegate = self
         }
     }
-    
-    
-    var session = Session.instance
+
     var friendsService = FriendsService()
     var groupServise = GroupService()
     
@@ -69,14 +67,10 @@ class VKLoginViewController: UIViewController, WKNavigationDelegate {
 
 
         debugPrint(token!)
-        session.token = token!
+        Session.instance.token = token!
         
         decisionHandler(.cancel)
         
-        //friendsService.getFriends()
-        //friendsService.getPhotos()
-        //groupServise.getGroups()
-        //groupServise.searchGroups()
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if let tabBarController: UITabBarController = (storyBoard.instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController) {
             tabBarController.modalPresentationStyle = .fullScreen

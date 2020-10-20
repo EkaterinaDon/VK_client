@@ -11,7 +11,7 @@ import RealmSwift
 import SwiftyJSON
 
 // MARK: - GroupResponse
-class GroupResponse: Object, Decodable {
+class GroupResponse: Decodable {
     let response: ResponseGroup
 }
 
