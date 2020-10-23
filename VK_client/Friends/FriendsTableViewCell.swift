@@ -49,7 +49,18 @@ class FriendsTableViewCell: UITableViewCell {
         
     }
 
-    func configure(for model: Friend) {
+//    func configure(for model: Friend) {
+//            
+//        self.friendsName.text = String(model.first_name + model.last_name)
+//        guard let url = URL(string: model.photo) else { return }
+//
+//        UIImage.loadFriendsImage(url: url) { image in
+//            self.friendsImage.image = image
+//        }
+//        
+//        }
+    
+    func configure(for model: FriendFireStore) {
             
         self.friendsName.text = String(model.first_name + model.last_name)
         guard let url = URL(string: model.photo) else { return }

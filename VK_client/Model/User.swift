@@ -50,5 +50,15 @@ class Friend: Object, Decodable {
     func friendPrimaryKey() -> String {
         return "id"
     }
+    
+    func toFirestore() -> [String: Any] {
+        return [
+            "id" : id,
+            "first_name" : first_name,
+            "last_name" : last_name,
+            "photo" : photo
+        ]
+    }
+
 
 }

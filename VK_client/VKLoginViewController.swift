@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import FirebaseAuth
 
 class VKLoginViewController: UIViewController, WKNavigationDelegate {
 
@@ -70,6 +71,8 @@ class VKLoginViewController: UIViewController, WKNavigationDelegate {
         Session.instance.token = token!
         
         decisionHandler(.cancel)
+        
+        Auth.auth().signIn(withEmail: "katrine.d@gmail.com", password: "Prestije6353079")
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if let tabBarController: UITabBarController = (storyBoard.instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController) {
