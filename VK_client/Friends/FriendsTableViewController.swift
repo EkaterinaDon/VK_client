@@ -8,14 +8,20 @@
 
 import UIKit
 import RealmSwift
+import FirebaseDatabase
+import FirebaseAuth
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct FriendsForSections: Comparable {
     
-    var sectionKey: String.Element?
-    var rowValue: [Friend]
+  var sectionKey: String.Element?
+    var rowValue: [FriendFireStore]
+    
+   
     
     static func < (lhs: FriendsForSections, rhs: FriendsForSections) -> Bool {
-        return (lhs.sectionKey)! < rhs.sectionKey!
+        return (lhs.sectionKey!) < rhs.sectionKey!
     }
     static func == (lhs: FriendsForSections, rhs: FriendsForSections) -> Bool {
         return lhs.sectionKey == rhs.sectionKey
@@ -30,13 +36,14 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    //var myFriends = [Friend]()
-    var myFriends: Results<Friend>?
+//    var myFriends: Results<Friend>?
+    let ref = Firestore.firestore().collection("friends")
     var friendsService = FriendsService()
+    var myFriends = [FriendFireStore]()
     var sections = [FriendsForSections]()
     var searchResults = [FriendsForSections]()
     var searching: Bool = false
-    var token: NotificationToken?
+//    var token: NotificationToken?
     
     
     
@@ -53,32 +60,19 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494) 
         
         
-        friendsFromRealm()
+       // friendsFromRealm()
         friendsService.getFriend(user_id: Session.instance.userId)
-        //  friendsService.getFriend(user_id: Session.instance.userId) { [weak self] myFriends in
-        //          self?.loadFriendData()
+        loadFriendsFromFireStore()
+
+//           friendsSnapshot (completion: { (myFriends) in
+//            self.myFriends = myFriends
+//            let group = Dictionary(grouping: self.myFriends, by: { $0.first_name.first })
+//            self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
+//            debugPrint(myFriends)
+//            self.tableView.reloadData()
+//        })
         
-//        let group = Dictionary(grouping: self.myFriends!, by: { $0.first_name.first })
-//        self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
-    
-        
-        //    self?.tableView.reloadData()
-        //    }
     }
-    
-    
-    //    func loadFriendData() {
-    //            do {
-    //                let realm = try Realm()
-    //
-    //                let myFriends = realm.objects(Friend.self)
-    //
-    //                self.myFriends = Array(myFriends)
-    //                debugPrint(myFriends)
-    //            } catch {
-    //                print(error)
-    //            }
-    //    }
     
     // MARK: - Table view data source
     
@@ -133,7 +127,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         if searching {
             let section = searchResults[section]
             let letter = section.sectionKey
-            label.text = letter?.uppercased()
+            label.text = letter!.uppercased()
             headerView.addSubview(label)
             label.leftAnchor.constraint(equalTo: headerView.leftAnchor).isActive = true
             label.rightAnchor.constraint(equalTo: headerView.rightAnchor).isActive = true
@@ -143,7 +137,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         } else {
             let section = self.sections[section]
             let letter = section.sectionKey
-            label.text = letter?.uppercased()
+            label.text = letter!.uppercased()
             headerView.addSubview(label)
             label.leftAnchor.constraint(equalTo: headerView.leftAnchor).isActive = true
             label.rightAnchor.constraint(equalTo: headerView.rightAnchor).isActive = true
@@ -157,7 +151,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: - alfabet search
     
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return sections.map{String(($0.sectionKey)!)}
+        return sections.map{String(($0.sectionKey!))}
     }
     
     override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
@@ -178,7 +172,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let section = self.sections[indexPath.section]
                 let friend = section.rowValue[indexPath.row]
-                friendsPhotoCollection.friend = friend
+              //  friendsPhotoCollection.friend = friend
             }
         }
         
@@ -194,13 +188,13 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
             return
         }
         searchResults = sections.filter({ (FriendsForSections) -> Bool in
-            (FriendsForSections.sectionKey?.lowercased().contains(searchText.lowercased()))!
+            (FriendsForSections.sectionKey!.lowercased().contains(searchText.lowercased()))
         })
         searching = true
         self.tableView.reloadData()
     }
     
-    //градиент для Hiader
+    //  MARK: - градиент для Hiader
     func getGradientBackgroundView() -> UIView {
         let gradientBackgroundView = UIView()
         
@@ -262,34 +256,65 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
-    // MARK: - Search Bar
-    func friendsFromRealm() {
-        guard let realm = try? Realm() else { return }
-        myFriends = realm.objects(Friend.self).sorted(by: ["first_name"])
-//        var sectionNames: [String] {
-//            let letters = Set(myFriends?.value(forKeyPath: "first_name") as! [String]).sorted()
-//            return [letters].map({ $0.prefix(1) })
-//        }
-
-        self.token = myFriends!.observe { [weak self] (changes: RealmCollectionChange) in
-            guard let tableView = self?.tableView else { return }
-            switch changes {
-            case .initial:
-                tableView.reloadData()
-            case .update(_, let deletions, let insertions, let modifications):
-                tableView.beginUpdates()
-                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-                                     with: .automatic)
-                tableView.endUpdates()
-            case .error(let error):
-                fatalError("\(error)")
+    // MARK: - FireStore
+    func loadFriendsFromFireStore() {
+        ref.document("Friend").getDocument { [weak self] (document, error) in
+            let result = Result {
+                try document?.data(as: FriendFireStore.self)
+            }
+            switch result {
+            case .success(let friend):
+                if let friend = friend {
+                    self!.myFriends.append(friend)
+                    let group = Dictionary(grouping: self!.myFriends, by: { $0.first_name.first })
+                    self!.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
+                    self!.tableView.reloadData()
+                    debugPrint(friend.last_name)
+                } else {
+                    debugPrint("Document does not exist")
+                }
+            case .failure(let error):
+                debugPrint("Error decoding friend: \(error)")
             }
         }
     }
+    
+    func friendsSnapshot(completion: @escaping ([FriendFireStore]) -> Void) -> ListenerRegistration? {
+        return ref.addSnapshotListener { documentSnapshot, error in
+            if let documents = documentSnapshot?.documents {
+                var myFriends = [FriendFireStore]()
+                for document in documents {
+                    let friend = FriendFireStore(dictionary: document.data())
+                    myFriends.append(friend)
+                }
+                completion(myFriends)
+            }
+        }
+    }
+    // MARK: - Realm
+//    func friendsFromRealm() {
+//        guard let realm = try? Realm() else { return }
+//        myFriends = realm.objects(Friend.self)
+//
+//        self.token = myFriends!.observe { [weak self] (changes: RealmCollectionChange) in
+//            guard let tableView = self?.tableView else { return }
+//            switch changes {
+//            case .initial:
+//                tableView.reloadData()
+//            case .update(_, let deletions, let insertions, let modifications):
+//                tableView.beginUpdates()
+//                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
+//                                     with: .automatic)
+//                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0) }),
+//                                     with: .automatic)
+//                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
+//                                     with: .automatic)
+//                tableView.endUpdates()
+//            case .error(let error):
+//                fatalError("\(error)")
+//            }
+//        }
+//    }
     
     
     // MARK: - TableView delegate
