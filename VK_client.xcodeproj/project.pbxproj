@@ -45,7 +45,10 @@
 		44DB993E24D1B809000BAF9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44DB993C24D1B809000BAF9A /* LaunchScreen.storyboard */; };
 		44DB994624D1BCFB000BAF9A /* LoginFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DB994524D1BCFB000BAF9A /* LoginFormViewController.swift */; };
 		44DF3B4524E4397500E65E4C /* FriendSearchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DF3B4424E4397500E65E4C /* FriendSearchControl.swift */; };
+		C42D8D552541B9DF00C6622F /* UserFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42D8D542541B9DF00C6622F /* UserFireStore.swift */; };
 		C4D3FA2425373066003A9D07 /* UserPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D3FA2325373066003A9D07 /* UserPhotos.swift */; };
+		C4F10CF3254071A50074D7E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */; };
+		C4F10CFB254074D60074D7E2 /* UserFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F10CFA254074D60074D7E2 /* UserFirebase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,7 +94,10 @@
 		44DF3B4424E4397500E65E4C /* FriendSearchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSearchControl.swift; sourceTree = "<group>"; };
 		4CF28FBD585A37E9F9CCB45E /* Pods_VK_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VK_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62672BAF92EDA5252588B34F /* Pods-VK_client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VK_client.release.xcconfig"; path = "Target Support Files/Pods-VK_client/Pods-VK_client.release.xcconfig"; sourceTree = "<group>"; };
+		C42D8D542541B9DF00C6622F /* UserFireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFireStore.swift; sourceTree = "<group>"; };
 		C4D3FA2325373066003A9D07 /* UserPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotos.swift; sourceTree = "<group>"; };
+		C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C4F10CFA254074D60074D7E2 /* UserFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirebase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +159,8 @@
 			isa = PBXGroup;
 			children = (
 				4463224824DAB6BE005C97B3 /* User.swift */,
+				C4F10CFA254074D60074D7E2 /* UserFirebase.swift */,
+				C42D8D542541B9DF00C6622F /* UserFireStore.swift */,
 				C4D3FA2325373066003A9D07 /* UserPhotos.swift */,
 				4441C9B3251A23760086FBAE /* Session.swift */,
 				4463224C24DAC9A2005C97B3 /* Group.swift */,
@@ -206,6 +214,7 @@
 				44DB993A24D1B809000BAF9A /* Assets.xcassets */,
 				44DB993C24D1B809000BAF9A /* LaunchScreen.storyboard */,
 				44DB993F24D1B80A000BAF9A /* Info.plist */,
+				C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */,
 			);
 			path = VK_client;
 			sourceTree = "<group>";
@@ -294,6 +303,7 @@
 				4460477B24FCDCE500031D76 /* NewsTableViewCell.xib in Resources */,
 				44DB993924D1B7E2000BAF9A /* Main.storyboard in Resources */,
 				4460477724FCDC8D00031D76 /* NewsCollectionViewCell.xib in Resources */,
+				C4F10CF3254071A50074D7E2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +369,7 @@
 				4460477A24FCDCE500031D76 /* NewsTableViewCell.swift in Sources */,
 				4468749F2501195900068434 /* DotsIndicator.swift in Sources */,
 				4463223D24DAB29C005C97B3 /* FriendsCollectionViewCell.swift in Sources */,
+				C4F10CFB254074D60074D7E2 /* UserFirebase.swift in Sources */,
 				4463224D24DAC9A2005C97B3 /* Group.swift in Sources */,
 				4463223F24DAB2F1005C97B3 /* MyGroupsTableViewController.swift in Sources */,
 				4463224924DAB6BE005C97B3 /* User.swift in Sources */,
@@ -368,6 +379,7 @@
 				44CAC50D24E2A006000D9693 /* PhotoLikeControl.swift in Sources */,
 				4441C9B4251A23760086FBAE /* Session.swift in Sources */,
 				44DF3B4524E4397500E65E4C /* FriendSearchControl.swift in Sources */,
+				C42D8D552541B9DF00C6622F /* UserFireStore.swift in Sources */,
 				4460477D24FD90AE00031D76 /* NewsLikeControl.swift in Sources */,
 				44DB993224D1B7E2000BAF9A /* AppDelegate.swift in Sources */,
 				4460477124FCD81000031D76 /* NewsViewController.swift in Sources */,

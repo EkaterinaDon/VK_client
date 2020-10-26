@@ -7,7 +7,10 @@ target 'VK_client' do
 pod 'Alamofire', '~> 5.2'
 pod 'RealmSwift'
 pod 'SwiftyJSON', '~> 4.0'
-
+pod 'Firebase/Auth'
+pod 'Firebase/Firestore'
+pod 'FirebaseFirestoreSwift'
+pod 'Firebase/Database'
   # Pods for VK_client
 
 post_install do |installer|
