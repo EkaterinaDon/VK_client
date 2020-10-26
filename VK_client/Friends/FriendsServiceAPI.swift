@@ -61,22 +61,40 @@ class FriendsService {
 
     func saveFriendsToFirestore(_ friends: [Friend]) {
         let database = Firestore.firestore()
-        for friend in friends {
-          //  let friendsToSend = friend.toFirestore()
-//                    .map { $0.toFirestore() }
-//                    .reduce([:]) { $0.merging($1) { (current, _) in current } }
-        
-//        let friendsToSend = friends
-//                .map { $0.toFirestore() }
-//                .reduce([:]) { $0.merging($1) { (current, _) in current } }
+       
+        let friendsToSend = friends
+            .map ({ $0.toFirestore() })
+            .flatMap { $0 }
+                .reduce([String: Any]()) { (dict, tuple) in
+                    var nextDict = dict
+                    nextDict.updateValue(tuple.1, forKey: tuple.0)
+                    return nextDict
+                }
+//            .reduce([:]) { (result, next) in
+//                result.merging(next) { (rhs, lhs) in lhs }
+//             }
+        debugPrint(friendsToSend)
 
-            database.collection("friends").document("Friend").setData(friend.toFirestore(), merge: true) { error in
+            database.collection("friends").document("Friend").setData(friendsToSend, merge: true) {
+                error in
                         if let error = error {
                             debugPrint(error.localizedDescription)
-                            } else { debugPrint("data saved")}
+                            } else {
+                                debugPrint("data saved \(friendsToSend)")
+                            }
                         }
-       
-        }
+
+        
+              //  .reduce([:]) { $0.merging($1) { (current, _) in current } }
+            
+//            database.collection("friends").document("Friend").setData(friendsToSend, merge: true) {
+//                error in
+//                        if let error = error {
+//                            debugPrint(error.localizedDescription)
+//                            } else {
+//                                debugPrint("data saved")
+//                            }
+//                        }
     }
     
     func getPhoto(owner_id: String, completion: @escaping ([Photos]) -> Void ) {

@@ -16,13 +16,13 @@ class FriendResponse: Decodable {
 }
 
 // MARK: - Response
-class Response: Object, Decodable {
-    let count: Int
-    let items: [Friend]
+class Response: Decodable {
+     let count: Int
+     let items: [Friend]
 }
 
 // MARK: - Friend
-class Friend: Object, Decodable {
+class Friend: Object, Decodable, Encodable {
 
     static let instance = Friend()
 

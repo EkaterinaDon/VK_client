@@ -16,7 +16,7 @@ class GroupResponse: Decodable {
 }
 
 // MARK: - ResponseGroup
-class ResponseGroup: Object, Decodable {
+class ResponseGroup: Decodable {
     let count: Int
     let items: [Group]
 }
