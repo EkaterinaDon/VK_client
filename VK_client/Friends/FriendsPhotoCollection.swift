@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FriendsPhotoCollection: UIViewController {
     
@@ -27,6 +28,8 @@ class FriendsPhotoCollection: UIViewController {
     
     var friend: Friend!
     var images = [UIImage]()
+    
+    
     
     let transition = FullScreenAnimator()
     

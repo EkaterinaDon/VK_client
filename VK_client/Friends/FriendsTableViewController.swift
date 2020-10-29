@@ -167,16 +167,16 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: - segue
     
     // MARK: - prepare forFriendsPhotoCollection
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let friendsPhotoCollection = segue.destination as? FriendsPhotoCollection {
-            if let indexPath = tableView.indexPathForSelectedRow {
-                let section = self.sections[indexPath.section]
-                let friend = section.rowValue[indexPath.row]
-              //  friendsPhotoCollection.friend = friend
-            }
-        }
-        
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let friendsPhotoCollection = segue.destination as? FriendsPhotoCollection {
+//            if let indexPath = tableView.indexPathForSelectedRow {
+//                let section = self.sections[indexPath.section]
+//                let friend = section.rowValue[indexPath.row]
+//                friendsPhotoCollection.friend = friend
+//            }
+//        }
+//
+//    }
     
     
     // MARK: - Search Bar
@@ -258,25 +258,22 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     // MARK: - FireStore
     func loadFriendsFromFireStore() {
-        ref.document("Friend").getDocument { [weak self] (document, error) in
-            let result = Result {
-                try document?.data(as: FriendFireStore.self)
-            }
-            switch result {
-            case .success(let friend):
-                if let friend = friend {
-                    self!.myFriends.append(friend)
+        ref.getDocuments { [weak self] (querySnapshot, error) in
+                if let snapshotDocuments = querySnapshot?.documents {
+                    for document in snapshotDocuments {
+                        do {
+                            if let friend = try document.data(as: FriendFireStore.self) {
+                                self!.myFriends.append(friend)
+                            }
+                        } catch let error as NSError {
+                            print("error: \(error.localizedDescription)")
+                        }
+                    }
                     let group = Dictionary(grouping: self!.myFriends, by: { $0.first_name.first })
                     self!.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
                     self!.tableView.reloadData()
-                    debugPrint(friend.last_name)
-                } else {
-                    debugPrint("Document does not exist")
                 }
-            case .failure(let error):
-                debugPrint("Error decoding friend: \(error)")
             }
-        }
     }
     
     func friendsSnapshot(completion: @escaping ([FriendFireStore]) -> Void) -> ListenerRegistration? {

@@ -11,6 +11,7 @@ import Alamofire
 import RealmSwift
 import FirebaseDatabase
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 class FriendsService {
     
@@ -36,7 +37,6 @@ class FriendsService {
 
             self?.saveFriends(friend)
             self?.saveFriendsToFirestore(friend)
-            debugPrint(friend)
         }
         
     }
@@ -46,7 +46,8 @@ class FriendsService {
         
         do {
             
-            let realm = try Realm()
+            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+            let realm = try Realm(configuration: config)
             
             let oldFriends = realm.objects(Friend.self)
             realm.beginWrite()
@@ -61,40 +62,18 @@ class FriendsService {
 
     func saveFriendsToFirestore(_ friends: [Friend]) {
         let database = Firestore.firestore()
-       
-        let friendsToSend = friends
-            .map ({ $0.toFirestore() })
-            .flatMap { $0 }
-                .reduce([String: Any]()) { (dict, tuple) in
-                    var nextDict = dict
-                    nextDict.updateValue(tuple.1, forKey: tuple.0)
-                    return nextDict
-                }
-//            .reduce([:]) { (result, next) in
-//                result.merging(next) { (rhs, lhs) in lhs }
-//             }
-        debugPrint(friendsToSend)
-
-            database.collection("friends").document("Friend").setData(friendsToSend, merge: true) {
-                error in
-                        if let error = error {
-                            debugPrint(error.localizedDescription)
-                            } else {
-                                debugPrint("data saved \(friendsToSend)")
-                            }
-                        }
-
         
-              //  .reduce([:]) { $0.merging($1) { (current, _) in current } }
+        for friend in friends {
             
-//            database.collection("friends").document("Friend").setData(friendsToSend, merge: true) {
-//                error in
-//                        if let error = error {
-//                            debugPrint(error.localizedDescription)
-//                            } else {
-//                                debugPrint("data saved")
-//                            }
-//                        }
+            database.collection("friends").document("\(friend.id)").setData(friend.toFirestore(), merge: true) {
+                error in
+                if let error = error {
+                    debugPrint(error.localizedDescription)
+                } else {
+                    debugPrint("data saved \(friend.first_name)")
+                }
+            }
+        }
     }
     
     func getPhoto(owner_id: String, completion: @escaping ([Photos]) -> Void ) {

@@ -26,7 +26,7 @@ class Friend: Object, Decodable, Encodable {
 
     static let instance = Friend()
 
-    @objc dynamic var id: Double = 0
+    @objc dynamic var id: Int = 0
     @objc dynamic var first_name: String = ""
     @objc dynamic var last_name: String = ""
     @objc dynamic var photo: String = ""
@@ -41,15 +41,16 @@ class Friend: Object, Decodable, Encodable {
     convenience required init(from decoder: Decoder) throws {
         self.init()
         let value = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try value.decode(Double.self, forKey: .id)
+        self.id = try value.decode(Int.self, forKey: .id)
         self.first_name = try value.decode(String.self, forKey: .first_name)
         self.last_name = try value.decode(String.self, forKey: .last_name)
         self.photo = try value.decode(String.self, forKey: .photo)
     }
     
-    func friendPrimaryKey() -> String {
-        return "id"
-    }
+    override class func primaryKey() -> String {
+            return "id"
+        }
+
     
     func toFirestore() -> [String: Any] {
         return [

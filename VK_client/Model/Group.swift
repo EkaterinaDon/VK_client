@@ -38,9 +38,14 @@ class Group: Object, Decodable {
     convenience required init(from decoder: Decoder) throws {
         self.init()
         let value = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try value.decode(Int.self, forKey: .id)
         self.name = try value.decode(String.self, forKey: .name)
         self.photo = try value.decode(String.self, forKey: .photo)
     }
+    override class func primaryKey() -> String {
+            return "id"
+        }
+
 }
 
 //extension Group: Equatable {

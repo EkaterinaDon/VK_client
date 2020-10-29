@@ -18,10 +18,6 @@ class VKLoginViewController: UIViewController, WKNavigationDelegate {
         }
     }
 
-    var friendsService = FriendsService()
-    var groupServise = GroupService()
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,7 +68,8 @@ class VKLoginViewController: UIViewController, WKNavigationDelegate {
         
         decisionHandler(.cancel)
         
-        Auth.auth().signIn(withEmail: "katrine.d@gmail.com", password: "Prestije6353079")
+        Auth.auth().signIn(withEmail: "katrine.d@gmail.com", password: "123456")
+        
         
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if let tabBarController: UITabBarController = (storyBoard.instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController) {
