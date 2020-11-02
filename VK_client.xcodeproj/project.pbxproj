@@ -46,6 +46,8 @@
 		44DB994624D1BCFB000BAF9A /* LoginFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DB994524D1BCFB000BAF9A /* LoginFormViewController.swift */; };
 		44DF3B4524E4397500E65E4C /* FriendSearchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DF3B4424E4397500E65E4C /* FriendSearchControl.swift */; };
 		C42D8D552541B9DF00C6622F /* UserFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42D8D542541B9DF00C6622F /* UserFireStore.swift */; };
+		C454E1DE254868EB00E1D94C /* SearchGroupServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C454E1DD254868EB00E1D94C /* SearchGroupServiceAPI.swift */; };
+		C4A4937A25482BA200DE4629 /* GroupSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4937925482BA200DE4629 /* GroupSearch.swift */; };
 		C4D3FA2425373066003A9D07 /* UserPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D3FA2325373066003A9D07 /* UserPhotos.swift */; };
 		C4F10CF3254071A50074D7E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */; };
 		C4F10CFB254074D60074D7E2 /* UserFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F10CFA254074D60074D7E2 /* UserFirebase.swift */; };
@@ -95,6 +97,8 @@
 		4CF28FBD585A37E9F9CCB45E /* Pods_VK_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VK_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62672BAF92EDA5252588B34F /* Pods-VK_client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VK_client.release.xcconfig"; path = "Target Support Files/Pods-VK_client/Pods-VK_client.release.xcconfig"; sourceTree = "<group>"; };
 		C42D8D542541B9DF00C6622F /* UserFireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFireStore.swift; sourceTree = "<group>"; };
+		C454E1DD254868EB00E1D94C /* SearchGroupServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupServiceAPI.swift; sourceTree = "<group>"; };
+		C4A4937925482BA200DE4629 /* GroupSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSearch.swift; sourceTree = "<group>"; };
 		C4D3FA2325373066003A9D07 /* UserPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotos.swift; sourceTree = "<group>"; };
 		C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C4F10CFA254074D60074D7E2 /* UserFirebase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirebase.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				4463224024DAB314005C97B3 /* MyGroupsTableViewCell.swift */,
 				4463224624DAB3BB005C97B3 /* AvailableGroupsTableViewCell.swift */,
 				44C43111252114D3005A3339 /* GroupServiceAPI.swift */,
+				C454E1DD254868EB00E1D94C /* SearchGroupServiceAPI.swift */,
 			);
 			path = Groups;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 				C4D3FA2325373066003A9D07 /* UserPhotos.swift */,
 				4441C9B3251A23760086FBAE /* Session.swift */,
 				4463224C24DAC9A2005C97B3 /* Group.swift */,
+				C4A4937925482BA200DE4629 /* GroupSearch.swift */,
 				4417949824FBDD93001BA977 /* News.swift */,
 			);
 			path = Model;
@@ -267,7 +273,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Ekaterina Donskaya";
 				TargetAttributes = {
 					44DB992D24D1B7E2000BAF9A = {
@@ -357,12 +363,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				4463223B24DAB27C005C97B3 /* FriendsCollectionViewController.swift in Sources */,
+				C454E1DE254868EB00E1D94C /* SearchGroupServiceAPI.swift in Sources */,
 				44DB994624D1BCFB000BAF9A /* LoginFormViewController.swift in Sources */,
 				4460477624FCDC8D00031D76 /* NewsCollectionViewCell.swift in Sources */,
 				447CAEF0250F4F31000AA8F4 /* FullScreenAnimator.swift in Sources */,
 				4463224724DAB3BB005C97B3 /* AvailableGroupsTableViewCell.swift in Sources */,
 				44675CFD2508D84000C95251 /* NavigationAnimation.swift in Sources */,
 				4463224124DAB314005C97B3 /* MyGroupsTableViewCell.swift in Sources */,
+				C4A4937A25482BA200DE4629 /* GroupSearch.swift in Sources */,
 				4463224524DAB399005C97B3 /* AvailableGroupsTableViewController.swift in Sources */,
 				44C43112252114D3005A3339 /* GroupServiceAPI.swift in Sources */,
 				44681DFF250380E600511432 /* FriendsPhotoCollection.swift in Sources */,
@@ -440,6 +448,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -500,6 +509,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -536,6 +546,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = VK_client/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -559,6 +570,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = VK_client/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

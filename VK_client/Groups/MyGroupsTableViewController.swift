@@ -66,24 +66,28 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
             //получаем индекс ячейки
             if let indexPath = availableGroupsTableViewController.tableView.indexPathForSelectedRow {
                 //получаем группу
-                let group = availableGroupsTableViewController.availableGroups[indexPath.row]
+                let group = availableGroupsTableViewController.availableGroups![indexPath.row]
                 //проверяем что группа еще не была добавлена
-                if !myGroups!.contains(group) {
-                    do {
+                do {
+                    let groups = try Realm().objects(Group.self).map { $0.id }
+                    
+                    if !groups.contains(group.id) {
+                        
                         let realm = try Realm()
                         realm.beginWrite()
                         realm.add(group, update: .all)
                         try realm.commitWrite()
-                    } catch {
-                        debugPrint(error)
                     }
-                    
+                } catch {
+                    debugPrint(error)
                 }
-                tableView.reloadData()
             }
+            tableView.reloadData()
         }
         
     }
+    
+    
     
     
     // Override to support editing the table view.
@@ -118,6 +122,7 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
         }
     }
     
+    // MARK: - Realm
     func groupsFromRealm() {
         guard let realm = try? Realm() else { return }
         myGroups = realm.objects(Group.self)
