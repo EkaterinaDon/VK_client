@@ -11,6 +11,7 @@ import UIKit
 class NewsLike: UIStackView {
     
     var counter = 0
+    var viewsCounter = 0
     let count = UILabel()
     
     override init(frame: CGRect) {
@@ -19,6 +20,8 @@ class NewsLike: UIStackView {
         setupLikeButton()
         setupCommentButton()
         setupShareButton()
+        setupViewButton()
+        setupViewCounter()
     }
     
     required init(coder: NSCoder) {
@@ -27,6 +30,8 @@ class NewsLike: UIStackView {
         setupLikeButton()
         setupCommentButton()
         setupShareButton()
+        setupViewButton()
+        setupViewCounter()
     }
     
     private func setupCounter() {
@@ -68,7 +73,7 @@ class NewsLike: UIStackView {
         
         addArrangedSubview(heartButton)
         //button action
-        heartButton.addTarget(self, action: #selector(PhotoLike.heartButtonTupped(heartButton:)), for: .touchUpInside)
+        heartButton.addTarget(self, action: #selector(NewsLike.heartButtonTupped(heartButton:)), for: .touchUpInside)
         
         
     }
@@ -83,10 +88,7 @@ class NewsLike: UIStackView {
         
         let bundle = Bundle(for: type(of: self))
         let comment = UIImage(named: "commentButton", in: bundle, compatibleWith: self.traitCollection)
-        //let emptyHeart = UIImage(named: "emptyHeart", in: bundle, compatibleWith: self.traitCollection)
         
-        
-        //commentButton.setImage(emptyHeart, for: .selected)
         commentButton.setImage(comment, for: .normal)
         
         commentButton.translatesAutoresizingMaskIntoConstraints = false
@@ -110,10 +112,7 @@ class NewsLike: UIStackView {
         
         let bundle = Bundle(for: type(of: self))
         let share = UIImage(named: "shareButton", in: bundle, compatibleWith: self.traitCollection)
-        //let emptyHeart = UIImage(named: "emptyHeart", in: bundle, compatibleWith: self.traitCollection)
         
-        
-        //commentButton.setImage(emptyHeart, for: .selected)
         shareButton.setImage(share, for: .normal)
         
         shareButton.translatesAutoresizingMaskIntoConstraints = false
@@ -126,6 +125,50 @@ class NewsLike: UIStackView {
         
         
     }
+    
+    private func setupViewButton() {
+        
+        
+        let viewButton = UIButton()
+        
+        removeArrangedSubview(viewButton)
+        viewButton.removeFromSuperview()
+        
+        let bundle = Bundle(for: type(of: self))
+        let views = UIImage(named: "views", in: bundle, compatibleWith: self.traitCollection)
+        
+        viewButton.setImage(views, for: .normal)
+        
+        viewButton.translatesAutoresizingMaskIntoConstraints = false
+        viewButton.heightAnchor.constraint(equalToConstant: buttonSize.height).isActive = true
+        viewButton.widthAnchor.constraint(equalToConstant: buttonSize.width).isActive = true
+        
+        addArrangedSubview(viewButton)
+        //button action
+        viewButton.addTarget(self, action: #selector(NewsLike.viewButtonTupped(viewButton:)), for: .touchUpInside)
+        
+        
+    }
+    
+    private func setupViewCounter() {
+        
+        let viewCount = UILabel()
+        
+        viewCount.backgroundColor = UIColor.clear
+        viewCount.textColor = UIColor.black
+        viewCount.text = "\(viewsCounter)"
+        viewCount.textAlignment = .left
+        removeArrangedSubview(viewCount)
+        viewCount.removeFromSuperview()
+        
+        viewCount.translatesAutoresizingMaskIntoConstraints = false
+        viewCount.heightAnchor.constraint(equalToConstant: labelSize.height).isActive = true
+        viewCount.widthAnchor.constraint(equalToConstant: labelSize.width).isActive = true
+        
+        addArrangedSubview(viewCount)
+        
+    }
+    
     //MARK: Button Action
     @objc func heartButtonTupped(heartButton: UIButton) {
         
@@ -148,6 +191,10 @@ class NewsLike: UIStackView {
     
     @objc func shareButtonTupped(shareButton: UIButton) {
         print("shareButton Clicked")
+    }
+    
+    @objc func viewButtonTupped(viewButton: UIButton) {
+        print("viewButton Clicked")
     }
     
     var labelSize: CGSize = CGSize(width: 25.0, height: 24.0) {
