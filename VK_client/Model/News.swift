@@ -15,15 +15,16 @@ class NewsResult: Decodable {
 
 class NewsResponse: Decodable {
     
-    var groups: [NewsFromGroup]? // Group
-    var items: [News]? // Items
-    var profiles: [Profile]?
+    var groups: [NewsFromGroup] // Group
+    var items: [News] // Items
+    var profiles: [Profile]
+
 }
 
-class Profile: News {
+class Profile: Decodable {
     
     var firstName: String?
-    var id: Double?
+    var id: Double = 0
     var lastName: String?
     var photo50: String?
     
@@ -38,7 +39,7 @@ class Profile: News {
         self.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
-        self.id = try values.decodeIfPresent(Double.self, forKey: .id)
+        self.id = try values.decode(Double.self, forKey: .id)
         self.lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
         self.photo50 = try values.decodeIfPresent(String.self, forKey: .photo50)
     }
@@ -46,9 +47,9 @@ class Profile: News {
     var name: String { return firstName! + " " + lastName! }
 }
 
-class NewsFromGroup: News {
+class NewsFromGroup: Decodable {
     
-    var id: Double?
+    var id: Double = 0
     var name: String?
     var photo50: String?
     
@@ -61,7 +62,7 @@ class NewsFromGroup: News {
     convenience required init(from decoder: Decoder) throws {
         self.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try values.decodeIfPresent(Double.self, forKey: .id)
+        self.id = try values.decode(Double.self, forKey: .id)
         self.name = try values.decodeIfPresent(String.self, forKey: .name)
         self.photo50 = try values.decodeIfPresent(String.self, forKey: .photo50)
     }
@@ -74,10 +75,12 @@ class News: Decodable {
     var attachments: [Attachment]?
     var comments: Comment?
     var date: Double?
-    var sourceId: Double?
+    var sourceId: Double = 0
     var likes: Like?
     var text: String?
     var views: View?
+    var newsName: String?
+    var newsPhoto: String = ""
     
     enum CodingKeys: String, CodingKey {
         case attachments = "attachments"
@@ -95,11 +98,13 @@ class News: Decodable {
         self.attachments = try values.decodeIfPresent([Attachment].self, forKey: .attachments)
         self.comments = try Comment(from: decoder)
         self.date = try values.decodeIfPresent(Double.self, forKey: .date)
-        self.sourceId = try values.decodeIfPresent(Double.self, forKey: .sourceId)
+        self.sourceId = try values.decode(Double.self, forKey: .sourceId)
         self.likes = try Like(from: decoder)
         self.text = try values.decodeIfPresent(String.self, forKey: .text)
         self.views = try View(from: decoder)
     }
+    
+
 }
 
 class View: Decodable {
@@ -172,15 +177,3 @@ class PhotoForNews: Decodable {
         self.url = try values.decodeIfPresent(String.self, forKey: .url)
     }
 }
-
-
-//extension News: Equatable {
-//    static func == (lhs: News, rhs: News) -> Bool {
-//        return
-//            lhs.name == rhs.name &&
-//                lhs.date == rhs.date &&
-//                lhs.text == rhs.text &&
-//                lhs.image == rhs.image &&
-//                lhs.photo == rhs.photo
-//    }
-//}

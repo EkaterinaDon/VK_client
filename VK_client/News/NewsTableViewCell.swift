@@ -16,7 +16,7 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         return UINib(nibName: "NewsTableViewCell", bundle: nil)
     }
     
-    @IBOutlet private weak var newsCollectionView: UICollectionView!   //var
+    @IBOutlet private weak var newsCollectionView: UICollectionView! 
     
     @IBOutlet weak var nameLabel: UILabel!
     
@@ -37,15 +37,9 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         super.awakeFromNib()
         
         newsCollectionView.register(NewsCollectionViewCell.nib(), forCellWithReuseIdentifier: NewsCollectionViewCell.identifier)
-        
-        
-        
+       
         newsCollectionView.delegate = self
         newsCollectionView.dataSource = self
-       
-        
-       
-        
         
     }
 
@@ -78,22 +72,6 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         return CGSize(width: self.bounds.width, height: self.bounds.height) //250
     }
     
-//    public func configure(for model: News, profile: Profile, group: NewsFromGroup) {
-//        let date = Date(timeIntervalSince1970: model.date!)
-//        let stringDate = NewsTableViewCell.dateFormatter.string(from: date)
-//
-//        dateLabel.text = stringDate
-//        newsLabel.text = model.text
-//        //photoImage.image = model.image
-//
-//        if model.sourceId == profile.id {
-//            nameLabel.text = profile.firstName
-//        } else if model.sourceId == group.id {
-//            nameLabel.text = group.name
-//        }
-//    }
-    
-
 }
 
 
