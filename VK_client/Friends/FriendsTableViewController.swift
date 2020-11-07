@@ -63,15 +63,8 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
        // friendsFromRealm()
         friendsService.getFriend(user_id: Session.instance.userId)
         loadFriendsFromFireStore()
+        listener()
 
-//           friendsSnapshot (completion: { (myFriends) in
-//            self.myFriends = myFriends
-//            let group = Dictionary(grouping: self.myFriends, by: { $0.first_name.first })
-//            self.sections = group.map(FriendsForSections.init(sectionKey: rowValue:)).sorted()
-//            debugPrint(myFriends)
-//            self.tableView.reloadData()
-//        })
-        
     }
     
     // MARK: - Table view data source
@@ -276,18 +269,22 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
             }
     }
     
-    func friendsSnapshot(completion: @escaping ([FriendFireStore]) -> Void) -> ListenerRegistration? {
-        return ref.addSnapshotListener { documentSnapshot, error in
-            if let documents = documentSnapshot?.documents {
-                var myFriends = [FriendFireStore]()
-                for document in documents {
-                    let friend = FriendFireStore(dictionary: document.data())
-                    myFriends.append(friend)
-                }
-                completion(myFriends)
+
+    func listener() {
+        let listener = ref.addSnapshotListener { (snapshot, error) in
+            switch (snapshot, error) {
+            case (.none, .none):
+                print("no data")
+            case (.none, .some(let error)):
+                print("some error \(error.localizedDescription)")
+            case (.some(let snapshot), _):
+                print("collection updated, now it contains \(snapshot.documents.count) documents")
             }
         }
+        
     }
+    
+    
     // MARK: - Realm
 //    func friendsFromRealm() {
 //        guard let realm = try? Realm() else { return }

@@ -59,9 +59,8 @@ class NewsLike: UIStackView {
         removeArrangedSubview(heartButton)
         heartButton.removeFromSuperview()
         
-        let bundle = Bundle(for: type(of: self))
-        let filledHeart = UIImage(named: "filledHeart_clear", in: bundle, compatibleWith: self.traitCollection)
-        let emptyHeart = UIImage(named: "heart", in: bundle, compatibleWith: self.traitCollection)
+        let filledHeart = UIImage(imageLiteralResourceName: "filledHeart_clear")
+        let emptyHeart = UIImage(imageLiteralResourceName: "heart")
         
         
         heartButton.setImage(emptyHeart, for: .normal)
@@ -86,8 +85,7 @@ class NewsLike: UIStackView {
         removeArrangedSubview(commentButton)
         commentButton.removeFromSuperview()
         
-        let bundle = Bundle(for: type(of: self))
-        let comment = UIImage(named: "commentButton", in: bundle, compatibleWith: self.traitCollection)
+        let comment = UIImage(imageLiteralResourceName: "commentButton")
         
         commentButton.setImage(comment, for: .normal)
         
@@ -110,8 +108,7 @@ class NewsLike: UIStackView {
         removeArrangedSubview(shareButton)
         shareButton.removeFromSuperview()
         
-        let bundle = Bundle(for: type(of: self))
-        let share = UIImage(named: "shareButton", in: bundle, compatibleWith: self.traitCollection)
+        let share = UIImage(imageLiteralResourceName: "shareButton")
         
         shareButton.setImage(share, for: .normal)
         
@@ -134,8 +131,7 @@ class NewsLike: UIStackView {
         removeArrangedSubview(viewButton)
         viewButton.removeFromSuperview()
         
-        let bundle = Bundle(for: type(of: self))
-        let views = UIImage(named: "views", in: bundle, compatibleWith: self.traitCollection)
+        let views = UIImage(imageLiteralResourceName: "views")
         
         viewButton.setImage(views, for: .normal)
         

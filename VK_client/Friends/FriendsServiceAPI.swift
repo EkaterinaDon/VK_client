@@ -70,7 +70,7 @@ class FriendsService {
                 if let error = error {
                     debugPrint(error.localizedDescription)
                 } else {
-                    debugPrint("data saved \(friend.first_name)")
+                  //  debugPrint("data saved \(friend.first_name)")
                 }
             }
         }
