@@ -8,43 +8,179 @@
 
 import UIKit
 
-struct News {
-
-    let name: String
-    let date: String
-    let text: String
-    let image: UIImage?
-    let photo: [UIImage?]
-
-    init(name: String, date: String, text: String, image: UIImage?, photo: [UIImage?]) {
-        self.name = name
-        self.date = date
-        self.image = image
-        self.text = text
-        self.photo = photo
-    }
-
-}
-
-final class myNews {
+class NewsResult: Decodable {
     
-    static func generateNews() -> [News] {
-        let news1 = News(name: "RollingStone", date: "JUNE 16, 2016", text: "Ziggy Stardust’: How Bowie Created the Alter Ego That Changed Rock. “What I did with my Ziggy Stardust was package a totally credible, plastic rock & roll singer – much better than the Monkees could ever fabricate,” David Bowie later said of his definitive alter ego. “I mean, my plastic rock & roller was much more plastic than anybody’s. And that was what was needed at the time.”  In fact, what Bowie concocted on 1972’s The Rise and Fall of Ziggy Stardust and the Spiders From Mars was more than just a fresh, clever concept. Ziggy was a tight and cohesive song cycle that laid out a visionary direction for pop music, setting a new standard for rock & roll theatricality while delivering his synthetic ideal with campy sex appeal and raw power.", image: UIImage(named: "news1"), photo: [UIImage(named: "news1_1"), UIImage(named: "news1_2")])
+    let response: NewsResponse?
+}
 
-        let news2 = News(name: "NYTimes", date: "MARCH 20, 2018", text: "When Ms. Anderson, the musician and composer, and the widow of Bowie’s longtime collaborator Lou Reed, remembers him now, he is laughing, teasing, finding joy. Bowie was “very, very smart,” she said, but not self-serious — he was “hilarious, and had a great sense of playfulness. The kind of guy who would wear some pantaloons. What other rock star did that?”", image: UIImage(named: "news2"), photo: [UIImage(named: "news2_1"), UIImage(named: "news2_2"), UIImage(named: "news2_3")])
-        return[news1, news2].sorted(by: {$0.date > $1.date})
+class NewsResponse: Decodable {
+    
+    var groups: [NewsFromGroup]? // Group
+    var items: [News]? // Items
+    var profiles: [Profile]?
+}
+
+class Profile: News {
+    
+    var firstName: String?
+    var id: Double?
+    var lastName: String?
+    var photo50: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case firstName = "first_name"
+        case id = "id"
+        case lastName = "last_name"
+        case photo50 = "photo_50"
     }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.firstName = try values.decodeIfPresent(String.self, forKey: .firstName)
+        self.id = try values.decodeIfPresent(Double.self, forKey: .id)
+        self.lastName = try values.decodeIfPresent(String.self, forKey: .lastName)
+        self.photo50 = try values.decodeIfPresent(String.self, forKey: .photo50)
+    }
+    
+    var name: String { return firstName! + " " + lastName! }
+}
 
+class NewsFromGroup: News {
+    
+    var id: Double?
+    var name: String?
+    var photo50: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case name = "name"
+        case photo50 = "photo_50"
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try values.decodeIfPresent(Double.self, forKey: .id)
+        self.name = try values.decodeIfPresent(String.self, forKey: .name)
+        self.photo50 = try values.decodeIfPresent(String.self, forKey: .photo50)
+    }
+}
+
+class News: Decodable {
+    
+    static let instance = News()
+    
+    var attachments: [Attachment]?
+    var comments: Comment?
+    var date: Double?
+    var sourceId: Double?
+    var likes: Like?
+    var text: String?
+    var views: View?
+    
+    enum CodingKeys: String, CodingKey {
+        case attachments = "attachments"
+        case comments = "comments"
+        case date = "date"
+        case sourceId = "source_id"
+        case likes = "likes"
+        case text = "text"
+        case views = "views"
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.attachments = try values.decodeIfPresent([Attachment].self, forKey: .attachments)
+        self.comments = try Comment(from: decoder)
+        self.date = try values.decodeIfPresent(Double.self, forKey: .date)
+        self.sourceId = try values.decodeIfPresent(Double.self, forKey: .sourceId)
+        self.likes = try Like(from: decoder)
+        self.text = try values.decodeIfPresent(String.self, forKey: .text)
+        self.views = try View(from: decoder)
+    }
+}
+
+class View: Decodable {
+    
+    var count: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case count = "count"
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.count = try values.decodeIfPresent(Int.self, forKey: .count)
+    }
+}
+
+class Like: Decodable {
+    
+    var count: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case count = "count"
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.count = try values.decodeIfPresent(Int.self, forKey: .count)
+    }
+}
+
+class Comment: Decodable {
+    
+    var count: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case count = "count"
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.count = try values.decodeIfPresent(Int.self, forKey: .count)
+    }
+}
+
+class Attachment: Decodable {
+    
+    var photo: NewsPhoto?
+}
+
+class NewsPhoto: Decodable {
+    
+    var sizes: [PhotoForNews]?
+    
+}
+
+class PhotoForNews: Decodable {
+    
+    var url: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case url = "url"
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.url = try values.decodeIfPresent(String.self, forKey: .url)
+    }
 }
 
 
-extension News: Equatable {
-    static func == (lhs: News, rhs: News) -> Bool {
-        return
-            lhs.name == rhs.name &&
-                lhs.date == rhs.date &&
-                lhs.text == rhs.text &&
-                lhs.image == rhs.image &&
-                lhs.photo == rhs.photo
-    }
-}
+//extension News: Equatable {
+//    static func == (lhs: News, rhs: News) -> Bool {
+//        return
+//            lhs.name == rhs.name &&
+//                lhs.date == rhs.date &&
+//                lhs.text == rhs.text &&
+//                lhs.image == rhs.image &&
+//                lhs.photo == rhs.photo
+//    }
+//}

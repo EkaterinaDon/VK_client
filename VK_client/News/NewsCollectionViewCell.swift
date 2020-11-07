@@ -26,7 +26,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
     
     public func configureNewsImage(for model: News) {
         
-        newsImage.image = (model.photo.first!!)
+       // newsImage.image = (model.photo.first!!)
         
     }
 }

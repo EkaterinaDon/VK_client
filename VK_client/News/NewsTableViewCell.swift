@@ -26,10 +26,12 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     @IBOutlet weak var photoImage: UIImageView!
     
-    
-    let allNews = myNews.generateNews()
+    static let dateFormatter: DateFormatter = {
+            let df = DateFormatter()
+            df.dateFormat = "dd.MM.yyyy HH.mm"
+            return df
+        }()
 
-   
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -54,16 +56,16 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let new = allNews[section]
-        return  new.photo.count
+       // let new = allNews[section]
+        return  1 //new.photo.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
         
-        let new = allNews[indexPath.row]
-        cell.newsImage.image = new.photo[indexPath.row]
+       // let new = allNews[indexPath.row]
+       // cell.newsImage.image = new.photo[indexPath.row]
         
         
         //cell.newsImage.image = new.photo.first! // обернуть в guard
@@ -76,12 +78,22 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         return CGSize(width: self.bounds.width, height: self.bounds.height) //250
     }
     
-    public func configure(for model: News) {
-        nameLabel.text = model.name
-        dateLabel.text = model.date
-        newsLabel.text = model.text
-        photoImage.image = model.image
-    }
+//    public func configure(for model: News, profile: Profile, group: NewsFromGroup) {
+//        let date = Date(timeIntervalSince1970: model.date!)
+//        let stringDate = NewsTableViewCell.dateFormatter.string(from: date)
+//
+//        dateLabel.text = stringDate
+//        newsLabel.text = model.text
+//        //photoImage.image = model.image
+//
+//        if model.sourceId == profile.id {
+//            nameLabel.text = profile.firstName
+//        } else if model.sourceId == group.id {
+//            nameLabel.text = group.name
+//        }
+//    }
+    
+
 }
 
 
