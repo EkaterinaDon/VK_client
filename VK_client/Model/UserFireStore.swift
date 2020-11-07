@@ -24,10 +24,10 @@ class FriendFireStore: Codable {
     }
     
     convenience init(dictionary: [String: Any]) {
-        let id = (dictionary["id"] as! Double)
-        let first_name = dictionary["first_name"] as! String
-        let last_name = dictionary["last_name"] as! String
-        let photo = dictionary["photo"] as! String
+        _ = (dictionary["id"] as! Double)
+        _ = dictionary["first_name"] as! String
+        _ = dictionary["last_name"] as! String
+        _ = dictionary["photo"] as! String
         self.init()
     }
 }
