@@ -76,25 +76,23 @@ class FriendsService {
         }
     }
     
-    func getPhoto(owner_id: String, completion: @escaping ([Photos]) -> Void ) {
-        let access_token = Session.instance.token
-        let path = "/method/photos.get"
-        let parameters: Parameters = [
-            "3441530": owner_id,
-            "album_id": "profile",
-            "count": "3",
-            "method": "photos.get",
-            "access_token": access_token,
-            "v": "5.124"
-        ]
-        
-        let url = baseUrl+path
-        AF.request(url, method: .get, parameters: parameters).responseData { response in
-            guard let data = response.value else { return }
-            let photos = try! JSONDecoder().decode(PhotosResponse.self, from: data)
-
-            debugPrint(photos as Any)
-            completion(photos as Any as! [Photos])
+        func getPhoto(owner_id: String, completion: @escaping ([Item]) -> Void ) {
+            let path = "/method/photos.get"
+            let parameters: Parameters = [
+                "owner_id": owner_id,
+                "album_id": "profile",
+                "count": "3",
+                "method": "photos.get",
+                "access_token": Session.instance.token,
+                "v": "5.124"
+            ]
+            
+            let url = baseUrl+path
+            AF.request(url, method: .get, parameters: parameters).responseData { response in
+                guard let data = response.value else { return }
+                let photos = try! JSONDecoder().decode(RootClass.self, from: data).response.items
+                debugPrint(photos as Any)
+                completion(photos)
             
         }
     }
