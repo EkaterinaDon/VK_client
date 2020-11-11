@@ -160,16 +160,16 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     // MARK: - segue
     
     // MARK: - prepare forFriendsPhotoCollection
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let friendsPhotoCollection = segue.destination as? FriendsPhotoCollection {
-//            if let indexPath = tableView.indexPathForSelectedRow {
-//                let section = self.sections[indexPath.section]
-//                let friend = section.rowValue[indexPath.row]
-//                friendsPhotoCollection.friend = friend
-//            }
-//        }
-//
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let friendsPhotoCollection = segue.destination as? FriendsPhotoCollection {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let section = self.sections[indexPath.section]
+                let friend = section.rowValue[indexPath.row]
+                friendsPhotoCollection.friend = friend
+            }
+        }
+
+    }
     
     
     // MARK: - Search Bar

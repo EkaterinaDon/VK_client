@@ -7,78 +7,97 @@
 //
 
 import Foundation
-import RealmSwift
 
-class PhotosResponse : Decodable {
 
-    var photosResponse : ResponsePhoto?
+struct RootClass : Codable {
 
-    enum CodingKeys: String, CodingKey {
-        case photosResponse = "response"
-    }
+        var response : ResponsePhotos
 
-    convenience required init(from decoder: Decoder) throws {
-        self.init()
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        //photosResponse = try ResponsePhoto(from: decoder)
-        self.photosResponse = try values.decodeIfPresent(ResponsePhoto.self, forKey: .photosResponse)
-    }
+        enum CodingKeys: String, CodingKey {
+                case response = "response"
+        }
+    
+        init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: CodingKeys.self)
+            response = try values.decode(ResponsePhotos.self, forKey: .response)
+        }
 
 }
 
-class ResponsePhoto : Decodable {
+struct ResponsePhotos : Codable {
 
-    var count : Int = 0
-    var items : [Item]?
+   // var count : Int?
+    var items : [Item]
 
-    enum CodingKeys: String, CodingKey {
-        case count = "count"
-        case items = "items"
-    }
-
-    convenience required init(from decoder: Decoder) throws {
-        self.init()
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.count = try values.decode(Int.self, forKey: .count)
-        self.items = try values.decode([Item].self, forKey: .items)
-    }
-
-}
-
-class Item : Decodable {
-
-    var ownerId : Double = 0
-    var sizes : [Photos]?
-
-    enum CodingKeys: String, CodingKey {
-        case ownerId = "owner_id"
-        case sizes = "sizes"
-
-    }
-
-    convenience required init(from decoder: Decoder) throws {
-        self.init()
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.ownerId = try values.decode(Double.self, forKey: .ownerId)
-        self.sizes = try values.decode([Photos].self, forKey: .sizes)
-
-    }
+        enum CodingKeys: String, CodingKey {
+            //    case count = "count"
+                case items = "items"
+        }
+    
+        init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: CodingKeys.self)
+              //  count = try values.decode(Int.self, forKey: .count)
+                items = try values.decode([Item].self, forKey: .items)
+        }
 
 }
 
-class Photos : Decodable {
+struct Item : Codable {
 
-    var url : String = ""
+    var albumId : Int?
+    var date : Int?
+    var hasTags : Bool?
+    var id : Int?
+    var ownerId : Int?
+    var postId : Int?
+    var sizes : [Size]?
+    var text : String?
 
-    enum CodingKeys: String, CodingKey {
-        case url = "url"
-    }
+        enum CodingKeys: String, CodingKey {
+                case albumId = "album_id"
+                case date = "date"
+                case hasTags = "has_tags"
+                case id = "id"
+                case ownerId = "owner_id"
+                case postId = "post_id"
+                case sizes = "sizes"
+                case text = "text"
+        }
+    
+        init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: CodingKeys.self)
+                albumId = try values.decodeIfPresent(Int.self, forKey: .albumId)
+                date = try values.decodeIfPresent(Int.self, forKey: .date)
+                hasTags = try values.decodeIfPresent(Bool.self, forKey: .hasTags)
+                id = try values.decodeIfPresent(Int.self, forKey: .id)
+                ownerId = try values.decodeIfPresent(Int.self, forKey: .ownerId)
+                postId = try values.decodeIfPresent(Int.self, forKey: .postId)
+                sizes = try values.decodeIfPresent([Size].self, forKey: .sizes)
+                text = try values.decodeIfPresent(String.self, forKey: .text)
+        }
 
-    convenience required init(from decoder: Decoder) throws {
-        self.init()
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        self.url = try values.decode(String.self, forKey: .url)
+}
 
-    }
+struct Size : Codable {
+
+    var height : Int?
+    var type : String?
+    var url : String?
+    var width : Int?
+
+        enum CodingKeys: String, CodingKey {
+                case height = "height"
+                case type = "type"
+                case url = "url"
+                case width = "width"
+        }
+    
+        init(from decoder: Decoder) throws {
+                let values = try decoder.container(keyedBy: CodingKeys.self)
+                height = try values.decodeIfPresent(Int.self, forKey: .height)
+                type = try values.decodeIfPresent(String.self, forKey: .type)
+                url = try values.decodeIfPresent(String.self, forKey: .url)
+                width = try values.decodeIfPresent(Int.self, forKey: .width)
+        }
 
 }

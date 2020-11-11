@@ -24,18 +24,16 @@ class FriendsPhotoCollection: UIViewController {
     @IBOutlet weak var collectionButton: UIButton!
     
     var friendsService = FriendsService()
-    var friendsPhotos = [Photos]()
+    var friendsPhotos = [Item]()
     
-    var friend: Friend!
+    var friend: FriendFireStore! //Friend!
     var images = [UIImage]()
-    
-    
     
     let transition = FullScreenAnimator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //owner_id: "3441530"
+       
         friendsService.getPhoto(owner_id: "\(friend.id)") { [weak self] friendsPhotos in
             self?.friendsPhotos = friendsPhotos
             

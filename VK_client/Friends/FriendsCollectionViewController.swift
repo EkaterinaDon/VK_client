@@ -12,14 +12,14 @@ import UIKit
 class FriendsCollectionViewController: UICollectionViewController {
     
     var friendsService = FriendsService()
-    var friendsPhotos = [Photos]()
-    var friend: Friend!
+    var friendsPhotos = [Item]()
+    var friend: FriendFireStore! //Friend!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
-        friendsService.getPhoto(owner_id: "3441530") { [weak self] friendsPhotos in
+        friendsService.getPhoto(owner_id: "\(friend.id)") { [weak self] friendsPhotos in
             self?.friendsPhotos = friendsPhotos
             
             self?.collectionView.reloadData()
@@ -27,16 +27,6 @@ class FriendsCollectionViewController: UICollectionViewController {
         
         title = friend.first_name + friend.last_name
     }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using [segue destinationViewController].
-     // Pass the selected object to the new view controller.
-     }
-     */
     
     // MARK: UICollectionViewDataSource
     
