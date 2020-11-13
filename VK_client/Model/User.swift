@@ -47,6 +47,8 @@ class Friend: Object, Decodable, Encodable {
         self.photo = try value.decode(String.self, forKey: .photo)
     }
     
+    var name: String { return first_name + " " + last_name }
+    
     override class func primaryKey() -> String {
             return "id"
         }

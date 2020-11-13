@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "985FF584-F8B0-4FF3-B789-7936DD1F7E47"
+            uuid = "D6C685D4-3D50-4068-8BE6-FF1A9B7407C7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VK_client/Friends/FriendsServiceAPI.swift"
+            filePath = "VK_client/Friends/FriendsPhotoCollection.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "getPhoto(owner_id:completion:)"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "array()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

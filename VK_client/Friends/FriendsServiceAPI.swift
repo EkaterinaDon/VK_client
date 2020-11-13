@@ -91,7 +91,6 @@ class FriendsService {
             AF.request(url, method: .get, parameters: parameters).responseData { response in
                 guard let data = response.value else { return }
                 let photos = try! JSONDecoder().decode(RootClass.self, from: data).response.items
-                debugPrint(photos as Any)
                 completion(photos)
             
         }

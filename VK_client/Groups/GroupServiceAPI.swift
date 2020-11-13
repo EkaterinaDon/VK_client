@@ -55,22 +55,22 @@ class GroupService: Operation {
     
 
 
-//    func saveGroups(_ groups: [Group]) {
-//
-//        do {
-//            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
-//            let realm = try Realm(configuration: config)
-//
-//            let oldGroups = realm.objects(Group.self)
-//            realm.beginWrite()
-//            realm.delete(oldGroups)
-//            realm.add(groups)
-//            //debugPrint(realm.configuration.fileURL!)
-//            try realm.commitWrite()
-//        } catch {
-//            print(error)
-//        }
-//    }
+    func saveGroups(_ groups: [Group]) {
+
+        do {
+            let config = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
+            let realm = try Realm(configuration: config)
+
+            let oldGroups = realm.objects(Group.self)
+            realm.beginWrite()
+            realm.delete(oldGroups)
+            realm.add(groups)
+            //debugPrint(realm.configuration.fileURL!)
+            try realm.commitWrite()
+        } catch {
+            print(error)
+        }
+    }
     
 }
 
@@ -104,7 +104,8 @@ class SaveGroups: Operation {
         } catch {
             print(error)
         }
-      
+       
+        
       }
 
 }

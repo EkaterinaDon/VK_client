@@ -30,4 +30,6 @@ class FriendFireStore: Codable {
         _ = dictionary["photo"] as! String
         self.init()
     }
+    
+    var name: String { return first_name + " " + last_name }
 }
