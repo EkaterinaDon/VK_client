@@ -11,6 +11,7 @@ pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
 pod 'FirebaseFirestoreSwift'
 pod 'Firebase/Database'
+pod 'SwiftKeychainWrapper'
   # Pods for VK_client
 
 post_install do |installer|

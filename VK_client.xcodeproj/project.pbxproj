@@ -48,6 +48,7 @@
 		C42D8D552541B9DF00C6622F /* UserFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42D8D542541B9DF00C6622F /* UserFireStore.swift */; };
 		C454E1DE254868EB00E1D94C /* SearchGroupServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C454E1DD254868EB00E1D94C /* SearchGroupServiceAPI.swift */; };
 		C4592E1425514CCE00511737 /* NewsServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4592E1325514CCE00511737 /* NewsServiceAPI.swift */; };
+		C4882322255E8E5200D0BC29 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4882321255E8E5200D0BC29 /* Errors.swift */; };
 		C4A4937A25482BA200DE4629 /* GroupSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4937925482BA200DE4629 /* GroupSearch.swift */; };
 		C4D3FA2425373066003A9D07 /* UserPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D3FA2325373066003A9D07 /* UserPhotos.swift */; };
 		C4F10CF3254071A50074D7E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */; };
@@ -100,6 +101,7 @@
 		C42D8D542541B9DF00C6622F /* UserFireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFireStore.swift; sourceTree = "<group>"; };
 		C454E1DD254868EB00E1D94C /* SearchGroupServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupServiceAPI.swift; sourceTree = "<group>"; };
 		C4592E1325514CCE00511737 /* NewsServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsServiceAPI.swift; sourceTree = "<group>"; };
+		C4882321255E8E5200D0BC29 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		C4A4937925482BA200DE4629 /* GroupSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSearch.swift; sourceTree = "<group>"; };
 		C4D3FA2325373066003A9D07 /* UserPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotos.swift; sourceTree = "<group>"; };
 		C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				C42D8D542541B9DF00C6622F /* UserFireStore.swift */,
 				C4D3FA2325373066003A9D07 /* UserPhotos.swift */,
 				4441C9B3251A23760086FBAE /* Session.swift */,
+				C4882321255E8E5200D0BC29 /* Errors.swift */,
 				4463224C24DAC9A2005C97B3 /* Group.swift */,
 				C4A4937925482BA200DE4629 /* GroupSearch.swift */,
 				4417949824FBDD93001BA977 /* News.swift */,
@@ -394,6 +397,7 @@
 				C42D8D552541B9DF00C6622F /* UserFireStore.swift in Sources */,
 				4460477D24FD90AE00031D76 /* NewsLikeControl.swift in Sources */,
 				44DB993224D1B7E2000BAF9A /* AppDelegate.swift in Sources */,
+				C4882322255E8E5200D0BC29 /* Errors.swift in Sources */,
 				4460477124FCD81000031D76 /* NewsViewController.swift in Sources */,
 				44C4310C252112DF005A3339 /* FriendsServiceAPI.swift in Sources */,
 				4463223724DAB208005C97B3 /* FriendsTableViewController.swift in Sources */,
