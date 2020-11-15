@@ -26,7 +26,7 @@ class FriendsPhotoCollection: UIViewController {
     var friendsService = FriendsService()
     var friendsPhotos = [Item]()
     
-    var friend: FriendFireStore! //Friend!
+    var friend: FriendFireStore!
     var images = [UIImage]()
     
     let transition = FullScreenAnimator()
@@ -37,24 +37,12 @@ class FriendsPhotoCollection: UIViewController {
         friendsService.getPhoto(owner_id: "\(friend.id)") { [weak self] friendsPhotos in
             self?.friendsPhotos = friendsPhotos
             self?.array()
-           
         }
         
         title = friend.name
         
-//        for urls in array() {
-//            guard let url = URL(string: urls!) else { return }
-//
-//            UIImage.loadFriendsImage(url: url) { image in
-//                self.firstImage.image = image
-//            }
-//        }
         
-//        for image in friend.photo {
-//            images.append(image!)
-//        }
-        
-       // firstImage.image = images[0]
+      //  firstImage.image = images[0]
         
         
         addSwipe()
@@ -66,7 +54,7 @@ class FriendsPhotoCollection: UIViewController {
         
     }
     
-    func array() -> [String?] {
+    func array() {
        
         var array: [[Size]] = []
         for data in friendsPhotos {
@@ -78,18 +66,13 @@ class FriendsPhotoCollection: UIViewController {
         }
         
         let urlArray = sizeArray.map { $0.url }
-       // print("========", urlArray)
-        
-        for urls in urlArray {
-            let url = URL(string: urlArray.first!!)
-       // guard let url = URL(string: urlArray.first!!) else { return }
 
-            UIImage.loadFriendsImage(url: url!) { image in
-                self.firstImage.image = image
+        for urls in urlArray {
+            guard let url = URL(string: urls!) else { return }
+            UIImage.loadFriendsImage(url: url) { [weak self] image in
+                self?.images.append(image!)
             }
         }
-        
-        return urlArray
     }
     
     
@@ -215,3 +198,4 @@ extension UIImage {
     }
 
 }
+

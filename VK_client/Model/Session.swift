@@ -36,3 +36,11 @@ class Session {
     
     private init() {}
 }
+
+struct VKResponse<T: Decodable>: Decodable {
+    let data: T
+    
+    enum CodingKeys: String, CodingKey {
+        case data = "response"
+    }
+}

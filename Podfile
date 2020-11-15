@@ -12,6 +12,7 @@ pod 'Firebase/Firestore'
 pod 'FirebaseFirestoreSwift'
 pod 'Firebase/Database'
 pod 'SwiftKeychainWrapper'
+pod "PromiseKit", "~> 6.8"
   # Pods for VK_client
 
 post_install do |installer|

@@ -67,6 +67,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         table.rowHeight = UITableView.automaticDimension
         table.estimatedRowHeight = UITableView.automaticDimension
         
+        
     }
     
     // MARK: - Table view data source
