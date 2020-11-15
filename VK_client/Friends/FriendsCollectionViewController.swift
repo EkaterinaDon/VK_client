@@ -13,7 +13,8 @@ class FriendsCollectionViewController: UICollectionViewController {
     
     var friendsService = FriendsService()
     var friendsPhotos = [Item]()
-    var friend: FriendFireStore! //Friend!
+    var friend: FriendFireStore!
+    var images = [UIImage]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,13 +39,13 @@ class FriendsCollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 3 //friend.photo.count
+        return 3//friend.photo.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FriendsPhotoCell", for: indexPath) as! FriendsCollectionViewCell
         
-        
+       
         //let photo1 = friend.photo[indexPath.row]
         //cell.friendsPhoto.image = photo1
         
@@ -52,37 +53,28 @@ class FriendsCollectionViewController: UICollectionViewController {
         return cell
     }
     
-    
+    func array() -> [String?] {
+       
+        var array: [[Size]] = []
+        for data in friendsPhotos {
+            array.append(data.sizes!)
+        }
+        var sizeArray: [Size] = []
+        for sizes in array {
+            sizeArray.append(contentsOf: sizes)
+        }
+        
+        let urlArray = sizeArray.map { $0.url }
 
-    // MARK: UICollectionViewDelegate
-    
-    /*
-     // Uncomment this method to specify if the specified item should be highlighted during tracking
-     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment this method to specify if the specified item should be selected
-     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-     return true
-     }
-     */
-    
-    /*
-     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-     override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-     return false
-     }
-     
-     override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-     
-     }
-     */
-    
+        for urls in urlArray {
+            let url = URL(string: urls!)
+
+            UIImage.loadFriendsImage(url: url!) { [weak self] image in
+               // self.firstImage.image = image
+                self?.images.append(image!)
+            }
+        }
+      //  firstImage.image = images[0]
+        return urlArray
+    }
 }

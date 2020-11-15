@@ -22,7 +22,7 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        groupService.getGroup(user_id: Session.instance.userId)
+        groupService.getGroup()
         groupsFromRealm()
         
         

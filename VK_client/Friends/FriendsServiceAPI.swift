@@ -17,37 +17,6 @@ import PromiseKit
 class FriendsService {
     
     let baseUrl = "https://api.vk.com"
-    
-//    func getFriend(user_id: String) -> Promise<[Friend]> {
-//
-//        let access_token = Session.instance.token
-//        let path = "/method/friends.get"
-//        let parameters: Parameters = [
-//            Session.instance.userId: user_id,
-//            "order": "hints",
-//            "fields": "photo",
-//            "method": "friends.get",
-//            "access_token": access_token,
-//            "v": "5.124"
-//        ]
-//
-//        let url = baseUrl+path
-//        let promise = Promise<[Friend]> { resolver in
-//            AF.request(url, method: .get, parameters: parameters).responseData { [weak self] response in
-//                switch response.result {
-//                case let .success(data):
-//                    let friend = try! JSONDecoder().decode(FriendResponse.self, from: data).response.items
-//                    resolver.fulfill(friend)
-//                    self?.saveFriends(friend)
-//                    self?.saveFriendsToFirestore(friend)
-//                case let .failure(error):
-//                    resolver.reject(error)
-//                }
-//
-//            }
-//        }
-//        return promise
-//    }
 
     func getFriend() -> Promise<[Friend]> {
 
