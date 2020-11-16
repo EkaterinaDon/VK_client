@@ -36,16 +36,14 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-//    var myFriends: Results<Friend>?
+
     let ref = Firestore.firestore().collection("friends")
     var friendsService = FriendsService()
     var myFriends = [FriendFireStore]()
     var sections = [FriendsForSections]()
     var searchResults = [FriendsForSections]()
     var searching: Bool = false
-//    var token: NotificationToken?
-    
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,15 +58,10 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494) 
         
         friendsService.getFriend()
-            .done { Friend in
-                debugPrint(Friend.count)
-            }
             .catch { error in
                 debugPrint(error.localizedDescription)
             }
-            .finally {
-                
-            }
+            
         loadFriendsFromFireStore()
         listener()
 

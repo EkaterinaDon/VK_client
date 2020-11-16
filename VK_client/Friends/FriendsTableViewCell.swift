@@ -24,6 +24,7 @@ class FriendsTableViewCell: UITableViewCell {
         }
     }
 
+    let photoService = PhotoService()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -52,9 +53,12 @@ class FriendsTableViewCell: UITableViewCell {
     func configure(for model: FriendFireStore) {
             
         self.friendsName.text = model.name
-        guard let url = URL(string: model.photo) else { return }
-
-        UIImage.loadFriendsImage(url: url) { image in
+//        guard let url = URL(string: model.photo) else { return }
+//
+//        UIImage.loadFriendsImage(url: url) { image in
+//            self.friendsImage.image = image
+//        }
+        photoService.photo(url: model.photo) { image in
             self.friendsImage.image = image
         }
         
