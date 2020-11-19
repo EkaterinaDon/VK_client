@@ -31,7 +31,7 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
             df.dateFormat = "dd.MM.yyyy HH.mm"
             return df
         }()
-
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

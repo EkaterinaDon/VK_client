@@ -55,24 +55,19 @@ class FriendsPhotoCollection: UIViewController {
     }
     
     func array() {
-       
+        
         var array: [[Size]] = []
         for data in friendsPhotos {
             array.append(data.sizes!)
         }
-        var sizeArray: [Size] = []
-        for sizes in array {
-            sizeArray.append(contentsOf: sizes)
+        let test = array.flatMap { $0 }.map { $0.url }
+        for urls in test {
+                guard let url = URL(string: urls!) else { return }
+                UIImage.loadFriendsImage(url: url) { [weak self] image in
+                    self?.images.append(image!)
+                }
         }
-        
-        let urlArray = sizeArray.map { $0.url }
 
-        for urls in urlArray {
-            guard let url = URL(string: urls!) else { return }
-            UIImage.loadFriendsImage(url: url) { [weak self] image in
-                self?.images.append(image!)
-            }
-        }
     }
     
     
@@ -91,7 +86,6 @@ class FriendsPhotoCollection: UIViewController {
     @objc func handleSwipe(gesture: UISwipeGestureRecognizer) {
         
         let direction = gesture.direction
-        
         switch direction {
         case .left:
             if currentImage == images.count - 1 {
