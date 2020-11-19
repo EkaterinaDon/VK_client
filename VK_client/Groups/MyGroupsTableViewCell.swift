@@ -12,7 +12,7 @@ class MyGroupsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var myGroupName: UILabel!
     @IBOutlet weak var myGroupPhoto: UIImageView!
-    
+    let photoService = PhotoService()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,11 +28,15 @@ class MyGroupsTableViewCell: UITableViewCell {
     
     func configure(for model: Group) {
         self.myGroupName.text = model.name
-        guard let url = URL(string: model.photo) else { return }
-        
-        UIImage.loadGroupImage(url: url) { image in
+//        guard let url = URL(string: model.photo) else { return }
+//        
+//        UIImage.loadGroupImage(url: url) { image in
+//            self.myGroupPhoto.image = image
+//        }
+        photoService.photo(url: model.photo) { image in
             self.myGroupPhoto.image = image
         }
+        
         
     }
     
