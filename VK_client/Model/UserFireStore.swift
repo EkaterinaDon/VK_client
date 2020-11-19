@@ -8,7 +8,6 @@
 
 import UIKit
 import FirebaseFirestore
-//import RealmSwift
 
 class FriendFireStore: Codable {
     var id: Double = 0

@@ -65,3 +65,16 @@ class Friend: Object, Decodable, Encodable {
 
 
 }
+
+
+struct FriendToPresent {
+    
+   // static let instance = FriendToPresent()
+    
+    var firstName: String = ""
+    var lastName: String = ""
+    var avatar: String = ""
+    var photos = [UIImage]()
+    
+    var name: String { return firstName + " " + lastName }
+}

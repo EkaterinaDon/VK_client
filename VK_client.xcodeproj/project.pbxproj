@@ -49,6 +49,7 @@
 		C454E1DE254868EB00E1D94C /* SearchGroupServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C454E1DD254868EB00E1D94C /* SearchGroupServiceAPI.swift */; };
 		C4592E1425514CCE00511737 /* NewsServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4592E1325514CCE00511737 /* NewsServiceAPI.swift */; };
 		C4882322255E8E5200D0BC29 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4882321255E8E5200D0BC29 /* Errors.swift */; };
+		C49EEF4A2561736F00BCCD64 /* PhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49EEF492561736F00BCCD64 /* PhotoService.swift */; };
 		C4A4937A25482BA200DE4629 /* GroupSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A4937925482BA200DE4629 /* GroupSearch.swift */; };
 		C4D3FA2425373066003A9D07 /* UserPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D3FA2325373066003A9D07 /* UserPhotos.swift */; };
 		C4F10CF3254071A50074D7E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */; };
@@ -102,6 +103,7 @@
 		C454E1DD254868EB00E1D94C /* SearchGroupServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupServiceAPI.swift; sourceTree = "<group>"; };
 		C4592E1325514CCE00511737 /* NewsServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsServiceAPI.swift; sourceTree = "<group>"; };
 		C4882321255E8E5200D0BC29 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		C49EEF492561736F00BCCD64 /* PhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoService.swift; sourceTree = "<group>"; };
 		C4A4937925482BA200DE4629 /* GroupSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSearch.swift; sourceTree = "<group>"; };
 		C4D3FA2325373066003A9D07 /* UserPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPhotos.swift; sourceTree = "<group>"; };
 		C4F10CF2254071A50074D7E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				4463223424DAB017005C97B3 /* Friends */,
 				44DB993124D1B7E2000BAF9A /* AppDelegate.swift */,
 				44DB993324D1B7E2000BAF9A /* SceneDelegate.swift */,
+				C49EEF492561736F00BCCD64 /* PhotoService.swift */,
 				44675CFB2508D80500C95251 /* Animation */,
 				44DB994524D1BCFB000BAF9A /* LoginFormViewController.swift */,
 				444722A0251F8CB3002FC1C7 /* VKLoginViewController.swift */,
@@ -404,6 +407,7 @@
 				4463223924DAB23A005C97B3 /* FriendsTableViewCell.swift in Sources */,
 				442D848224E029B2000E0E40 /* AvatarViewControl.swift in Sources */,
 				44DB993424D1B7E2000BAF9A /* SceneDelegate.swift in Sources */,
+				C49EEF4A2561736F00BCCD64 /* PhotoService.swift in Sources */,
 				4417949924FBDD93001BA977 /* News.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
