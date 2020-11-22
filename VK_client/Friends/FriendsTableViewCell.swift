@@ -15,7 +15,7 @@ class FriendsTableViewCell: UITableViewCell {
     @IBOutlet var friendsImage: UIImageView!
 
     
-    @IBOutlet weak var avatarView: UIView! { //AvatarView! 
+    @IBOutlet weak var avatarView: UIView! {
         didSet {
             self.avatarView.layer.shadowOffset = .init(width: 4, height: 4)
             self.avatarView.layer.shadowOpacity = 0.75
@@ -23,23 +23,17 @@ class FriendsTableViewCell: UITableViewCell {
             self.avatarView.backgroundColor = .clear
         }
     }
-
-    let photoService = PhotoService()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         friendsImage.layer.cornerRadius = bounds.height / 2
         friendsImage.layer.masksToBounds = true
         backgroundColor = .clear
-        // Initialization code
-        
-        
+
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-       
-        
     }
     
 
@@ -50,36 +44,5 @@ class FriendsTableViewCell: UITableViewCell {
         
     }
 
-    func configure(for model: FriendFireStore) {
-            
-        self.friendsName.text = model.name
-//        guard let url = URL(string: model.photo) else { return }
-//
-//        UIImage.loadFriendsImage(url: url) { image in
-//            self.friendsImage.image = image
-//        }
-        photoService.photo(url: model.photo) { image in
-            self.friendsImage.image = image
-        }
-        
-        }
 }
 
-
-extension UIImage {
-
-    public static func loadFriendsImage(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    completion(UIImage(data: data))
-                }
-            } else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
-        }
-    }
-
-}

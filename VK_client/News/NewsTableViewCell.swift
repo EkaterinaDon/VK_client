@@ -51,25 +51,26 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
        // let new = allNews[section]
-        return  1 //new.photo.count
+        return  NewsModel.instance.newsPhotos.count //new.photo.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
         
-       // let new = allNews[indexPath.row]
-       // cell.newsImage.image = new.photo[indexPath.row]
+        let photo = NewsModel.instance.newsPhotos[indexPath.row]
         
-        
-        //cell.newsImage.image = new.photo.first! // обернуть в guard
+        guard let url = URL(string: photo) else { return cell }
+        UIImage.loadNewsImage(url: url) { image in
+            cell.newsImage.image = image
+            }
        
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.bounds.width, height: self.bounds.height) //250
+        return CGSize(width: 250, height: 250) //CGSize(width: self.bounds.width, height: self.bounds.height)
     }
     
 }

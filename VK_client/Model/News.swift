@@ -166,14 +166,17 @@ class NewsPhoto: Decodable {
 class PhotoForNews: Decodable {
     
     var url: String?
+    var type: String?
     
     enum CodingKeys: String, CodingKey {
         case url = "url"
+        case type = "type"
     }
     
     convenience required init(from decoder: Decoder) throws {
         self.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.url = try values.decodeIfPresent(String.self, forKey: .url)
+        self.type = try values.decodeIfPresent(String.self, forKey: .type)
     }
 }

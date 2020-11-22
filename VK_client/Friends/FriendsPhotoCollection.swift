@@ -36,7 +36,7 @@ class FriendsPhotoCollection: UIViewController {
        
         friendsService.getPhoto(owner_id: "\(friend.id)") { [weak self] friendsPhotos in
             self?.friendsPhotos = friendsPhotos
-            self?.array()
+            self?.imagesFromUrls()
         }
         
         title = friend.name
@@ -54,16 +54,12 @@ class FriendsPhotoCollection: UIViewController {
         
     }
     
-    func array() {
+    func imagesFromUrls() {
         
-        var array: [[Size]] = []
-        for data in friendsPhotos {
-            array.append(data.sizes!)
-        }
-        let test = array.flatMap { $0 }.map { $0.url }
-        for urls in test {
-                guard let url = URL(string: urls!) else { return }
-                UIImage.loadFriendsImage(url: url) { [weak self] image in
+        let photoUrls = friendsPhotos.compactMap{ $0.sizes }.flatMap { $0 }.compactMap { $0.url }
+        for urls in photoUrls {
+            guard let url = URL(string: urls) else { return }
+                UIImage.loadFriendsPhotos(url: url) { [weak self] image in
                     self?.images.append(image!)
                 }
         }
