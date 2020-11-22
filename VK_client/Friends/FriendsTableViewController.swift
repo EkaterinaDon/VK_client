@@ -43,6 +43,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     var sections = [FriendsForSections]()
     var searchResults = [FriendsForSections]()
     var searching: Bool = false
+    let photoService = PhotoService()
 
     
     override func viewDidLoad() {
@@ -94,7 +95,6 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //получаем ячейку из пула
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as! FriendsTableViewCell
         cell.backgroundColor = .clear
         
@@ -105,12 +105,18 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         if searching {
             let section = searchResults[indexPath.section]
             let friend = section.rowValue[indexPath.row]
-            cell.configure(for: friend)
+            cell.friendsName.text = friend.name
+            photoService.photo(url: friend.photo) { image in
+                cell.friendsImage.image = image
+            }
             return cell
         } else {
             let section = self.sections[indexPath.section]
             let friend = section.rowValue[indexPath.row]
-            cell.configure(for: friend)
+            cell.friendsName.text = friend.name
+            photoService.photo(url: friend.photo) { image in
+                cell.friendsImage.image = image
+            }
             return cell
         }
         
@@ -157,10 +163,6 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         return index
         
     }
-    
-    
-    
-    
     
     // MARK: - segue
     

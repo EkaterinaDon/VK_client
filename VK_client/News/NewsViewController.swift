@@ -18,6 +18,8 @@ class NewsModel {
     var groupNews: [NewsFromGroup] = []
 
     var profileNews: [Profile] = []
+    
+    var newsPhotos: [String] = []
 
     func newsOwner() {
         for item in allNews {
@@ -38,6 +40,11 @@ class NewsModel {
             }
         }
     }
+    
+    func imagesFromUrls() {
+        newsPhotos = allNews.compactMap { $0.attachments }.reduce([], +).compactMap { $0.photo }.compactMap { $0.sizes }.reduce([], +).compactMap { $0.url }
+        debugPrint("======", newsPhotos)
+    }
 
 }
 
@@ -56,6 +63,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
                     NewsModel.instance.allNews = allNews
                     NewsModel.instance.groupNews = groupNews
                     NewsModel.instance.profileNews = profileNews
+                NewsModel.instance.imagesFromUrls()
                     self!.table.reloadData()            
         }
         

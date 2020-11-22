@@ -88,7 +88,7 @@ class FriendsService {
             let parameters: Parameters = [
                 "owner_id": owner_id,
                 "album_id": "profile",
-                "count": "3",
+                "count": "10",
                 "method": "photos.get",
                 "access_token": Session.instance.token,
                 "v": "5.124"

@@ -39,9 +39,6 @@ class NewsService {
                 let profileNews = try! JSONDecoder().decode(NewsResult.self, from: data).response?.profiles
                 guard let emptyProfile = groupNews?.isEmpty, !emptyProfile else { return }
                 
-//                let newsPhotos = try! JSONDecoder().decode(NewsResult.self, from: data).response?.items
-//                guard let emptyPhotos = newsPhotos?.isEmpty, !emptyPhotos else { return }
-                
                 DispatchQueue.main.async {
                     completion(news!, groupNews!, profileNews!)
                 }

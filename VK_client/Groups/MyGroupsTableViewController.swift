@@ -18,6 +18,7 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     var myGroups: Results<Group>?
     var searchResults: [Group] = []
     var token: NotificationToken?
+    let photoService = PhotoService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +54,11 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyGroupsCell", for: indexPath) as! MyGroupsTableViewCell
         let group = (searchController.isActive) ? searchResults[indexPath.row] : myGroups![indexPath.row]
         
-        cell.configure(for: group)
+        cell.myGroupName.text = group.name
+        
+        photoService.photo(url: group.photo) { image in
+            cell.myGroupPhoto.image = image
+        }
         
         return cell
     }

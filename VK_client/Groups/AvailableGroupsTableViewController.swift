@@ -55,8 +55,6 @@ class AvailableGroupsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AvailableGroupsCell", for: indexPath) as! AvailableGroupsTableViewCell
         
-//        let availableGroup = (searchController.isActive) ? searchResults[indexPath.row] : availableGroups![indexPath.row]
-        
         if searchController.isActive &&  searchResults.isEmpty {
             let availableGroup = availableGroups![indexPath.row]
             cell.configure(for: availableGroup)

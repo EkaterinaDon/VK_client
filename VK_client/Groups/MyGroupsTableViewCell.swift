@@ -12,7 +12,7 @@ class MyGroupsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var myGroupName: UILabel!
     @IBOutlet weak var myGroupPhoto: UIImageView!
-    let photoService = PhotoService()
+  
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,37 +25,5 @@ class MyGroupsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
     }
-    
-    func configure(for model: Group) {
-        self.myGroupName.text = model.name
-//        guard let url = URL(string: model.photo) else { return }
-//        
-//        UIImage.loadGroupImage(url: url) { image in
-//            self.myGroupPhoto.image = image
-//        }
-        photoService.photo(url: model.photo) { image in
-            self.myGroupPhoto.image = image
-        }
-        
-        
-    }
-    
-}
 
-extension UIImage {
-    
-    public static func loadGroupImage(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    completion(UIImage(data: data))
-                }
-            } else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
-        }
-    }
-    
 }
