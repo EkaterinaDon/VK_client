@@ -15,10 +15,27 @@ class NewsResult: Decodable {
 
 class NewsResponse: Decodable {
     
-    var groups: [NewsFromGroup] // Group
-    var items: [News] // Items
-    var profiles: [Profile]
-
+    var groups: [NewsFromGroup]?
+    var items: [News]?
+    var profiles: [Profile]?
+    var nextFrom : String?
+    
+    enum CodingKeys: String, CodingKey {
+        case groups = "groups"
+        case items = "items"
+        case nextFrom = "next_from"
+        case profiles = "profiles"
+    }
+    
+    convenience required init(from decoder: Decoder) throws {
+        self.init()
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.groups = try values.decodeIfPresent([NewsFromGroup].self, forKey: .groups)
+        self.items = try values.decodeIfPresent([News].self, forKey: .items)
+        self.nextFrom = try values.decodeIfPresent(String.self, forKey: .nextFrom)
+        self.profiles = try values.decodeIfPresent([Profile].self, forKey: .profiles)
+    }
+    
 }
 
 class Profile: Decodable {
