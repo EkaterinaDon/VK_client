@@ -13,44 +13,45 @@ import Alamofire
 class NewsService {
     
     let baseUrl = "https://api.vk.com"
-    
-    func getNews(user_id: String, startFrom: String? = nil, startTime: Double? = nil, completion: @escaping ([News], String ) -> Void ) {
+    var isLoading: Bool = false
+
+    func getNews(startFrom: String? = nil, startTime: Double? = nil, completion: @escaping ([News], [PhotoForNews], String?) -> Void ) {
         let path = "/method/newsfeed.get"
         var parameters: Parameters = [:]
         if let startFrom = startFrom {
             parameters = [
-                Session.instance.userId: user_id,
                 "filters": "post",
                 "start_from": startFrom,
                 "method": "newsfeed.get",
                 "access_token": Session.instance.token,
-                "v": "5.68"
+                "v": "5.126"
             ]
         } else if let startTime = startTime {
             parameters = [
-                Session.instance.userId: user_id,
                 "filters": "post",
                 "start_time": startTime,
                 "method": "newsfeed.get",
                 "access_token": Session.instance.token,
-                "v": "5.68"
+                "v": "5.126"
             ]
         } else {
             parameters = [
-                Session.instance.userId: user_id,
                 "filters": "post",
                 "method": "newsfeed.get",
                 "access_token": Session.instance.token,
-                "v": "5.68"
+                "v": "5.126"
             ]
         }
         
         let url = baseUrl+path
+        if isLoading {
+            isLoading = true
+        }
         
         AF.request(url, method: .get, parameters: parameters).responseData { response in
             guard let data = response.value else { return }
             
-            DispatchQueue.global(qos: .userInteractive).async {
+            DispatchQueue.global(qos: .userInteractive).async { [self] in
                 let news = try! JSONDecoder().decode(NewsResult.self, from: data).response?.items
                 guard let empty = news?.isEmpty, !empty else { return }
                 
@@ -58,9 +59,14 @@ class NewsService {
                 guard let emptyGroup = groupNews?.isEmpty, !emptyGroup else { return }
                 
                 let profileNews = try! JSONDecoder().decode(NewsResult.self, from: data).response?.profiles
-                guard let emptyProfile = groupNews?.isEmpty, !emptyProfile else { return }
+                guard let emptyProfile = profileNews?.isEmpty, !emptyProfile else { return }
                 
                 let nextFrom = try! JSONDecoder().decode(NewsResult.self, from: data).response?.nextFrom
+                
+                let photoForNews = try! JSONDecoder().decode(NewsResult.self, from: data).response?.items!.compactMap { $0.attachments }.reduce([], +).compactMap { $0.photo }.compactMap { $0.sizes }.reduce([], +)
+                guard let emptyPhotos = photoForNews?.isEmpty, !emptyPhotos else { return }
+                
+                let attachment = try! JSONDecoder().decode(NewsResult.self, from: data).response?.items!.compactMap { $0.attachments }.reduce([], +)
                 
                 news?.forEach { newsItem in
                     if newsItem.sourceId > 0 {
@@ -74,10 +80,14 @@ class NewsService {
                         newsItem.newsPhoto = source!.photo50!
                         newsItem.newsName = source!.name
                     }
+                    newsItem.attachments = attachment
+                    //newsItem.newsPhotos = photoForNews
                 }
-                
                 DispatchQueue.main.async {
-                    completion(news!, nextFrom!)
+                    completion(news!, photoForNews!, nextFrom)
+                }
+                if isLoading {
+                    self.isLoading = false
                 }
             }
         }

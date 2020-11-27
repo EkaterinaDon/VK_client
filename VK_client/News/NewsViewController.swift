@@ -15,22 +15,19 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var newsServise = NewsService()
     var allNews: [News] = []
-    var newsPhotos: [String] = []
+    var photoForNews: [PhotoForNews] = []
     let refreshControl = UIRefreshControl()
     var nextFrom = ""
-    var isLoading = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        self.newsServise.getNews(user_id: Session.instance.userId, startFrom: "20.11.2019") { [weak self] allNews, nextFrom  in
+        self.newsServise.getNews() { [weak self] allNews, photoForNews, nextFrom in
             self?.allNews = allNews
-            self?.nextFrom = nextFrom
+            self?.photoForNews = photoForNews
+            self?.nextFrom = nextFrom ?? ""
             self!.table.reloadData()
         }
-        
-         newsPhotos = allNews.compactMap { $0.attachments }.reduce([], +).compactMap { $0.photo }.compactMap { $0.sizes }.reduce([], +).compactMap { $0.url }
         
         setupRefreshControl()
         
@@ -38,13 +35,14 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         table.delegate = self
         table.dataSource = self
-        table.prefetchDataSource = self
+        //table.prefetchDataSource = self
         
         table.rowHeight = UITableView.automaticDimension
-        table.estimatedRowHeight = UITableView.automaticDimension
+        table.estimatedRowHeight = 600 //UITableView.automaticDimension
         
         
     }
+
     
     // MARK: - Table view data source
  
@@ -70,17 +68,19 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         UIImage.loadNewsImage(url: url!) { image in
             cell.photoImage.image = image
             }
+        
+        cell.showMoreButton.tag = indexPath.row
+        cell.layoutSubviews()
 
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-    
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 600 //UITableView.automaticDimension
     }
 
     // MARK: - RefreshControl
@@ -97,31 +97,49 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func refreshNews() {
         
         self.refreshControl.beginRefreshing()
-        
         let mostFreshNewsDate = allNews.first?.date ?? Date().timeIntervalSince1970
-        // отправляем сетевой запрос загрузки новостей
-        newsServise.getNews(user_id: Session.instance.userId, startFrom: "21.11.2019", startTime: mostFreshNewsDate + 1) { [weak self] allNews, nextFrom in
+        newsServise.getNews(startTime: mostFreshNewsDate + 1) { [weak self] allNews, photoForNews, nextFrom in
             guard let self = self else { return }
             self.refreshControl.endRefreshing()
-            // проверяем, что более свежие новости действительно есть
             guard allNews.count > 0 else { return }
-            // прикрепляем их в начало отображаемого массива
             self.allNews = allNews + self.allNews
-            self.nextFrom = nextFrom
-            // формируем IndexSet свежедобавленных секций и обновляем таблицу
-            let indexSet = IndexSet(integersIn: 0..<self.allNews.count)
-            //self.table.insertSections(indexSet, with: .automatic)
-            //self.table.insertRows(at: indexSet, with: .automatic)
-            
+            self.photoForNews = photoForNews + self.photoForNews
+            self.table.reloadData()
         }
-        
     }
     
-    private func makeIndexSet(lastIndex: Int, _ newsCount: Int) -> [IndexPath] {
-        let last = lastIndex + newsCount
-        let indexPaths = Array(lastIndex + 1...last).map { IndexPath(row: $0, section: 0) }
+    private func createSpinnerFooter() -> UIView {
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
         
-        return indexPaths
+        let spinner = UIActivityIndicatorView()
+        spinner.center = footerView.center
+        footerView.addSubview(spinner)
+        spinner.startAnimating()
+        
+        return footerView
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        if position > (table.contentSize.height - 100 - scrollView.frame.size.height) {
+            guard !newsServise.isLoading else { return }
+            self.table.tableFooterView = createSpinnerFooter()
+            newsServise.getNews(startFrom: nextFrom) { [weak self] allNews, photoForNews, nextFrom  in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    self.table.tableFooterView = nil
+                }
+                self.allNews.append(contentsOf: allNews)
+                self.photoForNews.append(contentsOf: photoForNews)
+                self.nextFrom = nextFrom ?? ""
+                DispatchQueue.main.async {
+                    self.table.reloadData()
+                }
+            }
+        } else if position < (table.contentSize.height + 100 + scrollView.frame.size.height) {
+            guard !newsServise.isLoading else { return }
+            refreshNews()
+        }
     }
     
 }
@@ -145,23 +163,3 @@ extension UIImage {
 
 }
 
-extension NewsViewController: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
-        guard !isLoading else { return }
-
-        for indexPath in indexPaths {
-        if indexPath.row == allNews.count - 1 {
-            isLoading = true
-            let lastIndex = indexPath.row
-            newsServise.getNews(user_id: Session.instance.userId, startFrom: nextFrom) { [weak self] allNews, nextFrom  in
-                guard let self = self else { return }
-                self.allNews.append(contentsOf: allNews)
-                self.nextFrom = nextFrom
-                let indexPaths = self.makeIndexSet(lastIndex: lastIndex, allNews.count)
-                self.table.insertRows(at: indexPaths, with: .automatic)
-                self.isLoading = false
-            }
-        }
-    }
- }
-}
