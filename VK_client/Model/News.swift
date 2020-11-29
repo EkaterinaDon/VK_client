@@ -184,10 +184,14 @@ class PhotoForNews: Decodable {
     
     var url: String?
     var type: String?
+    var height : Int?
+    var width : Int?
     
     enum CodingKeys: String, CodingKey {
         case url = "url"
         case type = "type"
+        case height = "height"
+        case width = "width"
     }
     
     convenience required init(from decoder: Decoder) throws {
@@ -195,5 +199,9 @@ class PhotoForNews: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         self.url = try values.decodeIfPresent(String.self, forKey: .url)
         self.type = try values.decodeIfPresent(String.self, forKey: .type)
+        self.height = try values.decodeIfPresent(Int.self, forKey: .height)
+        self.width = try values.decodeIfPresent(Int.self, forKey: .width)
     }
+    
+    var aspectRatio: CGFloat { return CGFloat(height!)/CGFloat(width!) }
 }

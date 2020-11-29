@@ -12,6 +12,8 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     static let identifier = "NewsTableViewCell"
     
+    var newsViewController = NewsViewController()
+    
     static func nib() -> UINib {
         return UINib(nibName: "NewsTableViewCell", bundle: nil)
     }
@@ -26,12 +28,28 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     
     @IBOutlet weak var photoImage: UIImageView!
     
+    @IBOutlet weak var showMoreButton: UIButton!
+    
+    @IBAction func showMore(sender: UIButton) {
+
+        if newsLabel.numberOfLines == 1 {
+            showMoreButton.setTitle("Show less", for: UIControl.State.normal)
+            newsLabel.numberOfLines = 0
+
+        } else {
+            showMoreButton.setTitle("Show More...", for: UIControl.State.normal)
+            newsLabel.numberOfLines = 1
+        }
+
+        newsViewController.table?.reloadData()
+    }
+    
     static let dateFormatter: DateFormatter = {
             let df = DateFormatter()
             df.dateFormat = "dd.MM.yyyy HH.mm"
             return df
         }()
-    
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -50,21 +68,22 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       // let new = allNews[section]
-        return  NewsModel.instance.newsPhotos.count //new.photo.count
+        //guard let photo = News.instance.newsPhotos?[section] else { return 1 }
+        let photos = newsViewController.photoForNews[section]
+       
+        return  3//photos.url!.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
         
-        let photo = NewsModel.instance.newsPhotos[indexPath.row]
+        let photos = newsViewController.photoForNews[indexPath.row]
         
-        guard let url = URL(string: photo) else { return cell }
+        guard let url = URL(string: photos.url!) else { return cell }
         UIImage.loadNewsImage(url: url) { image in
             cell.newsImage.image = image
             }
-       
         
         return cell
     }
