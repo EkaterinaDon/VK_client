@@ -15,17 +15,22 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var newsServise = NewsService()
     var allNews: [News] = []
-    var photoForNews: [PhotoForNews] = []
+    var photoForNews = [PhotoForNews]()
     let refreshControl = UIRefreshControl()
     var nextFrom = ""
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        startDotsAnimation()
         
         self.newsServise.getNews() { [weak self] allNews, photoForNews, nextFrom in
             self?.allNews = allNews
             self?.photoForNews = photoForNews
             self?.nextFrom = nextFrom ?? ""
+            let newsTableViewCell = NewsTableViewCell()
+            newsTableViewCell.newsPhotos = self!.photoForNews
+            debugPrint(newsTableViewCell.newsPhotos.count)
             self!.table.reloadData()
         }
         
@@ -37,8 +42,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         table.dataSource = self
         
         table.rowHeight = UITableView.automaticDimension
-        table.estimatedRowHeight = 600 //UITableView.automaticDimension
-        
+        table.estimatedRowHeight = 600
         
     }
 
@@ -79,18 +83,18 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 600 //UITableView.automaticDimension
+        return 600 
     }
 
     // MARK: - RefreshControl
     
     fileprivate func setupRefreshControl() {
-        
+
         refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
         refreshControl.tintColor = .black
         refreshControl.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
         table.refreshControl = refreshControl
-        
+
     }
     
     @objc func refreshNews() {
@@ -141,6 +145,13 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // MARK: - Dots Animation
+        func startDotsAnimation() {
+            indicatorView.shared.showOverlay(self.view, dots_color: UIColor.lightGray, bg_color: UIColor.black, dots_count: 2)
+            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                indicatorView.shared.hideOverlayView()
+            }
+        }
 }
 
 

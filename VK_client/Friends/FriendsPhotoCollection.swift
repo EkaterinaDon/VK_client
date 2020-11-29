@@ -24,6 +24,7 @@ class FriendsPhotoCollection: UIViewController {
     @IBOutlet weak var collectionButton: UIButton!
     
     var friendsService = FriendsService()
+    let photoService = PhotoService()
     var friendsPhotos = [Item]()
     
     var friend: FriendFireStore!
@@ -37,13 +38,16 @@ class FriendsPhotoCollection: UIViewController {
         friendsService.getPhoto(owner_id: "\(friend.id)") { [weak self] friendsPhotos in
             self?.friendsPhotos = friendsPhotos
             self?.imagesFromUrls()
+//            let friendsCollectionViewController = FriendsCollectionViewController()
+//            friendsCollectionViewController.friendsPhotos = self!.friendsPhotos
+            
         }
         
         title = friend.name
-        
-        
-      //  firstImage.image = images[0]
-        
+       
+        photoService.photo(url: friend.photo) { [weak self] image in
+            self!.firstImage.image = image
+        }
         
         addSwipe()
         firstImage.isUserInteractionEnabled = true
@@ -56,7 +60,7 @@ class FriendsPhotoCollection: UIViewController {
     
     func imagesFromUrls() {
         
-        let photoUrls = friendsPhotos.compactMap{ $0.sizes }.flatMap { $0 }.compactMap { $0.url }
+        let photoUrls = friendsPhotos.compactMap{ $0.sizes }.flatMap { $0 }.filter {$0.type == "m"}.compactMap { $0.url }
         for urls in photoUrls {
             guard let url = URL(string: urls) else { return }
                 UIImage.loadFriendsPhotos(url: url) { [weak self] image in
@@ -98,10 +102,10 @@ class FriendsPhotoCollection: UIViewController {
                 animation.startProgress = 0.4
                 animation.endProgress = 1.0
                 animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-                animation.type = CATransitionType(rawValue: "pageCurl") // CATransitionType.push
+                animation.type = CATransitionType(rawValue: "pageCurl")
                 animation.subtype = CATransitionSubtype.fromRight
                 animation.isRemovedOnCompletion = false
-                animation.fillMode = CAMediaTimingFillMode(rawValue: "extended") //.both
+                animation.fillMode = CAMediaTimingFillMode(rawValue: "extended") 
                 animation.isRemovedOnCompletion = false
                 animation.autoreverses = true
                 

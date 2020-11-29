@@ -8,7 +8,6 @@
 
 import Foundation
 import RealmSwift
-import SwiftyJSON
 
 // MARK: - GroupResponse
 class GroupResponse: Decodable {
@@ -48,11 +47,3 @@ class Group: Object, Decodable {
 
 }
 
-//extension Group: Equatable {
-//    static func == (lhs: Group, rhs: Group) -> Bool {
-//        return
-//            lhs.name == rhs.name &&
-//            lhs.id == rhs.id &&
-//            lhs.photo == rhs.photo
-//    }
-//}

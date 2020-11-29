@@ -22,11 +22,9 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         groupService.getGroup()
         groupsFromRealm()
-        
-        
         
         searchController = UISearchController(searchResultsController: nil)
         tableView.tableHeaderView = searchController.searchBar
@@ -36,7 +34,7 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
         setTableViewBackgroundGradient(sender: self)
         searchController.searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494)
     }
-
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -65,14 +63,10 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     
     
     @IBAction func addGroup(segue: UIStoryboardSegue) {
-        //проверяем что переход активирован
         if segue.identifier == "addGroup" {
             guard let availableGroupsTableViewController = segue.source as? AvailableGroupsTableViewController else { return }
-            //получаем индекс ячейки
             if let indexPath = availableGroupsTableViewController.tableView.indexPathForSelectedRow {
-                //получаем группу
                 let group = availableGroupsTableViewController.availableGroups![indexPath.row]
-                //проверяем что группа еще не была добавлена
                 do {
                     let groups = try Realm().objects(Group.self).map { $0.id }
                     
@@ -93,9 +87,6 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     }
     
     
-    
-    
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let group = myGroups![indexPath.row]
         if editingStyle == .delete {

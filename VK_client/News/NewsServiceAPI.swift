@@ -81,7 +81,6 @@ class NewsService {
                         newsItem.newsName = source!.name
                     }
                     newsItem.attachments = attachment
-                    //newsItem.newsPhotos = photoForNews
                 }
                 DispatchQueue.main.async {
                     completion(news!, photoForNews!, nextFrom)
