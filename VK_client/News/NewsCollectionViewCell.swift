@@ -24,9 +24,4 @@ class NewsCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
     
-    public func configureNewsImage(for model: News) {
-        
-       // newsImage.image = (model.photo.first!!)
-        
-    }
 }

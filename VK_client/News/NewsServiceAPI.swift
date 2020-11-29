@@ -44,7 +44,7 @@ class NewsService {
         }
         
         let url = baseUrl+path
-        if isLoading {
+        if !isLoading {
             isLoading = true
         }
         

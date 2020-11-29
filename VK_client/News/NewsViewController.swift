@@ -18,7 +18,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     var photoForNews: [PhotoForNews] = []
     let refreshControl = UIRefreshControl()
     var nextFrom = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,7 +35,6 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         table.delegate = self
         table.dataSource = self
-        //table.prefetchDataSource = self
         
         table.rowHeight = UITableView.automaticDimension
         table.estimatedRowHeight = 600 //UITableView.automaticDimension
