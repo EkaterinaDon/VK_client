@@ -59,11 +59,11 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494) 
         
         friendsService.getFriend()
-            .map{ Friend in
-                return Friend.map { friend in
-                    FriendToPresent(firstName: friend.first_name, lastName: friend.last_name, avatar: friend.photo)
-                }
-            }
+//            .map{ Friend in
+//                return Friend.map { friend in
+//                    FriendToPresent(firstName: friend.first_name, lastName: friend.last_name, avatar: friend.photo)
+//                }
+//            }
             .catch { error in
                 debugPrint(error.localizedDescription)
             }

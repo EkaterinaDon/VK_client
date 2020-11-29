@@ -68,16 +68,16 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //guard let photo = News.instance.newsPhotos?[section] else { return 1 }
+        guard !newsViewController.photoForNews.isEmpty else { return 1 }
         let photos = newsViewController.photoForNews[section]
-       
-        return  3//photos.url!.count
+    
+        return  photos.url!.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
-        
+        guard !newsViewController.photoForNews.isEmpty else { return cell }
         let photos = newsViewController.photoForNews[indexPath.row]
         
         guard let url = URL(string: photos.url!) else { return cell }
