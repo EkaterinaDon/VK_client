@@ -13,6 +13,8 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     static let identifier = "NewsTableViewCell"
     
     var newsViewController = NewsViewController()
+    var newsPhotos = [PhotoForNews]()
+  
     
     static func nib() -> UINib {
         return UINib(nibName: "NewsTableViewCell", bundle: nil)
@@ -59,6 +61,10 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         newsCollectionView.delegate = self
         newsCollectionView.dataSource = self
         
+        //let layout = UICollectionViewFlowLayout()
+        //layout.scrollDirection = .horizontal
+       // newsCollectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -68,17 +74,17 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard !newsViewController.photoForNews.isEmpty else { return 1 }
-        let photos = newsViewController.photoForNews[section]
-    
+        debugPrint(newsPhotos.count)
+        guard !newsPhotos.isEmpty else { return 0 }
+        let photos = newsPhotos[section]
         return  photos.url!.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCollectionViewCell.identifier, for: indexPath) as! NewsCollectionViewCell
-        guard !newsViewController.photoForNews.isEmpty else { return cell }
-        let photos = newsViewController.photoForNews[indexPath.row]
+        guard !newsPhotos.isEmpty else { return cell }
+        let photos = newsPhotos[indexPath.row]
         
         guard let url = URL(string: photos.url!) else { return cell }
         UIImage.loadNewsImage(url: url) { image in

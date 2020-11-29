@@ -9,7 +9,6 @@
 import Foundation
 import Alamofire
 import RealmSwift
-import FirebaseDatabase
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import PromiseKit
@@ -83,23 +82,26 @@ class FriendsService {
         }
     }
     
-        func getPhoto(owner_id: String, completion: @escaping ([Item]) -> Void ) {
-            let path = "/method/photos.get"
-            let parameters: Parameters = [
-                "owner_id": owner_id,
-                "album_id": "profile",
-                "count": "10",
-                "method": "photos.get",
-                "access_token": Session.instance.token,
-                "v": "5.124"
-            ]
-            
-            let url = baseUrl+path
-            AF.request(url, method: .get, parameters: parameters).responseData { response in
-                guard let data = response.value else { return }
+    func getPhoto(owner_id: String, completion: @escaping ([Item]) -> Void ) {
+        let path = "/method/photos.get"
+        let parameters: Parameters = [
+            "owner_id": owner_id,
+            "album_id": "profile",
+            "method": "photos.get",
+            "access_token": Session.instance.token,
+            "v": "5.124"
+        ]
+        
+        let url = baseUrl+path
+        AF.request(url, method: .get, parameters: parameters).responseData { response in
+            guard let data = response.value else { return }
+            DispatchQueue.global(qos: .userInteractive).async { [self] in
                 let photos = try! JSONDecoder().decode(RootClass.self, from: data).response.items
-                completion(photos)
-            
+                guard !photos.isEmpty else { return }
+                DispatchQueue.main.async {
+                    completion(photos)
+                }
+            }
         }
     }
 }

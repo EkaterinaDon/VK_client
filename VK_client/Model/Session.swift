@@ -21,7 +21,7 @@ class Session {
             KeychainWrapper.standard.set(newValue, forKey: "vkToken")
         }
     }
-    var userId: String { //7609950
+    var userId: String {
         get {
             KeychainWrapper.standard.string(forKey: "vkUserId") ?? ""
         }
@@ -30,17 +30,5 @@ class Session {
         }
     }
     
-//    func eraseAll() {
-//        KeychainWrapper.standard.removeAllKeys()
-//    }
-    
     private init() {}
-}
-
-struct VKResponse<T: Decodable>: Decodable {
-    let data: T
-    
-    enum CodingKeys: String, CodingKey {
-        case data = "response"
-    }
 }

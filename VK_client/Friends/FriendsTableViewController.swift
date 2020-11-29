@@ -7,32 +7,25 @@
 //
 
 import UIKit
-import RealmSwift
-import FirebaseDatabase
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct FriendsForSections: Comparable {
     
-  var sectionKey: String.Element?
+    var sectionKey: String.Element?
     var rowValue: [FriendFireStore]
-    
-   
     
     static func < (lhs: FriendsForSections, rhs: FriendsForSections) -> Bool {
         return (lhs.sectionKey!) < rhs.sectionKey!
     }
     static func == (lhs: FriendsForSections, rhs: FriendsForSections) -> Bool {
         return lhs.sectionKey == rhs.sectionKey
-    }
-    
+    }    
 }
 
 
 class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
-    
-    
     
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -59,11 +52,6 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         searchBar.barTintColor =  #colorLiteral(red: 0.8446564078, green: 0.5145705342, blue: 1, alpha: 0.8763162494) 
         
         friendsService.getFriend()
-//            .map{ Friend in
-//                return Friend.map { friend in
-//                    FriendToPresent(firstName: friend.first_name, lastName: friend.last_name, avatar: friend.photo)
-//                }
-//            }
             .catch { error in
                 debugPrint(error.localizedDescription)
             }
@@ -208,7 +196,7 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         return gradientBackgroundView
     }
     
-    //градиент для tableview
+    //MARK: - градиент для tableview
     func setTableViewBackgroundGradient(sender: UITableViewController) {
         
         let backgroundView = UIView(frame: sender.tableView.bounds)
@@ -290,34 +278,6 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
         }
         
     }
-    
-    
-    // MARK: - Realm
-//    func friendsFromRealm() {
-//        guard let realm = try? Realm() else { return }
-//        myFriends = realm.objects(Friend.self)
-//
-//        self.token = myFriends!.observe { [weak self] (changes: RealmCollectionChange) in
-//            guard let tableView = self?.tableView else { return }
-//            switch changes {
-//            case .initial:
-//                tableView.reloadData()
-//            case .update(_, let deletions, let insertions, let modifications):
-//                tableView.beginUpdates()
-//                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }),
-//                                     with: .automatic)
-//                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0) }),
-//                                     with: .automatic)
-//                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }),
-//                                     with: .automatic)
-//                tableView.endUpdates()
-//            case .error(let error):
-//                fatalError("\(error)")
-//            }
-//        }
-//    }
-    
-
 }
 
 

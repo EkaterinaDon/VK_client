@@ -48,7 +48,6 @@ class SearchGroupService {
             realm.beginWrite()
             realm.delete(oldSearchResults)
             realm.add(groupSearch)
-           // debugPrint(realm.configuration.fileURL!)
             try realm.commitWrite()
         } catch {
             print(error)

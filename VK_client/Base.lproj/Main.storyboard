@@ -20,7 +20,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nCb-JZ-rpQ" userLabel="containerView">
                                 <rect key="frame" x="57" y="238" width="300" height="420"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="david-bowie-by-gavin-evans" translatesAutoresizingMaskIntoConstraints="NO" id="EUZ-1M-ohU">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EUZ-1M-ohU">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="420"/>
                                     </imageView>
                                 </subviews>
@@ -521,7 +521,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="david-bowie-by-gavin-evans" width="3000" height="2000"/>
         <image name="doc.text.fill" catalog="system" width="115" height="128"/>
         <image name="person.2.square.stack.fill" catalog="system" width="113" height="128"/>
         <image name="person.3.fill" catalog="system" width="128" height="61"/>

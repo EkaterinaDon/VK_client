@@ -94,7 +94,6 @@ class SaveGroups: Operation {
             realm.beginWrite()
             realm.delete(oldGroups)
             realm.add(group)
-            //debugPrint(realm.configuration.fileURL!)
             try realm.commitWrite()
         } catch {
             print(error)
