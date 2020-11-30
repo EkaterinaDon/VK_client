@@ -8,12 +8,16 @@
 
 import UIKit
 
-class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class NewsTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     static let identifier = "NewsTableViewCell"
     
     var newsViewController = NewsViewController()
-    var newsPhotos = [PhotoForNews]()
+    var newsPhotos: [PhotoForNews] = [] {  
+        didSet {
+            newsCollectionView?.reloadData()
+        }
+    }
   
     
     static func nib() -> UINib {
@@ -87,7 +91,7 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollection
         let photos = newsPhotos[indexPath.row]
         
         guard let url = URL(string: photos.url!) else { return cell }
-        UIImage.loadNewsImage(url: url) { image in
+        UIImage.loadPhotos(url: url) { image in
             cell.newsImage.image = image
             }
         

@@ -49,7 +49,7 @@ class FriendsCollectionViewController: UICollectionViewController {
         let photoUrls = friendsPhotos.compactMap{ $0.sizes }.flatMap { $0 }.filter {$0.type == "m"}.compactMap { $0.url }
         for urls in photoUrls {
             guard let url = URL(string: urls) else { return }
-                UIImage.loadFriendsPhotos(url: url) { [weak self] image in
+                UIImage.loadPhotos(url: url) { [weak self] image in
                     self?.images.append(image!)
                     self!.collectionView.reloadData()
                 }

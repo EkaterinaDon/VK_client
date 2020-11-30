@@ -63,7 +63,7 @@ class FriendsPhotoCollection: UIViewController {
         let photoUrls = friendsPhotos.compactMap{ $0.sizes }.flatMap { $0 }.filter {$0.type == "m"}.compactMap { $0.url }
         for urls in photoUrls {
             guard let url = URL(string: urls) else { return }
-                UIImage.loadFriendsPhotos(url: url) { [weak self] image in
+                UIImage.loadPhotos(url: url) { [weak self] image in
                     self?.images.append(image!)
                 }
         }
@@ -177,7 +177,7 @@ extension FriendsPhotoCollection: UIViewControllerTransitioningDelegate {
 
 extension UIImage {
 
-    public static func loadFriendsPhotos(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
+    public static func loadPhotos(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
         DispatchQueue.global().async {
             if let data = try? Data(contentsOf: url) {
                 DispatchQueue.main.async {

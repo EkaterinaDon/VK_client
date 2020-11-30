@@ -15,7 +15,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var newsServise = NewsService()
     var allNews: [News] = []
-    var photoForNews = [PhotoForNews]()
+    var photoForNews: [PhotoForNews] = []
     let refreshControl = UIRefreshControl()
     var nextFrom = ""
     
@@ -29,7 +29,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
             self?.photoForNews = photoForNews
             self?.nextFrom = nextFrom ?? ""
             let newsTableViewCell = NewsTableViewCell()
-            newsTableViewCell.newsPhotos = self!.photoForNews
+            newsTableViewCell.newsPhotos = photoForNews
             debugPrint(newsTableViewCell.newsPhotos.count)
             self!.table.reloadData()
         }
@@ -68,7 +68,7 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let url = URL(string: new.newsPhoto) 
         
-        UIImage.loadNewsImage(url: url!) { image in
+        UIImage.loadPhotos(url: url!) { image in
             cell.photoImage.image = image
             }
         
@@ -152,24 +152,5 @@ class NewsViewController: UIViewController, UITableViewDelegate, UITableViewData
                 indicatorView.shared.hideOverlayView()
             }
         }
-}
-
-
-extension UIImage {
-
-    public static func loadNewsImage(url: URL, completion: @escaping (_ image: UIImage?) -> ()) {
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url) {
-                DispatchQueue.main.async {
-                    completion(UIImage(data: data))
-                }
-            } else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
-        }
-    }
-
 }
 
