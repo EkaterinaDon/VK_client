@@ -44,6 +44,7 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive { return searchResults.count }
+        guard !myGroups!.isEmpty else { return 1 }
         return myGroups!.count
     }
     
