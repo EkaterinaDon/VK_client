@@ -18,12 +18,22 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     var myGroups: Results<Group>?
     var searchResults: [Group] = []
     var token: NotificationToken?
-    let photoService = PhotoService()
+    //let photoService = PhotoService()
+    private let viewModelFactory = GroupViewModelFactory()
+    private var viewModels: [GroupViewModel] = []
+    
+    private let service = AdapterForGroups()
+    private var groups: [Groups] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        groupService.getGroup()
+//        service.getGroups() { [weak self] groups in
+//            self?.groups = groups
+//            self?.tableView.reloadData()
+//        }
+        
+        groupService.getGroup() 
         groupsFromRealm()
         
         searchController = UISearchController(searchResultsController: nil)
@@ -45,19 +55,19 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive { return searchResults.count }
         guard !myGroups!.isEmpty else { return 1 }
-        return myGroups!.count
+        return myGroups!.count //viewModels.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyGroupsCell", for: indexPath) as! MyGroupsTableViewCell
         let group = (searchController.isActive) ? searchResults[indexPath.row] : myGroups![indexPath.row]
-        
-        cell.myGroupName.text = group.name
-        
-        photoService.photo(url: group.photo) { image in
-            cell.myGroupPhoto.image = image
-        }
+        cell.configure(with: viewModels[indexPath.row]) //
+//        cell.myGroupName.text = group.name
+//
+//        photoService.photo(url: group.photo) { image in
+//            cell.myGroupPhoto.image = image
+//        }
         
         return cell
     }
@@ -123,6 +133,7 @@ class MyGroupsTableViewController: UITableViewController, UISearchResultsUpdatin
     func groupsFromRealm() {
         guard let realm = try? Realm() else { return }
         myGroups = realm.objects(Group.self)
+        //viewModels = viewModelFactory.constructViewModel(from: myGroups)
         self.token = myGroups!.observe { [weak self] (changes: RealmCollectionChange) in
             guard let tableView = self?.tableView else { return }
             switch changes {

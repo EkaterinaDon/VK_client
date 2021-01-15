@@ -26,4 +26,9 @@ class MyGroupsTableViewCell: UITableViewCell {
         
     }
 
+    func configure(with viewModel: GroupViewModel) {
+        myGroupName.text = viewModel.nameText
+        myGroupPhoto.image = viewModel.avatarImage
+    }
+    
 }
