@@ -13,13 +13,14 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import PromiseKit
 
-class FriendsService {
+class FriendsService: VKApiInterface {
+    
     
     let baseUrl = "https://api.vk.com"
-
+    let path = "/method/friends.get"
+    
     func getFriend() -> Promise<[Friend]> {
 
-        let path = "/method/friends.get"
         let parameters: Parameters = [
             "user_id": Session.instance.userId,
             "order": "hints",
@@ -95,7 +96,7 @@ class FriendsService {
         let url = baseUrl+path
         AF.request(url, method: .get, parameters: parameters).responseData { response in
             guard let data = response.value else { return }
-            DispatchQueue.global(qos: .userInteractive).async { [self] in
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 let photos = try! JSONDecoder().decode(RootClass.self, from: data).response.items
                 guard !photos.isEmpty else { return }
                 DispatchQueue.main.async {
